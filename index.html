@@ -3,36 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/index.css?v=1.0">
+    <link rel="stylesheet" href="assets/css/index.css">
+    <link rel="icon" href="src/img/logoPaginas.png">
     <script src="https://kit.fontawesome.com/e522357059.js" crossorigin="anonymous"></script>
     <title>Inicio de Sesión</title>
 </head>
 <body>
 
     <!--Inicio de sesión-->
-    <form action="" class="inicio-sesion" autocomplete="off">
+    <form action="" class="inicio-sesion forms" autocomplete="off" id="inicio-sesion">
         <div class="form-container">
             <h1>Inicio de Sesión</h1>
-            <img src="" alt="">
+            <img src="src/img/logo.png" alt="Décori" title="Décori">
             <div class="usuario-campo div-login">
                 <input type="text" name="usuario" class="inputs-login" placeholder="Matrícula" maxlength="7" required>
-                <i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-user" ></i>
             </div>
             <div class="contraseña-campo div-login">
                 <input type="password" name="contraseña" class="inputs-login" id="login-pwd" placeholder="Contraseña" required>
-                <i class="fa-regular fa-eye-slash" id="login-pwd-icon"></i>
+                <i class="fa-regular fa-eye-slash" onclick="revealPassword()"></i>
             </div>
             <a href="#" class="forgot-pass">Olvidé mi contraseña</a>
             <button type="submit" name="ingresar" class="ingresar-btn">Ingresar</button>
             <div class="crear-cuenta">
-                <p class="crear">¿Todavía no tienes una cuenta? Regístrate como <span class="registro-vendedor">Vendedor</span> o <span class="registro-admin">Administrador</span> </p>
+                <p class="crear">¿Todavía no tienes una cuenta? Regístrate como <span>Vendedor</span> o <span onclick="revealAdminRegister()">Administrador</span> </p>
             </div>
         </div>
     </form>
     
     <!--Registro para administrador-->
-    <form class="registro-admin" id="registro-admin" action="" autocomplete="off">
-        <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar"></i>
+    <form class="registro-admin forms" id="registro-admin" action="" autocomplete="off">
+        <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar" onclick="revealLogin()"></i>
         <h1>Registro para administrador</h1>
         <div class="container-campos">
             <div class="div-nombre div-campos">
@@ -47,18 +48,18 @@
                 <input type="text" name="usuario" class="campos-registro" placeholder="Usuario" id="usuario-admin" required value="">
                 <i class="fa-solid fa-pen-nib"></i>
             </div>
-            <div class="div-contraseña" div-campos">
+            <div class="div-contraseña div-campos">
                 <input type="password" name="contraseña" class="campos-registro" placeholder="Contraseña" id="contraseña-admin" required>
-                <i class="fa-regular fa-eye-slash" id="eye-slash" onclick="revealPassword()"></i>
+                <i class="fa-regular fa-eye-slash"></i>
             </div>
             <p id="passwordMessage" class="error"></p>
-            <button type="submit" name="registrar">Registrar</button>
+            <button type="submit" name="registrar" class="registro-admin-btn">Registrar</button>
         </div>
-        <p class="login-back">¿Ya tienes una cuenta? <span id="back-text">Ingresa aquí</span></p>
+        <p class="login-back">¿Ya tienes una cuenta? <span onclick="revealLogin()" >Ingresa aquí</span></p>
     </form>
 
     <!--Registro para vendedor-->
-    <form class="registro-vendedor" id="registro-vendedor" action="" autocomplete="off">
+    <form class="registro-vendedor forms" id="registro-vendedor" action="" autocomplete="off">
         <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar"></i>
         <h1>Registro para vendedor</h1>
         <div class="container-campos">
@@ -86,7 +87,7 @@
             </div>
             <div class="div-contraseña div-campos">
                 <input type="password" name="contraseña" class="campos-registro" placeholder="Contraseña" id="contraseña-vendedor" required>
-                <i class="fa-regular fa-eye-slash" id="eye-slash" onclick="revealPassword()"></i>
+                <i class="fa-regular fa-eye-slash"></i>
             </div>
             <p id="passwordMessage" class="error"></p>
             <div class="div-ine div-campos>
