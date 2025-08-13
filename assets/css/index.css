@@ -1,0 +1,200 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  transition: 3s;
+  background-image: url("../../src/img/deco1.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.forms a {
+  text-decoration: none;
+}
+
+/*Inicio de sesión*/
+.inicio-sesion {
+  display: block;
+}
+
+.form-container {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  border-radius: 15px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h1 {
+  text-align: center;
+  font-weight: 700;
+}
+
+.form-container img {
+  width: 90px;
+  border-radius: 9999px;
+  margin: 0 auto;
+  margin-bottom: 1.1rem;
+}
+
+.form-container .ingresar-btn {
+  background-color: rgb(85, 119, 95);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  margin-top: 13px;
+}
+
+.form-container .ingresar-btn:hover {
+  background-color: rgb(58, 103, 71);
+}
+
+.form-container .forgot-pass {
+  color: rgb(85, 119, 95);
+  margin-top: -10px;
+}
+
+.form-container .forgot-pass:hover,
+.form-container .crear-cuenta span:hover {
+  text-decoration: underline;
+}
+.form-container .div-login {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.form-container .div-login input {
+  height: 40px;
+  background-color: #eef3f7;
+  border: 1px solid #cfdce7;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0 10px;
+  color: #2a3d66;
+  border-radius: 9px;
+}
+
+.form-container .div-login i {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 15px;
+}
+
+.form-container .div-login .fa-eye-slash {
+  cursor: pointer;
+}
+
+.form-container .crear-cuenta {
+  line-height: 1.3;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.form-container .crear-cuenta span {
+  color: rgb(58, 103, 71);
+  cursor: pointer;
+}
+
+/*Componente de registro del administrador*/
+.registro-admin {
+  display: none;
+  background-color: #fff;
+  flex-direction: column;
+  border-radius: 15px;
+  padding: 19px 2rem;
+  gap: 10px;
+}
+
+.registro-admin h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.registro-admin .container-campos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registro-admin .div-campos input {
+  height: 40px;
+  background-color: #eef3f7;
+  border: 1px solid #cfdce7;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0 10px;
+  color: #2a3d66;
+  border-radius: 9px;
+}
+
+.registro-admin .div-campos {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.registro-admin .div-campos i {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 15px;
+}
+
+.registro-admin p {
+  color: #5a5a5a;
+  font-size: 14px;
+}
+
+.registro-admin .registro-admin-btn {
+  background-color: rgb(85, 119, 95);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  margin-top: 13px;
+}
+
+.registro-admin .registro-admin-btn:hover {
+  background-color: rgb(58, 103, 71);
+}
+
+.registro-admin .fa-arrow-left, .registro-admin span{
+    cursor: pointer;
+}
+
+.registro-admin span{
+  color: rgb(85, 119, 95);
+}
+
+.registro-admin span:hover{
+    text-decoration: underline;
+}
+
+.registro-vendedor {
+  display: none;
+}
