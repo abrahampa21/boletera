@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/index.css?v=1.0">
+    <script src="https://kit.fontawesome.com/e522357059.js" crossorigin="anonymous"></script>
+    <title>Inicio de Sesión</title>
+</head>
+<body>
+
+    <!--Inicio de sesión-->
+    <form action="" class="inicio-sesion" autocomplete="off">
+        <div class="form-container">
+            <h1>Inicio de Sesión</h1>
+            <img src="" alt="">
+            <div class="usuario-campo div-login">
+                <input type="text" name="usuario" class="inputs-login" placeholder="Matrícula" maxlength="7" required>
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="contraseña-campo div-login">
+                <input type="password" name="contraseña" class="inputs-login" id="login-pwd" placeholder="Contraseña" required>
+                <i class="fa-regular fa-eye-slash" id="login-pwd-icon"></i>
+            </div>
+            <a href="#" class="forgot-pass">Olvidé mi contraseña</a>
+            <button type="submit" name="ingresar" class="ingresar-btn">Ingresar</button>
+            <div class="crear-cuenta">
+                <p class="crear">¿Todavía no tienes una cuenta? Regístrate como <span class="registro-vendedor">Vendedor</span> o <span class="registro-admin">Administrador</span> </p>
+            </div>
+        </div>
+    </form>
+    
+    <!--Registro para administrador-->
+    <form class="registro-admin" id="registro-admin" action="" autocomplete="off">
+        <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar"></i>
+        <h1>Registro para administrador</h1>
+        <div class="container-campos">
+            <div class="div-nombre div-campos">
+                <input type="text" name="nombre" class="campos-registro" placeholder="Nombre completo" id="nombre" required>
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="div-email div-campos">
+                <input type="email" name="email" class="campos-registro" placeholder="Correo electrónico" id="email" required value="">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="div-usuario div-campos">
+                <input type="text" name="usuario" class="campos-registro" placeholder="Usuario" id="usuario" required value="">
+                <i class="fa-solid fa-pen-nib"></i>
+            </div>
+            <div class="div-contraseña" div-campos">
+                <input type="password" name="contraseña" class="campos-registro" placeholder="Contraseña" id="contraseña" required>
+                <i class="fa-regular fa-eye-slash" id="eye-slash" onclick="revealPassword()"></i>
+            </div>
+            <p id="passwordMessage" class="error"></p>
+            <button type="submit" name="registrar">Registrar</button>
+        </div>
+        <p class="login-back">¿Ya tienes una cuenta? <span id="back-text">Ingresa aquí</span></p>
+    </form>
+
+    <!--Registro para vendedor-->
+    <form class="registro-vendedor" id="registro-vendedor" action="" autocomplete="off">
+        <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar"></i>
+        <h1>Registro para vendedor</h1>
+        <div class="container-campos">
+            <div class="div-nombre div-campos">
+                <input type="text" name="nombre" class="campos-registro" placeholder="Nombre completo" id="nombre" required>
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="div-apellidos div-campos">
+                <div class="apellidoP">
+                    <input type="text" name="apellidoP" id="apellidoP" Placeholder="Apellido Paterno">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <div class="apellidoM">
+                    <input type="text" name="apellidoM" id="apellidoM" placeholder="Apellido Materno">
+                    <i class="fa-solid fa-user-nurse"></i>
+                </div>
+            </div>
+            <div class="div-email div-campos">
+                <input type="email" name="email" class="campos-registro" placeholder="Correo electrónico" id="email" required value="">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="div-usuario div-campos">
+                <input type="text" name="usuario" class="campos-registro" placeholder="Usuario" id="usuario" required value="">
+                <i class="fa-solid fa-pen-nib"></i>
+            </div>
+            <div class="div-contraseña div-campos">
+                <input type="password" name="contraseña" class="campos-registro" placeholder="Contraseña" id="contraseña" required>
+                <i class="fa-regular fa-eye-slash" id="eye-slash" onclick="revealPassword()"></i>
+            </div>
+            <p id="passwordMessage" class="error"></p>
+            <div class="div-ine div-campos>
+                <label for="">Sube foto de tu credencia de lector INE</label>
+                <input type="file" name="ine" id="ine" placeholder="Sube foto de tu INE">
+            </div>
+            <div class="div-celular div-campos">
+                <input type="text" name="noCelular" class="campos-registro" id="noCelular" placeholder="Número de celular">
+                <i class="fa-solid fa-mobile-screen"></i>
+            </div>
+            <div class="div-referencia div-campos">
+                <input type="text" name="noReferencia" class="campos-registro" id="noReferencia" placeholder="Número de referencia">
+                <i class="fa-solid fa-mobile"></i>
+            </div>
+            <button type="submit" name="registrar">Registrar</button>
+        </div>
+        <p class="login-back">¿Ya tienes una cuenta? <span id="back-text">Ingresa aquí</span></p>
+    </form>
+
+    <!--Librerías JavaScript-->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="assets/js/index.js"></script>
+</body>
+</html>
