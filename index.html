@@ -36,19 +36,19 @@
         <h1>Registro para administrador</h1>
         <div class="container-campos">
             <div class="div-nombre div-campos">
-                <input type="text" name="nombre" class="campos-registro" placeholder="Nombre completo" id="nombre" required>
+                <input type="text" name="nombre" class="campos-registro" placeholder="Nombre completo" id="nombre-admin" required>
                 <i class="fa-solid fa-user"></i>
             </div>
             <div class="div-email div-campos">
-                <input type="email" name="email" class="campos-registro" placeholder="Correo electrónico" id="email" required value="">
+                <input type="email" name="email" class="campos-registro" placeholder="Correo electrónico" id="email-admin" required value="">
                 <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="div-usuario div-campos">
-                <input type="text" name="usuario" class="campos-registro" placeholder="Usuario" id="usuario" required value="">
+                <input type="text" name="usuario" class="campos-registro" placeholder="Usuario" id="usuario-admin" required value="">
                 <i class="fa-solid fa-pen-nib"></i>
             </div>
             <div class="div-contraseña" div-campos">
-                <input type="password" name="contraseña" class="campos-registro" placeholder="Contraseña" id="contraseña" required>
+                <input type="password" name="contraseña" class="campos-registro" placeholder="Contraseña" id="contraseña-admin" required>
                 <i class="fa-regular fa-eye-slash" id="eye-slash" onclick="revealPassword()"></i>
             </div>
             <p id="passwordMessage" class="error"></p>
@@ -63,7 +63,7 @@
         <h1>Registro para vendedor</h1>
         <div class="container-campos">
             <div class="div-nombre div-campos">
-                <input type="text" name="nombre" class="campos-registro" placeholder="Nombre completo" id="nombre" required>
+                <input type="text" name="nombre" class="campos-registro" placeholder="Nombre completo" id="nombre-vendedor" required>
                 <i class="fa-solid fa-user"></i>
             </div>
             <div class="div-apellidos div-campos">
@@ -77,15 +77,15 @@
                 </div>
             </div>
             <div class="div-email div-campos">
-                <input type="email" name="email" class="campos-registro" placeholder="Correo electrónico" id="email" required value="">
+                <input type="email" name="email" class="campos-registro" placeholder="Correo electrónico" id="email-vendedor" required value="">
                 <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="div-usuario div-campos">
-                <input type="text" name="usuario" class="campos-registro" placeholder="Usuario" id="usuario" required value="">
+                <input type="text" name="usuario" class="campos-registro" placeholder="Usuario" id="usuario-vendedor" required value="">
                 <i class="fa-solid fa-pen-nib"></i>
             </div>
             <div class="div-contraseña div-campos">
-                <input type="password" name="contraseña" class="campos-registro" placeholder="Contraseña" id="contraseña" required>
+                <input type="password" name="contraseña" class="campos-registro" placeholder="Contraseña" id="contraseña-vendedor" required>
                 <i class="fa-regular fa-eye-slash" id="eye-slash" onclick="revealPassword()"></i>
             </div>
             <p id="passwordMessage" class="error"></p>
@@ -94,11 +94,11 @@
                 <input type="file" name="ine" id="ine" placeholder="Sube foto de tu INE">
             </div>
             <div class="div-celular div-campos">
-                <input type="text" name="noCelular" class="campos-registro" id="noCelular" placeholder="Número de celular">
+                <input type="text" name="noCelular" class="campos-registro" id="noCelular-vendedor" placeholder="Número de celular">
                 <i class="fa-solid fa-mobile-screen"></i>
             </div>
             <div class="div-referencia div-campos">
-                <input type="text" name="noReferencia" class="campos-registro" id="noReferencia" placeholder="Número de referencia">
+                <input type="text" name="noReferencia" class="campos-registro" id="noReferencia-vendedor" placeholder="Número de referencia">
                 <i class="fa-solid fa-mobile"></i>
             </div>
             <button type="submit" name="registrar">Registrar</button>
