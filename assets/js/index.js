@@ -6,6 +6,10 @@ const inicioSesion = document.getElementById("inicio-sesion");
 const registroAdmin = document.getElementById("registro-admin");
 const registroVendedor = document.getElementById("registro-vendedor");
 const campos = document.querySelectorAll(".inputs-general");
+const messageDivAdmin = document.getElementById("passwordMessageAdmin");
+const messageDivVendedor = document.getElementById("passwordMessageVendedor");
+const regex =
+  /^(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?])(?=.*[A-Za-z]).{10,}$/;
 
 AOS.init();
 
@@ -83,3 +87,39 @@ function revealVendedorRegister() {
 // setInterval(changeBackground, 3000);
 
 // window.onload = changeBackground;
+
+if (contraseñaAdmin) {
+  contraseñaAdmin.addEventListener("input", function () {
+    const value = contraseñaAdmin.value;
+
+    if (regex.test(value)) {
+      messageDivAdmin.textContent = "Contraseña válida";
+      messageDivAdmin.style.color = "green";
+      messageDivAdmin.style.fontSize = "12px";
+    } else {
+      messageDivAdmin.textContent =
+        "Debe tener al menos 10 caracteres, letras y caractéres especiales";
+      messageDivAdmin.style.color = "red";
+      messageDivAdmin.style.fontSize = "12px";
+      messageDivAdmin.style.width = "310px";
+    }
+  });
+}
+
+if (contraseñaVendedor) {
+  contraseñaVendedor.addEventListener("input", function () {
+    const value = contraseñaVendedor.value;
+
+    if (regex.test(value)) {
+      messageDivVendedor.textContent = "Contraseña válida";
+      messageDivVendedor.style.color = "green";
+      messageDivVendedor.style.fontSize = "12px";
+    } else {
+      messageDivVendedor.textContent =
+        "Debe tener al menos 10 caracteres, letras y caractéres especiales";
+      messageDivVendedor.style.color = "red";
+      messageDivVendedor.style.fontSize = "12px";
+      messageDivVendedor.style.width = "310px";
+    }
+  });
+}

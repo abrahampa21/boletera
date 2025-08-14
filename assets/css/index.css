@@ -127,6 +127,16 @@ body {
   gap: 15px;
 }
 
+#passwordMessageAdmin{
+  margin-top: -1rem;
+  text-align: left;
+}
+
+#passwordMessageVendedor{
+  margin: -1rem 0 13px;
+  text-align: left;
+}
+
 .registro-admin h1 {
   font-size: 1.5rem;
   margin-bottom: 1rem;

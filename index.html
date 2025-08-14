@@ -53,7 +53,7 @@
                 <input type="password" name="contraseña" class="campos-registro inputs-general" placeholder="Contraseña" id="contraseña-admin" required>
                 <i class="fa-regular fa-eye-slash" onclick="revealPassword(this)"></i>
             </div>
-            <p id="passwordMessage" class="error"></p>
+            <p id="passwordMessageAdmin" class="passwordMessage"></p>
             <button type="submit" name="registrar" class="registro-admin-btn">Registrar</button>
         </div>
         <p class="login-back">¿Ya tienes una cuenta? <span onclick="revealLogin()" >Ingresa aquí</span></p>
@@ -90,7 +90,7 @@
                 <input type="password" name="contraseña" class="campos-registro inputs-general" placeholder="Contraseña" id="contraseña-vendedor" required>
                 <i class="fa-regular fa-eye-slash" onclick="revealPassword(this)"></i>
             </div>
-            <p id="passwordMessageVendedor" class="error"></p>
+            <p id="passwordMessageVendedor" class="passwordMessage"></p>
             <div class="div-ine div-campos">
                 <label for="ine">Sube foto de tu credencial de lector INE</label>
                 <input type="file" class="inputs-general" name="ine" id="ine" placeholder="Sube foto de tu INE" required>
