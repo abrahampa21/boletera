@@ -2,12 +2,14 @@ const showPassword = document.querySelector(".fa-eye-slash");
 const contraseñaLogin = document.getElementById("login-pwd");
 const contraseñaVendedor = document.getElementById("contraseña-vendedor");
 const contraseñaAdmin = document.getElementById("contraseña-admin");
+const contraseñaRecuperar = document.getElementById("contraseña-recuperar");
 const inicioSesion = document.getElementById("inicio-sesion");
 const registroAdmin = document.getElementById("registro-admin");
-const registroVendedor = document.getElementById("registro-vendedor");
+const recuperarContraseña = document.getElementById("recuperar-contraseña");
 const campos = document.querySelectorAll(".inputs-general");
 const messageDivAdmin = document.getElementById("passwordMessageAdmin");
 const messageDivVendedor = document.getElementById("passwordMessageVendedor");
+const messageDivRecuperar = document.getElementById("passwordMessageRecuperar");
 const regex =
   /^(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?])(?=.*[A-Za-z]).{10,}$/;
 
@@ -55,17 +57,16 @@ function revealAdminRegister() {
 
 function revealLogin() {
   registroAdmin.style.display = "none";
-  registroVendedor.style.display = "none";
+  recuperarContraseña.style.display = "none";
   inicioSesion.style.display = "block";
   campos.forEach((input) => {
     input.value = "";
   });
 }
 
-function revealVendedorRegister() {
+function revealRecoverPass() {
+  recuperarContraseña.style.display = "flex";
   inicioSesion.style.display = "none";
-  registroVendedor.style.display = "block";
-
   campos.forEach((input) => {
     input.value = "";
   });
@@ -95,13 +96,10 @@ if (contraseñaAdmin) {
     if (regex.test(value)) {
       messageDivAdmin.textContent = "Contraseña válida";
       messageDivAdmin.style.color = "green";
-      messageDivAdmin.style.fontSize = "12px";
     } else {
       messageDivAdmin.textContent =
         "Debe tener al menos 10 caracteres, letras y caractéres especiales";
       messageDivAdmin.style.color = "red";
-      messageDivAdmin.style.fontSize = "12px";
-      messageDivAdmin.style.width = "310px";
     }
   });
 }
@@ -113,13 +111,25 @@ if (contraseñaVendedor) {
     if (regex.test(value)) {
       messageDivVendedor.textContent = "Contraseña válida";
       messageDivVendedor.style.color = "green";
-      messageDivVendedor.style.fontSize = "12px";
     } else {
       messageDivVendedor.textContent =
         "Debe tener al menos 10 caracteres, letras y caractéres especiales";
       messageDivVendedor.style.color = "red";
-      messageDivVendedor.style.fontSize = "12px";
-      messageDivVendedor.style.width = "310px";
+    }
+  });
+}
+
+if (contraseñaRecuperar) {
+  contraseñaRecuperar.addEventListener("input", function () {
+    const value = contraseñaRecuperar.value;
+
+    if (regex.test(value)) {
+      messageDivRecuperar.textContent = "Contraseña válida";
+      messageDivRecuperar.style.color = "green";
+    } else {
+      messageDivRecuperar.textContent =
+        "Debe tener al menos 10 caracteres, letras y caractéres especiales";
+      messageDivRecuperar.style.color = "red";
     }
   });
 }
