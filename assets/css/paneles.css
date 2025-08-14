@@ -44,5 +44,11 @@ nav .links{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    gap: 2rem;
+    gap: 3rem;
+}
+
+
+nav .apartados a:hover{
+    text-decoration: underline;
+
 }
