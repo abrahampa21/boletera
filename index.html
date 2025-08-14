@@ -5,28 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="icon" href="src/img/logoPaginas.png">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/e522357059.js" crossorigin="anonymous"></script>
     <title>Inicio de Sesión</title>
 </head>
 <body>
 
     <!--Inicio de sesión-->
-    <form action="" class="inicio-sesion forms" autocomplete="off" id="inicio-sesion">
+    <form action="" class="inicio-sesion forms" autocomplete="off" id="inicio-sesion" data-aos="fade-down" data-aos-duration="1500">
         <div class="form-container">
             <h1>Inicio de Sesión</h1>
             <img src="src/img/logo.png" alt="Décori" title="Décori">
             <div class="usuario-campo div-login">
-                <input type="text" name="usuario" class="inputs-login" placeholder="Matrícula" maxlength="7" required>
+                <input type="text" name="usuario" class="inputs-login inputs-general" placeholder="Matrícula" maxlength="7" required>
                 <i class="fa-solid fa-user" ></i>
             </div>
             <div class="contraseña-campo div-login">
-                <input type="password" name="contraseña" class="inputs-login" id="login-pwd" placeholder="Contraseña" required>
-                <i class="fa-regular fa-eye-slash" onclick="revealPassword()"></i>
+                <input type="password" name="contraseña" class="inputs-login inputs-general" id="login-pwd" placeholder="Contraseña" required>
+                <i class="fa-regular fa-eye-slash" onclick="revealPassword(this)"></i>
             </div>
             <a href="#" class="forgot-pass">Olvidé mi contraseña</a>
             <button type="submit" name="ingresar" class="ingresar-btn">Ingresar</button>
             <div class="crear-cuenta">
-                <p class="crear">¿Todavía no tienes una cuenta? Regístrate como <span>Vendedor</span> o <span onclick="revealAdminRegister()">Administrador</span> </p>
+                <p class="crear">¿Todavía no tienes una cuenta? Regístrate como <span onclick="revealVendedorRegister()">Vendedor</span> o <span onclick="revealAdminRegister()">Administrador</span> </p>
             </div>
         </div>
     </form>
@@ -37,20 +38,20 @@
         <h1>Registro para administrador</h1>
         <div class="container-campos">
             <div class="div-nombre div-campos">
-                <input type="text" name="nombre" class="campos-registro" placeholder="Nombre completo" id="nombre-admin" required>
+                <input type="text" name="nombre" class="campos-registro inputs-general" placeholder="Nombre completo" id="nombre-admin" required>
                 <i class="fa-solid fa-user"></i>
             </div>
             <div class="div-email div-campos">
-                <input type="email" name="email" class="campos-registro" placeholder="Correo electrónico" id="email-admin" required value="">
+                <input type="email" name="email" class="campos-registro inputs-general" placeholder="Correo electrónico" id="email-admin" required value="">
                 <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="div-usuario div-campos">
-                <input type="text" name="usuario" class="campos-registro" placeholder="Usuario" id="usuario-admin" required value="">
+                <input type="text" name="usuario" class="campos-registro inputs-general" placeholder="Usuario" id="usuario-admin" required value="">
                 <i class="fa-solid fa-pen-nib"></i>
             </div>
             <div class="div-contraseña div-campos">
-                <input type="password" name="contraseña" class="campos-registro" placeholder="Contraseña" id="contraseña-admin" required>
-                <i class="fa-regular fa-eye-slash"></i>
+                <input type="password" name="contraseña" class="campos-registro inputs-general" placeholder="Contraseña" id="contraseña-admin" required>
+                <i class="fa-regular fa-eye-slash" onclick="revealPassword(this)"></i>
             </div>
             <p id="passwordMessage" class="error"></p>
             <button type="submit" name="registrar" class="registro-admin-btn">Registrar</button>
@@ -60,51 +61,51 @@
 
     <!--Registro para vendedor-->
     <form class="registro-vendedor forms" id="registro-vendedor" action="" autocomplete="off">
-        <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar"></i>
+        <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar" onclick="revealLogin()"></i>
         <h1>Registro para vendedor</h1>
         <div class="container-campos">
             <div class="div-nombre div-campos">
-                <input type="text" name="nombre" class="campos-registro" placeholder="Nombre completo" id="nombre-vendedor" required>
+                <input type="text" name="nombre" class="campos-registro inputs-general" placeholder="Nombre completo" id="nombre-vendedor" required>
                 <i class="fa-solid fa-user"></i>
             </div>
-            <div class="div-apellidos div-campos">
-                <div class="apellidoP">
-                    <input type="text" name="apellidoP" id="apellidoP" Placeholder="Apellido Paterno">
+            <div class="div-apellidos">
+                <div class="apellidoP apellido">
+                    <input type="text" name="apellidoP" class="inputs-general" id="apellidoP" Placeholder="Apellido Paterno" required>
                     <i class="fa-solid fa-user-tie"></i>
                 </div>
-                <div class="apellidoM">
-                    <input type="text" name="apellidoM" id="apellidoM" placeholder="Apellido Materno">
+                <div class="apellidoM apellido">
+                    <input type="text" name="apellidoM" class="inputs-general" id="apellidoM" placeholder="Apellido Materno" required>
                     <i class="fa-solid fa-user-nurse"></i>
                 </div>
             </div>
             <div class="div-email div-campos">
-                <input type="email" name="email" class="campos-registro" placeholder="Correo electrónico" id="email-vendedor" required value="">
+                <input type="email" name="email" class="campos-registro inputs-general" placeholder="Correo electrónico" id="email-vendedor" required value="">
                 <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="div-usuario div-campos">
-                <input type="text" name="usuario" class="campos-registro" placeholder="Usuario" id="usuario-vendedor" required value="">
+                <input type="text" name="usuario" class="campos-registro inputs-general" placeholder="Usuario" id="usuario-vendedor" required value="">
                 <i class="fa-solid fa-pen-nib"></i>
             </div>
             <div class="div-contraseña div-campos">
-                <input type="password" name="contraseña" class="campos-registro" placeholder="Contraseña" id="contraseña-vendedor" required>
-                <i class="fa-regular fa-eye-slash"></i>
+                <input type="password" name="contraseña" class="campos-registro inputs-general" placeholder="Contraseña" id="contraseña-vendedor" required>
+                <i class="fa-regular fa-eye-slash" onclick="revealPassword(this)"></i>
             </div>
-            <p id="passwordMessage" class="error"></p>
-            <div class="div-ine div-campos>
-                <label for="">Sube foto de tu credencia de lector INE</label>
-                <input type="file" name="ine" id="ine" placeholder="Sube foto de tu INE">
+            <p id="passwordMessageVendedor" class="error"></p>
+            <div class="div-ine div-campos">
+                <label for="ine">Sube foto de tu credencial de lector INE</label>
+                <input type="file" class="inputs-general" name="ine" id="ine" placeholder="Sube foto de tu INE" required>
             </div>
             <div class="div-celular div-campos">
-                <input type="text" name="noCelular" class="campos-registro" id="noCelular-vendedor" placeholder="Número de celular">
+                <input type="text" name="noCelular" class="campos-registro inputs-general" id="noCelular-vendedor" placeholder="Número de celular">
                 <i class="fa-solid fa-mobile-screen"></i>
             </div>
             <div class="div-referencia div-campos">
-                <input type="text" name="noReferencia" class="campos-registro" id="noReferencia-vendedor" placeholder="Número de referencia">
+                <input type="text" name="noReferencia" class="campos-registr inputs-general" id="noReferencia-vendedor" placeholder="Número de referencia">
                 <i class="fa-solid fa-mobile"></i>
             </div>
-            <button type="submit" name="registrar">Registrar</button>
+            <button type="submit" name="registrar" >Registrar</button>
         </div>
-        <p class="login-back">¿Ya tienes una cuenta? <span id="back-text">Ingresa aquí</span></p>
+        <p class="login-back">¿Ya tienes una cuenta? <span onclick="revealLogin()">Ingresa aquí</span></p>
     </form>
 
     <!--Librerías JavaScript-->
