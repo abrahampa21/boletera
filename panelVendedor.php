@@ -71,7 +71,7 @@ if ($resultado && $resultado->num_rows > 0) {
             </div>
             <div class="user">
                 <i class="fa-solid fa-user" ></i>
-                <h4><?php echo htmlspecialchars($nombre . '' . $apellido); ?></h4>
+                <h4><?php echo htmlspecialchars($nombre . ' ' . $apellido); ?></h4>
             </div>
         </nav>
     </header>
