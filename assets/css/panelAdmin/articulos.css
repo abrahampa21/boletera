@@ -1,0 +1,86 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url(../../../src/img/fondo.webp);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.container {
+  background-color: #fff;
+  padding: 3rem;
+  border-radius: 8px;
+  width: 70%;
+}
+
+.container .card-articulo{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.registro-articulo {
+  display: none;
+  flex-direction: column;
+  border: 1px solid #666;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+.registro-articulo input {
+  height: 40px;
+  background-color: #eef3f7;
+  border: 1px solid #cfdce7;
+  width: 100%;
+  font-size: 15px;
+  padding: 0 10px;
+  color: #2a3d66;
+  border-radius: 9px;
+}
+
+.registro-articulo i {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 15px;
+}
+
+.registro-articulo .div-nombre-articulo {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.registro-articulo .div-img-articulo {
+  display: flex;
+  flex-direction: column;
+}
+
+.container button {
+  background-color: rgb(85, 119, 95);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  padding: 10px;
+}
+
+.container button:hover {
+  background-color: rgb(58, 103, 71);
+}
