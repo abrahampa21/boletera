@@ -40,7 +40,7 @@ if ($resultado && $resultado->num_rows > 0) {
             <div class="links">
                 <div class="apartados">
                     <i class="fa-solid fa-user-tie"></i>
-                    <a href="panelAdmin/datosVendedor.html">Vendedores</a></li>
+                    <a href="panelAdmin/vendedores.php">Vendedores</a></li>
                 </div>
                 <div class="apartados">
                     <i class="fa-solid fa-user-check"></i>
@@ -57,7 +57,7 @@ if ($resultado && $resultado->num_rows > 0) {
             <div class="menu" id="menu">
                 <div class="apartados">
                     <i class="fa-solid fa-user-tie"></i>
-                    <a href="panelAdmin/datosVendedor.html">Vendedores</a></li>
+                    <a href="panelAdmin/vendedores.php">Vendedores</a></li>
                 </div>
                 <div class="apartados">
                     <i class="fa-solid fa-user-check"></i>
