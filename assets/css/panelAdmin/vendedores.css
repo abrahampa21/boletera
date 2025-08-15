@@ -84,3 +84,59 @@ body {
 .tabla-vendedores a:hover {
     color: var(--verde-medio);
 }
+
+/*Card para vendedores*/
+.card-vendedores{
+    display: flex;
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+.datos-vendedores {
+    width: 50%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: var(--gris-claro);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.datos-vendedores caption {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color:  #fff;
+    text-align: center;
+}
+
+.datos-vendedores thead {
+    background-color: var(--verde-fuerte);
+    color: var(--blanco);
+}
+
+.datos-vendedores th,
+.datos-vendedores td {
+    padding: 15px;
+    text-align: left;
+    font-size: 1em;
+    border-bottom: 1px solid var(--acento);
+    background-color: var(--verde-claro);
+    color: var(--texto);
+}
+
+.datos-vendedores tbody tr:nth-child(even) {
+    background-color: var(--acento);
+}
+
+.datos-vendedores img {
+    width: 150px;
+    height: auto;
+    border-radius: 8px;
+    margin: 0 auto 20px;
+    display: block;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
