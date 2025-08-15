@@ -48,7 +48,7 @@ if ($resultado && $resultado->num_rows > 0) {
                 </div>
                 <div class="apartados">
                     <i class="fa-solid fa-ticket"></i>
-                    <a href="#">Artículos</a></li>
+                    <a href="panelAdmin/articulos.php">Artículos</a></li>
                 </div>
             </div>
             <div class="toggle" id="toggle">
@@ -65,7 +65,7 @@ if ($resultado && $resultado->num_rows > 0) {
                 </div>
                 <div class="apartados">
                     <i class="fa-solid fa-ticket"></i>
-                    <a href="#">Artículos</a></li>
+                    <a href="panelAdmin/articulos.php">Artículos</a></li>
                 </div>
             </div>
             <div class="user">
