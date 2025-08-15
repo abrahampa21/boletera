@@ -1,3 +1,21 @@
+<!-- <?php
+session_start();
+include 'conexion.php';
+include __DIR__ . '/../conexion.php';  
+$usuarioAdmin = $_SESSION['usuario'];
+
+$sqlNombre = "SELECT usuario FROM administrador WHERE usuario = ?";
+$stmt = $conexion->prepare($sqlNombre); // usa $conexion como en tu login
+$stmt->bind_param("i", $usuarioAdmin);
+$stmt->execute();
+$res = $stmt->get_result()->fetch_assoc();
+                                            Este código extrae el usuario del admin que inicie sesión
+                                            y lo imprime en la pantalla en el div user
+if ($res) {
+    $nombreAdmin = $res['usuario'];
+}
+?> -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,6 +68,10 @@
             <div class="user">
                 <i class="fa-solid fa-user" ></i>
                 <h4>Abraham Pech</h4><!--Nombre del administrador-->
+                <h4>Nombre del administrador</h4>
+                    <!--Borrar la linea de arriba y reemplazar por abajo cuando el archivo sea php--> 
+              <!-- <h1>Bienvenido, <?php echo htmlspecialchars($nombreAdmin); ?>!</h1>--> 
+               <!--Imprime el nombre de usuario del admin en la pantalla-->
             </div>
         </nav>
     </header>
