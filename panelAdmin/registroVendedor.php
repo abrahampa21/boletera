@@ -1,5 +1,5 @@
 <?php
-
+include("../src/conexion.php");
 if (isset($_POST["registrar"])) {
     $nombre = mysqli_real_escape_string($conexion, $_POST['nombre']);
     $apellidoP = mysqli_real_escape_string($conexion, $_POST['apellidoP']);
@@ -7,10 +7,17 @@ if (isset($_POST["registrar"])) {
     $correo = mysqli_real_escape_string($conexion, $_POST['email']);
     $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);
     $password = mysqli_real_escape_string($conexion, $_POST['contraseña']);
-    $ine = mysqli_real_escape_string($conexion, $_POST['ine']);
     $numeroCel = mysqli_real_escape_string($conexion, $_POST['noCelular']);
     $numeroRef = mysqli_real_escape_string($conexion, $_POST['noReferencia']);
-
+     $password_encriptada = sha1($password);
+    // Se verifica si se subió la imagen
+    if (isset($_FILES['ine']) && $_FILES['ine']['error'] === 0) {
+        $ine_tmp = $_FILES['ine']['tmp_name'];
+        $ine_contenido = addslashes(file_get_contents($ine_tmp)); // listo para BLOB
+    } else {
+        echo "<script>alert('Error al subir el INE'); window.location='registroVendedor.php';</script>";
+        exit();
+    }
     // Verificar si el usuario ya existe
     $verificar_usuario = "SELECT usuario FROM vendedor WHERE usuario = '$usuario' LIMIT 1";
     $resultado_verificar = $conexion->query($verificar_usuario);
@@ -23,11 +30,11 @@ if (isset($_POST["registrar"])) {
         exit();
     }
 
-    // Insertar nuevo administrador
+    // Insertar nuevo vendedor
     $sql_insert = "INSERT INTO vendedor (usuario, nombre, apellidoP, apellidoM, email, password, 
     fotoINE, noCelular, noReferencia) 
                    VALUES ('$usuario', '$nombre','$apellidoP','$apellidoM', '$correo' 
-                   , '$password','$ine','$numeroCel', '$numeroRef')";
+                   , '$password_encriptada','$ine','$numeroCel', '$numeroRef')";
 
     if ($conexion->query($sql_insert) === TRUE) {
         echo "<script>
@@ -57,7 +64,7 @@ if (isset($_POST["registrar"])) {
 </head>
 <body>
         <!--Registro para vendedor-->
-    <form class="registro-vendedor forms" id="registro-vendedor" action="" autocomplete="off">
+    <form class="registro-vendedor forms" id="registro-vendedor" action="" method="post" enctype="multipart/form-data" autocomplete="off">
         <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar" onclick="revealLogin()"></i>
         <h1>Registro para vendedor</h1>
         <div class="container-campos">

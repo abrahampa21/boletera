@@ -1,14 +1,15 @@
 <?php
 include("src/conexion.php");
+
 if (isset($_POST["ingresar"])) {
     $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);
     $password = mysqli_real_escape_string($conexion, $_POST['contraseña']);
     $token    = mysqli_real_escape_string($conexion, $_POST['token']);
-
+    $password_encriptada = sha1($password);
     // Ahora verificamos usuario, password y token
     $sql_admin = "SELECT usuario FROM administrador 
                   WHERE usuario = '$usuario' 
-                  AND password = '$password' 
+                  AND password = '$password_encriptada' 
                   AND token = '$token' 
                   LIMIT 1";
 
@@ -33,7 +34,7 @@ if (isset($_POST["registrar"])) {
     $correo = mysqli_real_escape_string($conexion, $_POST['email']);
     $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);
     $password = mysqli_real_escape_string($conexion, $_POST['contraseña']);
-
+    $password_encriptada = sha1($password);
     // Verificar si el usuario ya existe
     $verificar_usuario = "SELECT usuario FROM administrador WHERE usuario = '$usuario' LIMIT 1";
     $resultado_verificar = $conexion->query($verificar_usuario);
@@ -45,10 +46,10 @@ if (isset($_POST["registrar"])) {
         </script>";
         exit();
     }
-
+           
     // Insertar nuevo administrador
-    $sql_insert = "INSERT INTO administrador (usuario, nombre, password, email) 
-                   VALUES ('$usuario', '$nombre', '$password', '$correo')";
+    $sql_insert = "INSERT INTO administrador (usuario, nombreCompleto, password, email) 
+                   VALUES ('$usuario', '$nombre', '$password_encriptada', '$correo')";
 
     if ($conexion->query($sql_insert) === TRUE) {
         echo "<script>
