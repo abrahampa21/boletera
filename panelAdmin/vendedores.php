@@ -8,7 +8,7 @@ if ($conexion->connect_error) {
 }
 
 // Consulta 
-$sql = "SELECT nombre, apellidoP FROM vendedor";
+$sql = "SELECT idVendedor, nombre, apellidoP FROM vendedor";
 $resultado = $conexion->query($sql);
 
 if (!$resultado) {
@@ -48,7 +48,7 @@ if (!$resultado) {
                         echo "<td>" . htmlspecialchars($fila['nombre']) . " " . htmlspecialchars($fila['apellidoP']) . "</td>";
                         echo "<td><a href='#'>Ver</a></td>";
                         echo "<td><a href='#'>Ver</a></td>";
-                        echo "<td><a href='#'>Ver</a></td>";
+                        echo "<td><a href='datosVendedor.php?id=" . urlencode($fila['idVendedor']) . "'>Ver</a></td>";
                         echo "</tr>";
                     }
                 } else {
