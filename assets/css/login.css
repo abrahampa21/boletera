@@ -1,89 +1,619 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/login.css">
-    <link rel="icon" href="src/img/logoPaginas.png">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/e522357059.js" crossorigin="anonymous"></script>
-    <title>Inicio de Sesión</title>
-</head>
-<body>
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
 
-    <!--Inicio de sesión-->
-    <form action="" class="inicio-sesion forms" autocomplete="off" id="inicio-sesion" data-aos="fade-down" data-aos-duration="1500">
-        <div class="form-container">
-            <h1>Inicio de Sesión</h1>
-            <img src="src/img/logo.png" alt="Décori" title="Décori">
-            <div class="usuario-campo div-login">
-                <input type="text" name="usuario" class="inputs-login inputs-general" placeholder="Usuario" maxlength="7" required>
-                <i class="fa-solid fa-user" ></i>
-            </div>
-            <div class="contraseña-campo div-login">
-                <input type="password" name="contraseña" class="inputs-login inputs-general" id="login-pwd" placeholder="Contraseña" required>
-                <i class="fa-regular fa-eye-slash" onclick="revealPassword(this)"></i>
-            </div>
-            <div class="codigo-seguridad div-login">
-                <label>Para el administrador:</label>
-                <input type="text" name="token" id="token" class="inputs-login inputs-general" placeholder="Código de seguridad">
-            </div>
-            <span class="forgot-pass" onclick="revealRecoverPass()">Olvidé mi contraseña</span>
-            <button type="submit" name="ingresar" class="ingresar-btn">Ingresar</button>
-            <div class="crear-cuenta">
-                <p class="crear">¿Todavía no tienes una cuenta? <span onclick="revealAdminRegister()">Regístrate aquí</span></p>
-            </div>
-        </div>
-    </form>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
 
-    <!--Recuperar contraseña-->
-    <form action="" class="recuperar-contraseña" id="recuperar-contraseña">
-        <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar" onclick="revealLogin()"></i>
-        <h2>Recuperar contraseña</h2>
-        <p>Introduce los siguientes datos</p>
-        <div class="campos">
-            <div class="email campos-recuperar">
-                <input type="text" name="email-recuperar" placeholder="Correo electrónico" required>
-                <i class="fa-solid fa-envelope"></i>
-            </div>
-            <div class="contraseña campos-recuperar">
-                <input type="password" name="" id="contraseña-recuperar" placeholder="Escribe la nueva contraseña" required>
-                <i class="fa-regular fa-eye-slash" onclick="revealPassword(this)"></i>
-            </div>
-            <p id="passwordMessageRecuperar" class="passwordMessage"></p>
-            <button type="submit">Enviar</button>
-        </div>
-    </form>
-    
-    <!--Registro para administrador-->
-    <form class="registro-admin forms" id="registro-admin" action="" autocomplete="off">
-        <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar" onclick="revealLogin()"></i>
-        <h1>Registro para administrador</h1>
-        <div class="container-campos">
-            <div class="div-nombre div-campos">
-                <input type="text" name="nombre" class="campos-registro inputs-general" placeholder="Nombre completo" id="nombre-admin" required>
-                <i class="fa-solid fa-user"></i>
-            </div>
-            <div class="div-email div-campos">
-                <input type="email" name="email" class="campos-registro inputs-general" placeholder="Correo electrónico" id="email-admin" required value="">
-                <i class="fa-solid fa-envelope"></i>
-            </div>
-            <div class="div-usuario div-campos">
-                <input type="text" name="usuario" class="campos-registro inputs-general" placeholder="Usuario" id="usuario-admin" required value="">
-                <i class="fa-solid fa-pen-nib"></i>
-            </div>
-            <div class="div-contraseña div-campos">
-                <input type="password" name="contraseña" class="campos-registro inputs-general" placeholder="Contraseña" id="contraseña-admin" required>
-                <i class="fa-regular fa-eye-slash" onclick="revealPassword(this)"></i>
-            </div>
-            <p id="passwordMessageAdmin" class="passwordMessage"></p>
-            <button type="submit" name="registrar" class="registro-admin-btn">Registrar</button>
-        </div>
-        <p class="login-back">¿Ya tienes una cuenta? <span onclick="revealLogin()" >Ingresa aquí</span></p>
-    </form>
+.body-registro-vendedor {
+  background: linear-gradient(
+    330deg,
+    #1a2d42,
+    #aab7b7,
+    #c0c8ca,
+    #d4d8dd,
+    #1a2d42
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
-    <!--Librerías JavaScript-->
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script src="assets/js/login.js"></script>
-</body>
-</html>
+body {
+  background-image: url(../../src/img/fondo2.webp);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.forms a {
+  text-decoration: none;
+}
+
+.fa-eye-slash, .fa-arrow-left {
+  cursor: pointer;
+}
+
+/*Inicio de sesión*/
+.inicio-sesion {
+  display: flex;
+}
+
+.form-container {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  border-radius: 15px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h1 {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1.3rem;
+}
+
+.form-container img {
+  width: 90px;
+  border-radius: 9999px;
+  margin: 0 auto;
+  margin-bottom: 1.1rem;
+}
+
+.form-container .ingresar-btn {
+  background-color: rgb(85, 119, 95);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  padding: 10px;
+}
+
+.form-container .ingresar-btn:hover {
+  background-color: rgb(58, 103, 71);
+}
+
+.form-container .forgot-pass {
+  color: rgb(85, 119, 95);
+  cursor: pointer;
+}
+
+.form-container .forgot-pass:hover,
+.form-container .crear-cuenta span:hover {
+  text-decoration: underline;
+}
+.form-container .div-login {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.form-container .div-login input {
+  height: 40px;
+  background-color: #eef3f7;
+  border: 1px solid #cfdce7;
+  width: 100%;
+  font-size: 15px;
+  padding: 0 10px;
+  color: #2a3d66;
+  border-radius: 9px;
+}
+
+.form-container .div-login i {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 15px;
+}
+
+.form-container .crear-cuenta {
+  line-height: 1.3;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.form-container .crear-cuenta span {
+  color: rgb(58, 103, 71);
+  cursor: pointer;
+}
+
+
+
+.form-container .codigo-seguridad {
+  width: 100%;
+}
+
+.form-container .codigo-seguridad label {
+  font-size: 14px;
+}
+
+/*Componente de registro del administrador*/
+.registro-admin {
+  display: none;
+  background-color: #fff;
+  flex-direction: column;
+  border-radius: 15px;
+  padding: 19px 2rem;
+  gap: 15px;
+}
+
+#passwordMessageAdmin,
+#passwordMessageVendedor, #passwordMessageRecuperar {
+  margin-top: -1rem;
+  text-align: left;
+  font-size: 12px;
+  width: 380px;
+}
+
+.registro-admin h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.registro-admin .container-campos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registro-admin .div-campos input {
+  height: 40px;
+  background-color: #eef3f7;
+  border: 1px solid #cfdce7;
+  width: 100%;
+  font-size: 15px;
+  padding: 0 10px;
+  color: #2a3d66;
+  border-radius: 9px;
+}
+
+.registro-admin .div-campos {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.registro-admin .div-campos i {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 15px;
+}
+
+.registro-admin p {
+  color: #5a5a5a;
+  font-size: 14px;
+}
+
+.registro-admin .registro-admin-btn {
+  background-color: rgb(85, 119, 95);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  padding: 10px;
+  margin-top: 13px;
+}
+
+.registro-admin .registro-admin-btn:hover {
+  background-color: rgb(58, 103, 71);
+}
+
+.registro-admin .fa-arrow-left,
+.registro-admin span {
+  cursor: pointer;
+}
+
+.registro-admin p {
+  color: #111;
+  text-align: center;
+}
+
+.registro-admin span {
+  color: rgb(85, 119, 95);
+}
+
+.registro-admin span:hover {
+  text-decoration: underline;
+}
+
+/*Componente de registro del vendedor*/
+.registro-vendedor {
+  display: flex;
+  background-color: #fff;
+  flex-direction: column;
+  border-radius: 15px;
+  padding: 15px 2rem;
+  gap: 10px;
+}
+
+.registro-vendedor span,
+.registro-vendedor .fa-arrow-left {
+  cursor: pointer;
+}
+
+.registro-vendedor .div-ine {
+  display: flex;
+  flex-direction: column;
+  margin-top: -1rem;
+}
+
+.registro-vendedor .div-ine label {
+  text-align: center;
+  font-size: 15px;
+}
+
+.registro-vendedor h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.registro-vendedor .container-campos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registro-vendedor .div-campos input {
+  height: 35px;
+  background-color: #eef3f7;
+  border: 1px solid #cfdce7;
+  width: 100%;
+  font-size: 15px;
+  padding: 0 10px;
+  color: #2a3d66;
+  border-radius: 9px;
+}
+
+.registro-vendedor .div-campos {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.registro-vendedor .div-campos i {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 15px;
+}
+
+.registro-vendedor .div-apellidos {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.registro-vendedor .div-apellidos input {
+  height: 35px;
+  background-color: #eef3f7;
+  border: 1px solid #cfdce7;
+  width: 100%;
+  font-size: 15px;
+  padding: 0 10px;
+  color: #2a3d66;
+  border-radius: 9px;
+}
+
+.registro-vendedor .div-apellidos .apellido {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.registro-vendedor .div-apellidos .apellido i {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 15px;
+}
+
+.registro-vendedor p {
+  font-size: 14px;
+  text-align: center;
+}
+
+.registro-vendedor span {
+  color: rgb(85, 119, 95);
+}
+
+.registro-vendedor span:hover {
+  text-decoration: underline;
+}
+
+.registro-vendedor button {
+  background-color: rgb(85, 119, 95);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px;
+  padding: 10px;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.registro-vendedor button:hover {
+  background-color: rgb(58, 103, 71);
+}
+
+/*Registro del cliente*/
+.registro-cliente {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 19px 1.5rem;
+  gap: 15px;
+  width: 450px;
+}
+
+.registro-cliente h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.registro-cliente .campos-cliente {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registro-cliente .div-campos input {
+  height: 40px;
+  background-color: #eef3f7;
+  border: 1px solid #cfdce7;
+  width: 100%;
+  font-size: 15px;
+  padding: 0 10px;
+  color: #2a3d66;
+  border-radius: 9px;
+}
+
+.registro-cliente .div-campos {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.registro-cliente .div-campos i {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 15px;
+}
+
+.registro-cliente .div-campos label {
+  font-size: 15px;
+}
+
+.registro-cliente .div-metodoPago {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.registro-cliente .div-campos select {
+  padding: 0.5rem;
+  font-size: 15px;
+  border-radius: 5px;
+  background-color: #e2e8f0;
+  color: #333;
+  border: 1px solid #cfdce7;
+  width: 55%;
+}
+
+.registro-cliente .div-comprobante input {
+  border: 1px solid #cfdce7;
+}
+
+.registro-cliente button {
+  background-color: rgb(85, 119, 95);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.registro-cliente button:hover {
+  background-color: rgb(58, 103, 71);
+}
+
+.regresar-btn-cliente {
+  position: absolute;
+  top: 2%;
+  left: 1.5%;
+  background-color: rgb(58, 103, 71);
+  color: #fff;
+  z-index: 2;
+  border: none;
+  outline: none;
+  padding: 12px 1rem;
+  border-radius: 50%;
+  font-size: 1.3rem;
+}
+
+/*Componente de recuperar contraseña*/
+.recuperar-contraseña {
+  display: none;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 1.2rem;
+}
+
+.recuperar-contraseña h2 {
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.recuperar-contraseña .campos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recuperar-contraseña p{
+  margin-bottom: 1rem;
+}
+
+.recuperar-contraseña .campos-recuperar input {
+  height: 40px;
+  background-color: #eef3f7;
+  border: 1px solid #cfdce7;
+  width: 100%;
+  font-size: 15px;
+  padding: 0 10px;
+  color: #2a3d66;
+  border-radius: 9px;
+}
+
+.recuperar-contraseña .campos-recuperar {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.recuperar-contraseña .campos-recuperar i {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 15px;
+}
+
+.recuperar-contraseña button {
+  background-color: rgb(85, 119, 95);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.recuperar-contraseña button:hover {
+  background-color: rgb(58, 103, 71);
+}
+
+
+/*Medias queries*/
+@media (max-width: 480px) {
+  .form-container {
+    width: 300px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .form-container .div-login input,
+  .registro-admin .div-campos input,
+  .registro-vendedor .div-campos input,
+  .registro-vendedor .div-apellidos input {
+    font-size: 14px;
+    height: 36px;
+  }
+
+  .form-container .div-login .ingresar-btn,
+  .registro-admin .div-campos button,
+  .registro-vendedor .div-campos button {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+
+  .registro-admin {
+    width: 300px;
+  }
+
+  .registro-vendedor {
+    width: 350px;
+  }
+
+  .recuperar-contraseña{
+    width: 300px;
+  }
+
+
+  .recuperar-contraseña .campos-recuperar input{
+        font-size: 14px;
+    height: 36px;
+  }
+
+  p {
+    font-size: 12.5px;
+  }
+
+  #passwordMessageAdmin,
+  #passwordMessageVendedor, #passwordMessageRecuperar {
+    width: 300px;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 550px) {
+  .registro-cliente {
+    width: 350px;
+  }
+
+  .registro-cliente .div-metodoPago {
+    gap: 5px;
+  }
+}
+
+@media (max-width: 400px) {
+  .registro-cliente {
+    width: 330px;
+  }
+
+  .regresar-btn-cliente {
+    font-size: 1rem;
+  }
+
+  .registro-cliente h1 {
+    font-size: 22px;
+  }
+
+  .registro-cliente .div-campos input,
+  .registro-cliente .div-campos select {
+    font-size: 14px;
+    height: 36px;
+  }
+
+  .registro-cliente .div-metodoPago {
+    gap: 5px;
+  }
+
+  .registro-cliente .div-campos label {
+    font-size: 14px;
+  }
+}
