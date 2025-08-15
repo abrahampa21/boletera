@@ -7,21 +7,6 @@
   font-family: "Plus Jakarta Sans", sans-serif;
 }
 
-.body-registro-vendedor {
-  background: linear-gradient(
-    330deg,
-    #1a2d42,
-    #aab7b7,
-    #c0c8ca,
-    #d4d8dd,
-    #1a2d42
-  );
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
 body {
   background-image: url(../../src/img/fondo2.webp);
   background-position: center;
@@ -134,13 +119,16 @@ body {
 }
 
 
-
 .form-container .codigo-seguridad {
   width: 100%;
 }
 
 .form-container .codigo-seguridad label {
   font-size: 14px;
+}
+
+.form-container .codigo-seguridad input{
+  margin-top: 5px;
 }
 
 /*Componente de registro del administrador*/
@@ -473,6 +461,7 @@ body {
 .recuperar-contraseña h2 {
   font-size: 1.3rem;
   text-align: center;
+  margin-bottom: 1rem;
 }
 
 .recuperar-contraseña .campos {

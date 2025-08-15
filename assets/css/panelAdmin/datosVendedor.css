@@ -1,0 +1,87 @@
+/* Fuente recomendada */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap');
+
+:root {
+    --verde-oscuro: #3f5a47;
+    --verde-fuerte: rgb(25,45,44);
+    --verde-claro: #a7c1ae;
+    --blanco: #ffffff;
+    --gris-claro: #f1f1f1;
+    --texto: #2c2c2c;
+    --acento: #bfd3c1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background-color: var(--verde-oscuro);
+    color: var(--blanco);
+    padding: 40px;
+}
+
+.contenedor {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: var(--blanco);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    color: var(--texto);
+}
+
+.tabla-vendedores {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: var(--gris-claro);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabla-vendedores caption {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--verde-oscuro);
+}
+
+.tabla-vendedores thead {
+    background-color: var(--verde-fuerte);
+    color: var(--blanco);
+}
+
+.tabla-vendedores th,
+.tabla-vendedores td {
+    padding: 15px;
+    text-align: center;
+    font-size: 1em;
+}
+
+.tabla-vendedores tbody tr {
+    transition: background-color 0.3s;
+}
+
+.tabla-vendedores tbody tr:nth-child(even) {
+    background-color: var(--acento);
+}
+
+.tabla-vendedores tbody tr:hover {
+    color: var(--texto);
+}
+
+.tabla-vendedores a {
+    color: var(--verde-oscuro);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.tabla-vendedores a:hover {
+    color: var(--verde-medio);
+}
