@@ -95,12 +95,31 @@ nav .apartados a:hover {
   pointer-events: auto;
 }
 
+/*Botón salir*/
+.exit{
+  background-color: #ff0000;
+  color: #fff;
+  position: fixed;
+  bottom: 5%;
+  right: 2%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  border-radius: 50%;
+}
+
 @media (max-width: 1000px) {
+  nav{
+    justify-content: space-around;
+  }
   .toggle i {
     display: block;
   }
   nav .links {
     display: none;
+  }
+
+  .exit{
+    bottom: 2%;
   }
 }
 

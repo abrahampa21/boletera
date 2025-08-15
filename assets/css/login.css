@@ -131,6 +131,20 @@ body {
   margin-top: 5px;
 }
 
+.form-container .codigo-seguridad .div-codigo-seguridad{
+    position: relative;
+  margin-bottom: 12px;
+}
+
+.form-container .codigo-seguridad .div-codigo-seguridad i{
+  position: absolute;
+  top: 55%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #555;
+  font-size: 15px;
+}
+
 /*Componente de registro del administrador*/
 .registro-admin {
   display: none;
@@ -147,6 +161,11 @@ body {
   text-align: left;
   font-size: 12px;
   width: 380px;
+}
+
+
+#passwordMessageVendedor{
+  margin-bottom: 1rem;
 }
 
 .registro-admin h1 {
@@ -227,7 +246,7 @@ body {
 
 /*Componente de registro del vendedor*/
 .registro-vendedor {
-  display: flex;
+  display: none;
   background-color: #fff;
   flex-direction: column;
   border-radius: 15px;

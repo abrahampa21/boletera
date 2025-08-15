@@ -5,6 +5,7 @@ const contraseñaAdmin = document.getElementById("contraseña-admin");
 const contraseñaRecuperar = document.getElementById("contraseña-recuperar");
 const inicioSesion = document.getElementById("inicio-sesion");
 const registroAdmin = document.getElementById("registro-admin");
+const registroVendedor = document.getElementById("registro-vendedor");
 const recuperarContraseña = document.getElementById("recuperar-contraseña");
 const campos = document.querySelectorAll(".inputs-general");
 const messageDivAdmin = document.getElementById("passwordMessageAdmin");
@@ -55,9 +56,19 @@ function revealAdminRegister() {
   });
 }
 
+function revealVendedorRegister() {
+  inicioSesion.style.display = "none";
+  registroVendedor.style.display = "flex";
+
+  campos.forEach((input) => {
+    input.value = "";
+  });
+}
+
 function revealLogin() {
   registroAdmin.style.display = "none";
   recuperarContraseña.style.display = "none";
+  registroVendedor.style.display = "none";
   inicioSesion.style.display = "block";
   campos.forEach((input) => {
     input.value = "";

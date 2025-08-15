@@ -1,23 +1,26 @@
-<!-- <?php
+<?php
 session_start();
-include 'conexion.php';
-include __DIR__ . '/../conexion.php';  
-$usuarioAdmin = $_SESSION['usuario'];
+include("src/conexion.php");
 
-$sqlNombre = "SELECT usuario FROM administrador WHERE usuario = ?";
-$stmt = $conexion->prepare($sqlNombre); // usa $conexion como en tu login
-$stmt->bind_param("i", $usuarioAdmin);
-$stmt->execute();
-$res = $stmt->get_result()->fetch_assoc();
-                                            Este código extrae el usuario del admin que inicie sesión
-                                            y lo imprime en la pantalla en el div user
-if ($res) {
-    $nombreAdmin = $res['usuario'];
+if (!isset($_SESSION['usuarioAdmin'])) {
+    header("Location: index.php");
+    exit();
 }
-?> -->
+
+$usuario = $_SESSION['usuarioAdmin'];
+$sql = "SELECT nombreCompleto FROM administrador WHERE usuario = '$usuario' LIMIT 1";
+$resultado = $conexion->query($sql);
+
+$nombre = "Administrador";
+
+if ($resultado && $resultado->num_rows > 0) {
+    $fila = $resultado->fetch_assoc();
+    $nombre = $fila['nombreCompleto'];
+}
+?> 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,10 +70,12 @@ if ($res) {
             </div>
             <div class="user">
                 <i class="fa-solid fa-user" ></i>
-                <h4><?php echo row($nombre); ?></h4>
+                <h4><?php echo htmlspecialchars($nombre); ?></h4>
             </div>
         </nav>
     </header>
+
+    <a href="src/logout.php" class="exit" title="Salir"><i class="fa-solid fa-right-from-bracket"></i></a>
 
     <script src="assets/js/paneles.js"></script>
 </body>
