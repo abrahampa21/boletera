@@ -35,7 +35,6 @@ if ($resultado && $resultado->num_rows > 0) {
         <nav>
             <div class="img-company">
                 <img src="src/img/logoPaginas.png" alt="Décori" title="Décori">
-                <h1>Amigos Décori</h1>
             </div>
             <div class="links">
                 <div class="apartados">
