@@ -127,6 +127,39 @@ if (isset($_POST["registrar-vendedor"])) {
         </script>";
     }
 }
+
+//Recuperar contraseña
+if (isset($_POST["recuperar-btn"])) {
+    $email = mysqli_real_escape_string($conexion, $_POST['email-recuperar']);
+    $contraseñaNueva = mysqli_real_escape_string($conexion, $_POST['contraseña-recuperar']);
+    $contraseñaNuevaEncriptada = sha1($contraseñaNueva);
+
+    $esAdministrador = "SELECT * FROM administrador WHERE email = '$email' LIMIT 1";
+    $esVendedor = "SELECT * FROM vendedor WHERE email = '$email' LIMIT 1";
+    $resultadoAdmin = $conexion->query($esAdministrador);
+    $resultadoVendedor = $conexion->query($esVendedor);
+
+    //Para actualizar administrador
+    if ($resultadoAdmin && $resultadoAdmin->num_rows > 0) {
+        $actualizarAdmin = "UPDATE administrador SET password = '$contraseñaNuevaEncriptada' WHERE email = '$email'";
+        if ($conexion->query($actualizarAdmin) === true) {
+            echo "<script>alert('Contraseña actualizada correctamente')</script>";
+        } else {
+            echo "<script>alert('Error al actualizar la contraseña" . $conexion->error . "')</script>";
+        }
+    } else {
+        if ($resultadoVendedor && $resultadoVendedor->num_rows > 0) {
+            $actualizarVendedor = "UPDATE vendedor SET password = '$contraseñaNuevaEncriptada' WHERE email = '$email'";
+            if ($conexion->query($actualizarVendedor) === true) {
+                echo "<script>alert('Contraseña actualizada correctamente')</script>";
+            } else {
+                echo "<script>alert('Error al actualizar la contraseña" . $conexion->error . "')</script>";
+            }
+        } else {
+            echo "<script>alert('Correo no registrado'); window.location = 'index.php';</script>";
+        }
+    }
+}
 ?>
 
 
@@ -174,7 +207,7 @@ if (isset($_POST["registrar-vendedor"])) {
     </form>
 
     <!--Recuperar contraseña-->
-    <form action="" class="recuperar-contraseña" id="recuperar-contraseña">
+    <form action="" method="post" class="recuperar-contraseña" id="recuperar-contraseña">
         <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar" onclick="revealLogin()"></i>
         <h2>Recuperar contraseña</h2>
         <p>Introduce los siguientes datos</p>
@@ -184,11 +217,11 @@ if (isset($_POST["registrar-vendedor"])) {
                 <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="contraseña campos-recuperar">
-                <input type="password" name="" id="contraseña-recuperar" placeholder="Escribe la nueva contraseña" required>
+                <input type="password" name="contraseña-recuperar" id="contraseña-recuperar" placeholder="Escribe la nueva contraseña" required>
                 <i class="fa-regular fa-eye-slash" onclick="revealPassword(this)"></i>
             </div>
             <p id="passwordMessageRecuperar" class="passwordMessage"></p>
-            <button type="submit">Enviar</button>
+            <button type="submit" name="recuperar-btn">Enviar</button>
         </div>
     </form>
 
