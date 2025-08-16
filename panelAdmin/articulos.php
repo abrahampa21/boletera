@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Conexión a la base de datos
 include("../src/conexion.php");
 
@@ -52,7 +53,7 @@ if (isset($_POST["registrar-articulo"])) {
         Registrar artículo
       </button>
 
-      <form action="" method="POST" enctype="multipart/form-data" class="registro-articulo" id="registro-articulo">
+      <form action="" autocomplete="off" method="POST" enctype="multipart/form-data" class="registro-articulo" id="registro-articulo">
         <h3>Ingrese los siguiente datos:</h3>
         <div class="div-nombre-articulo">
           <input
