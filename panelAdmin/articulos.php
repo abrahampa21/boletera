@@ -1,7 +1,8 @@
 <?php
-
 // Conexión a la base de datos
 include("../src/conexion.php");
+
+$mensaje = ""; // bandera para mostrar el SweetAlert
 
 if (isset($_POST["registrar-articulo"])) {
     $nombreArticulo = mysqli_real_escape_string($conexion, $_POST['nombre-articulo']);
@@ -11,28 +12,20 @@ if (isset($_POST["registrar-articulo"])) {
         $img_tmp = $_FILES['img-articulo']['tmp_name'];
         $imagenArticulo = addslashes(file_get_contents($img_tmp)); // listo para BLOB
     } else {
-        echo "<script>alert('Error al subir la foto del articulo'); window.location='articulos.php';</script>";
-        exit();
-    }
-   // Insertar nuevo articulo
-    $sql_insert = "INSERT INTO articulo (nombreArticulo, imagen) VALUES ('$nombreArticulo', '$imagenArticulo')";
-
-    if ($conexion->query($sql_insert) === TRUE) {
-        echo "<script>
-            alert('Articulo registrado exitosamente');
-            window.location = 'articulos.php';
-        </script>";
-    } else{
-        echo "<script>alert('Error al registrar el articulo'); window.location='articulos.php';</script>";
+        $mensaje = "error-foto";
     }
 
+    // Insertar nuevo articulo si no hubo error de foto
+    if ($mensaje === "") {
+        $sql_insert = "INSERT INTO articulo (nombreArticulo, imagen) VALUES ('$nombreArticulo', '$imagenArticulo')";
+        if ($conexion->query($sql_insert) === TRUE) {
+            $mensaje = "exito";
+        } else {
+            $mensaje = "error";
+        }
+    }
 }
-
 ?>
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -42,10 +35,8 @@ if (isset($_POST["registrar-articulo"])) {
     <link rel="stylesheet" href="../assets/css/panelAdmin/articulos.css" />
     <link rel="icon" href="../src/img/logoPaginas.png" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <script
-      src="https://kit.fontawesome.com/e522357059.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/e522357059.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Artículos a rifar</title>
   </head>
   <body>
@@ -56,25 +47,58 @@ if (isset($_POST["registrar-articulo"])) {
           <button>Generar boletos</button>
         </div>
       </template>
-      <button id="registrar-articulo" ondblclick="hideFormArticulo()" onclick="revealFormArticulo()">Registrar artículo</button>
-     <form action="" method="POST" enctype="multipart/form-data" class="registro-articulo" id="registro-articulo">
+
+      <button id="registrar-articulo" ondblclick="hideFormArticulo()" onclick="revealFormArticulo()">
+        Registrar artículo
+      </button>
+
+      <form action="" method="POST" enctype="multipart/form-data" class="registro-articulo" id="registro-articulo">
         <h3>Ingrese los siguiente datos:</h3>
         <div class="div-nombre-articulo">
           <input
             type="text"
             name="nombre-articulo"
-            id=""
             placeholder="Nombre del artículo"
+            required
           />
           <i class="fa-solid fa-pen"></i>
         </div>
         <div class="div-img-articulo">
           <label for="img-articulo">Sube foto del artículo</label>
-          <input type="file" name="img-articulo" id="" />
+          <input type="file" name="img-articulo" required />
         </div>
-        <button type="submit" class="registrar-articulo" name="registrar-articulo">Enviar</button>
+        <button type="submit" class="registrar-articulo" name="registrar-articulo">
+          Enviar
+        </button>
       </form>
     </div>
+
+    <!-- Script que dispara SweetAlert después de cargar la librería -->
+    <script>
+      <?php if ($mensaje === "exito"): ?>
+        Swal.fire({
+          title: 'Registro exitoso!',
+          text: 'El artículo ha sido registrado correctamente.',
+          icon: 'success'
+        }).then(() => {
+          window.location = 'articulos.php';
+        });
+      <?php elseif ($mensaje === "error"): ?>
+        Swal.fire({
+          title: 'Error!',
+          text: 'Error al registrar el artículo.',
+          icon: 'error'
+        }).then(() => {
+          window.location = 'articulos.php';
+        });
+      <?php elseif ($mensaje === "error-foto"): ?>
+        Swal.fire({
+          title: 'Error!',
+          text: 'Error al subir la foto del artículo.',
+          icon: 'error'
+        });
+      <?php endif; ?>
+    </script>
 
     <script src="../assets/js/login.js"></script>
   </body>
