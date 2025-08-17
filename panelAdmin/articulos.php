@@ -36,9 +36,9 @@ if (isset($_POST["eliminar-articulo"])) {
   $idArticulo = intval($_POST['id-articulo']);
   $eliminarArticulo = "DELETE FROM articulo where idArticulo = '$idArticulo'";
   if ($conexion->query($eliminarArticulo) === true) {
-    echo "<script>alert('Artículo eliminado')</script>";
+    $mensaje = "exito1";
   } else {
-    echo "<script>alert('No se pudo eliminar el artículo')</script>";
+    $mensaje = "error1";
   }
 }
 ?>
@@ -127,6 +127,25 @@ if (isset($_POST["eliminar-articulo"])) {
         title: 'Error!',
         text: 'Error al subir la foto del artículo.',
         icon: 'error'
+      });
+    <?php endif; ?>
+    
+
+    <?php if ($mensaje === "exito1"): ?>
+      Swal.fire({
+        title: 'Registro exitoso!',
+        text: 'El artículo ha sido eliminado correctamente.',
+        icon: 'success'
+      }).then(() => {
+        window.location = 'articulos.php';
+      });
+    <?php elseif ($mensaje === "error1"): ?>
+      Swal.fire({
+        title: 'Error!',
+        text: 'Error al eliminar el artículo.',
+        icon: 'error'
+      }).then(() => {
+        window.location = 'articulos.php';
       });
     <?php endif; ?>
   </script>
