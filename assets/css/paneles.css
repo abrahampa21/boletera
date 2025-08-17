@@ -11,7 +11,7 @@ header {
   position: relative;
   height: 100px;
   background-color: rgb(85, 119, 95);
-  padding: 14px 0;
+  padding: 14px 2rem;
 }
 
 nav a {
@@ -25,7 +25,7 @@ nav {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   color: #fff;
 }
 
@@ -47,7 +47,18 @@ nav .links {
   gap: 3rem;
 }
 
-nav .apartados a:hover {
+nav .links-vendedor{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+nav .img-company, nav.links{
+  padding-left: 2.5rem;
+}
+
+/*Para el panel del vendedor y administrador*/
+nav .apartados a:hover, nav .links a:hover {
   text-decoration: underline;
 }
 
@@ -138,6 +149,9 @@ nav .apartados a:hover {
 }
 
 @media (max-width: 500px){
+  header{
+    padding: 14px 0;
+  }
     .menu{
         right: 25%;
     }

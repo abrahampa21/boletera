@@ -29,7 +29,7 @@ if (!$resultado) {
     <title>Vendedores</title>
 </head>
 <body>
-    <div class="contenedor">
+    <div class="contenedor" data-aos="fade-down">
         <table class="tabla-vendedores" id="tabla-vendedores">
             <caption>Vendedores</caption>
             <thead>
@@ -58,9 +58,11 @@ if (!$resultado) {
             </tbody>
         </table>
     </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="../assets/js/login.js"></script>
 </body>
 </html>
-
 <?php
 $conexion->close();
 ?>

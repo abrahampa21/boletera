@@ -20,6 +20,7 @@ if ($resultado->num_rows === 0) {
     die("Vendedor no encontrado.");
 }
 
+
 $vendedor = $resultado->fetch_assoc();
 ?>
 
@@ -40,7 +41,7 @@ $vendedor = $resultado->fetch_assoc();
       <tbody>
         <tr>
           <td colspan="2" style="text-align:center;">
-            <img src="<?php echo htmlspecialchars($vendedor['foto_ine']); ?>" alt="foto-ine-vendedor" style="max-width: 200px;" />
+            <img src="data:image/png;base64,<?php echo base64_encode($vendedor['fotoINE']); ?>" alt="foto-ine-vendedor" style="max-width: 200px;" />
           </td>
         </tr>
         <tr>

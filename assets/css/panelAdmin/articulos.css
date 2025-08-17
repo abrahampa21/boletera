@@ -21,13 +21,7 @@ body {
   background-color: #fff;
   padding: 3rem;
   border-radius: 8px;
-  width: 70%;
-}
 
-.container .card-articulo{
-    display: flex;
-    flex-direction: column;
-    width: 300px;
 }
 
 .registro-articulo {
@@ -83,4 +77,40 @@ body {
 
 .container button:hover {
   background-color: rgb(58, 103, 71);
+}
+
+/*Card para cada artículo*/
+.container-cards{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 1rem;
+}
+
+.card-articulo{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    border: 1px solid #000;
+    border-radius: 12px;
+    padding: 1.7rem;
+}
+
+.card-articulo h3{
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.card-articulo .btns-modified{
+  display: flex;
+  flex-direction: column;
+}
+
+.card-articulo img{
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.card-articulo img:hover{
+  transform: scale(1.2);
 }

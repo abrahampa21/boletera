@@ -67,7 +67,7 @@ if (isset($_POST["registrar-admin"])) {
 
     if ($conexion->query($sql_insert) === TRUE) {
         echo "<script>
-            alert('Registro exitoso. Ya puedes iniciar sesión.');
+            alert('Registro exitoso. En unos momentos se te asignará tu código de seguridad');
             window.location = 'index.php';
         </script>";
     } else {

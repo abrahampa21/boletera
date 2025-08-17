@@ -18,6 +18,11 @@ if ($resultado && $resultado->num_rows > 0) {
     $nombre = $fila['nombre'];
     $apellido = $fila['apellidoP'];
 }
+
+// Obtener nombres de los artículos
+$sqlArticulos = "SELECT nombreArticulo FROM articulo";
+$resultadoArticulos = $conexion->query($sqlArticulos);
+
 ?> 
 
 <!DOCTYPE html>
@@ -38,36 +43,9 @@ if ($resultado && $resultado->num_rows > 0) {
                 <img src="src/img/logoPaginas.png" alt="Décori" title="Décori">
                 <h1>Amigos Décori</h1>
             </div>
-            <div class="links">
-                <div class="apartados">
-                    <i class="fa-solid fa-user-tie"></i>
-                    <a href="#">Fuente</a></li>
-                </div>
-                <div class="apartados">
-                    <i class="fa-solid fa-user-check"></i>
-                    <a href="#">Portamacetero</a></li>
-                </div>
-                <div class="apartados">
-                    <i class="fa-solid fa-ticket"></i>
-                    <a href="#">Mesa de parota</a></li>
-                </div>
-            </div>
-            <div class="toggle" id="toggle">
-                <i class="fa-solid fa-bars" id="bars"></i>
-            </div>
-            <div class="menu" id="menu">
-                <div class="apartados">
-                    <i class="fa-solid fa-user-tie"></i>
-                    <a href="#">Fuente</a></li>
-                </div>
-                <div class="apartados">
-                    <i class="fa-solid fa-user-check"></i>
-                    <a href="#">Portamacetero</a></li>
-                </div>
-                <div class="apartados">
-                    <i class="fa-solid fa-ticket"></i>
-                    <a href="#">Mesa de parota</a></li>
-                </div>
+            <div class="links-vendedor">
+                <i class="fa-solid fa-truck"></i>
+                <a href="panelVendedor/articulosRifar.php">Artículos a rifar</a>
             </div>
             <div class="user">
                 <i class="fa-solid fa-user" ></i>

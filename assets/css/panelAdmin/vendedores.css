@@ -98,10 +98,9 @@ body {
     width: 50%;
     border-collapse: collapse;
     margin-top: 20px;
-    background-color: var(--gris-claro);
+    background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .datos-vendedores caption {
@@ -114,7 +113,6 @@ body {
 }
 
 .datos-vendedores thead {
-    background-color: var(--verde-fuerte);
     color: var(--blanco);
 }
 
