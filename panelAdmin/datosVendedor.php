@@ -75,8 +75,9 @@ $vendedor = $resultado->fetch_assoc();
 
 </html>
 
-<a href="../panelAdmin.php"><i class="fa-solid fa-arrow-left"></i></a>
+<a href="../panelAdmin/vendedores.php"><i class="fa-solid fa-arrow-left"></i></a>
 <?php
 $stmt->close();
 $conexion->close();
+
 ?>
