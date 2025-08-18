@@ -71,13 +71,18 @@ $vendedor = $resultado->fetch_assoc();
       </tr>
     </tbody>
   </table>
+
+  <a href="../panelAdmin/vendedores.php"><i class="fa-solid fa-arrow-left"></i></a>
+  <a href="../src/logout.php"><i class="fa-solid fa-right-from-bracket"></i></a>
 </body>
 
 </html>
 
-<a href="../panelAdmin/vendedores.php"><i class="fa-solid fa-arrow-left"></i></a>
+
+
 <?php
 $stmt->close();
 $conexion->close();
 
 ?>
+
