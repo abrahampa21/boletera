@@ -74,7 +74,7 @@ nav .apartados a:hover, nav .links a:hover {
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
   position: absolute;
-  top: 100%;
+  top: 75%;
   right: 35%;
   background-color: #ddb373;
   list-style: none;

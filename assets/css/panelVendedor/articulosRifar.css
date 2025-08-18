@@ -42,6 +42,11 @@ body {
     overflow: hidden;
 }
 
+.tabla-articulos .nombre-articulo{
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
 .tabla-articulos thead {
     background-color: var(--verde-fuerte);
     color: var(--blanco);
@@ -75,6 +80,7 @@ body {
 
 .tabla-articulos a:hover {
     color: var(--verde-medio);
+    text-decoration: underline;
 }
 
 .tabla-articulos tbody img{
@@ -112,10 +118,55 @@ body {
 
 .cerrar {
   position: absolute;
-  top: 30px;
+  top: 1%;
   right: 35px;
   color: #fff;
   font-size: 40px;
   font-weight: bold;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .tabla-articulos thead {
+    display: none;
+  }
+
+  .tabla-articulos, 
+  .tabla-articulos tbody, 
+  .tabla-articulos tr, 
+  .tabla-articulos td {
+    display: block;
+    width: 100%;
+  }
+
+  .tabla-articulos tr {
+    margin-bottom: 20px;
+    background-color: var(--gris-claro);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .tabla-articulos td {
+    text-align: left;
+    padding: 10px;
+    position: relative;
+  }
+
+  .tabla-articulos td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    font-weight: bold;
+    color: var(--verde-fuerte);
+    font-size: 0.9em;
+  }
+
+  .tabla-articulos td img {
+    width: 50%;
+    height: auto;
+    max-width: 300px;
+    margin-top: 10px;
+  }
 }

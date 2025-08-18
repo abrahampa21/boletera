@@ -48,12 +48,12 @@ if (!$resultadoArticulos) {
       <tbody>
         <?php while ($articulo = $resultadoArticulos->fetch_assoc()) : ?>
           <tr>
-            <td><?php echo htmlspecialchars($articulo['nombreArticulo']); ?></td>
+            <td class="nombre-articulo"><?php echo htmlspecialchars($articulo['nombreArticulo']); ?></td>
             <td>
-              <img src="data:image/jpeg;base64,<?php echo base64_encode($articulo['imagen']); ?>" alt="foto-artículo" onclick="agrandarImagen(this.src)">
+              <img data-label="Imagen" src="data:image/jpeg;base64,<?php echo base64_encode($articulo['imagen']); ?>" alt="foto-artículo" onclick="agrandarImagen(this.src)">
             </td>
-            <td><a href="#">Ver</a></td>
-            <td><a href="#">Ver</a></td>
+            <td><a data-label="Boletera" href="#">Ver</a></td>
+            <td><a data-label="Clientes" href="#">Ver</a></td>
           </tr>
         <?php endwhile; ?>
       </tbody>

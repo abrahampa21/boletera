@@ -36,9 +36,13 @@ if (isset($_POST["eliminar-articulo"])) {
   $idArticulo = intval($_POST['id-articulo']);
   $eliminarArticulo = "DELETE FROM articulo where idArticulo = '$idArticulo'";
   if ($conexion->query($eliminarArticulo) === true) {
-    $mensaje = "exito1";
+    header("Location: articulos.php");
+    exit;
   } else {
-    $mensaje = "error1";
+    echo "<script>
+      alert('Hubo un error al eliminar el artículo.');
+      window.location = 'articulos.php';
+    </script>";
   }
 }
 ?>
@@ -58,7 +62,7 @@ if (isset($_POST["eliminar-articulo"])) {
 </head>
 
 <body>
-  <div class="container" data-aos="fade-down" data-aos-duration="1000"> 
+  <div class="container" data-aos="fade-down" data-aos-duration="1000">
     <div class="container-cards">
       <?php if ($resultadoArticulos && $resultadoArticulos->num_rows > 0): ?>
         <?php while ($articulo = $resultadoArticulos->fetch_assoc()): ?>
@@ -69,7 +73,7 @@ if (isset($_POST["eliminar-articulo"])) {
             <input type="hidden" name="id-articulo" value="<?= $articulo['idArticulo'] ?>" />
             <div class="btns-modified">
               <button>Generar boletos</button>
-              <button type="submit" name="eliminar-articulo">Eliminar Artículo</button>
+              <button type="submit" name="eliminar-articulo" onclick="eliminarArticulo(event)">Eliminar Artículo</button>
             </div>
           </form>
         <?php endwhile; ?>
@@ -103,6 +107,8 @@ if (isset($_POST["eliminar-articulo"])) {
     </form>
   </div>
 
+    <a href="../panelAdmin.php"><i class="fa-solid fa-arrow-left"></i></a>
+
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <!-- Script que dispara SweetAlert después de cargar la librería -->
   <script>
@@ -129,27 +135,8 @@ if (isset($_POST["eliminar-articulo"])) {
         icon: 'error'
       });
     <?php endif; ?>
-    
-
-    <?php if ($mensaje === "exito1"): ?>
-      Swal.fire({
-        title: 'Registro exitoso!',
-        text: 'El artículo ha sido eliminado correctamente.',
-        icon: 'success'
-      }).then(() => {
-        window.location = 'articulos.php';
-      });
-    <?php elseif ($mensaje === "error1"): ?>
-      Swal.fire({
-        title: 'Error!',
-        text: 'Error al eliminar el artículo.',
-        icon: 'error'
-      }).then(() => {
-        window.location = 'articulos.php';
-      });
-    <?php endif; ?>
   </script>
-  <script src="../assets/js/login.js"></script>
+  <script src="../assets/js/panelAdmin/articulos.js"></script>
 </body>
 
 </html>

@@ -19,18 +19,22 @@ body {
 
 .container {
   background-color: #fff;
-  padding: 3rem;
+  padding: 2rem 3rem;
   border-radius: 8px;
-
+  width: 77%;
+  display: flex;
+  flex-direction: column;
 }
 
+/*Componente para registrar artículo*/
 .registro-articulo {
   display: none;
   flex-direction: column;
   border: 1px solid #666;
   padding: 2rem;
   border-radius: 12px;
-  margin-top: 1rem;
+  order: 2;
+  margin-bottom: 1rem;
 }
 
 .registro-articulo input {
@@ -79,38 +83,136 @@ body {
   background-color: rgb(58, 103, 71);
 }
 
+
+#registrar-articulo{
+  margin-bottom: 10px;
+  order: 1;
+}
+
 /*Card para cada artículo*/
-.container-cards{
+.container-cards {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   gap: 1rem;
+  order: 3;
 }
 
-.card-articulo{
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    border: 1px solid #000;
-    border-radius: 12px;
-    padding: 1.7rem;
+.card-articulo {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  border: 1px solid #000;
+  border-radius: 12px;
+  padding: 1.7rem;
 }
 
-.card-articulo h3{
+.card-articulo h3 {
   text-align: center;
   margin-top: 1rem;
 }
 
-.card-articulo .btns-modified{
+.card-articulo .btns-modified {
   display: flex;
   flex-direction: column;
 }
 
-.card-articulo img{
+.card-articulo img {
   border-radius: 12px;
   transition: transform 0.3s ease;
 }
 
-.card-articulo img:hover{
+.card-articulo img:hover {
   transform: scale(1.2);
+}
+
+.swal2-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100vh !important;
+}
+
+.swal2-popup {
+  margin: auto !important;
+}
+
+.fa-arrow-left{
+    background-color: #c2a65a;
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    position: absolute;
+    top: 2%;
+    left: 1.5%;
+    cursor: pointer;
+    color: #fff;
+}
+
+
+/*Responsividad*/
+@media (max-width: 1024px) {
+  .container {
+    width: 90%;
+    padding: 1.5rem 2rem;
+  }
+
+  .card-articulo {
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 80%;
+    padding: 1.2rem 1.5rem;
+  }
+
+  .container-cards {
+    justify-content: center;
+  }
+
+  .card-articulo {
+    width: 100%;
+  }
+
+  .registro-articulo {
+    padding: 1.5rem;
+  }
+
+  .container button,
+  .registro-articulo button {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .fa-arrow-left{
+    padding: 10px;
+    font-size: 15px;
+    top: 1%;
+  }
+}
+
+@media (max-width: 480px) {
+  .registro-articulo .div-nombre-articulo,
+  .registro-articulo .div-img-articulo {
+    flex-direction: column;
+  }
+
+  .registro-articulo input[type="file"] {
+    font-size: 14px;
+  }
+
+  .card-articulo {
+    padding: 1.2rem;
+  }
+
+  .card-articulo h3 {
+    font-size: 16px;
+  }
+
+  .card-articulo .btns-modified button {
+    font-size: 14px;
+    padding: 8px;
+  }
 }

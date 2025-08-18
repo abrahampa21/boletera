@@ -11,8 +11,6 @@ const campos = document.querySelectorAll(".inputs-general");
 const messageDivAdmin = document.getElementById("passwordMessageAdmin");
 const messageDivVendedor = document.getElementById("passwordMessageVendedor");
 const messageDivRecuperar = document.getElementById("passwordMessageRecuperar");
-const registroArticulo = document.getElementById("registro-articulo");
-const registrarArticuloBtn = document.getElementById("registrar-articulo");
 const regex =
   /^(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?])(?=.*[A-Za-z]).{10,}$/;
 
@@ -146,13 +144,6 @@ if (contraseñaRecuperar) {
   });
 }
 
-//Revelar el formulario para meter un nuevo artículo
-function revealFormArticulo(){
-  registroArticulo.style.display = "flex";
-}
 
-function hideFormArticulo(){
-  registroArticulo.style.display = "none";
-}
 
 AOS.init();
