@@ -149,6 +149,59 @@ body {
     color: #fff;
 }
 
+.modal-boletera {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+.generar-boletera {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.generar-boletera .inputs{
+  display: flex;
+  flex-direction: column;
+}
+
+.generar-boletera .inputs input{
+    height: 40px;
+  background-color: #eef3f7;
+  border: 1px solid #cfdce7;
+  width: 100%;
+  font-size: 15px;
+  padding: 0 10px;
+  color: #2a3d66;
+  border-radius: 9px;
+}
+
+.generar-boletera button {
+  background-color: rgb(85, 119, 95);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  padding: 10px;
+}
+
+.generar-boletera button:hover {
+  background-color: rgb(58, 103, 71);
+}
+
 
 /*Responsividad*/
 @media (max-width: 1024px) {
