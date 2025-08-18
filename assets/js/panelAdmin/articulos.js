@@ -2,13 +2,13 @@ const registroArticulo = document.getElementById("registro-articulo");
 
 AOS.init();
 
-function eliminarArticulo(e){
-    const confirmacion = confirm(
-      "¿Estás seguro que deseas eliminar el artículo?"
-    );
-    if (!confirmacion) {
-      e.preventDefault();
-    }
+function eliminarArticulo(e) {
+  const confirmacion = confirm(
+    "¿Estás seguro que deseas eliminar el artículo?"
+  );
+  if (!confirmacion) {
+    e.preventDefault();
+  }
 }
 
 //Revelar el formulario para meter un nuevo artículo
@@ -20,26 +20,25 @@ function hideFormArticulo() {
   registroArticulo.style.display = "none";
 }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const botonesGenerar = document.querySelectorAll(".btn-generar-boletos");
-    const modal = document.getElementById("modal-boletera");
+document.addEventListener("DOMContentLoaded", function () {
+  const botonesGenerar = document.querySelectorAll(".btn-generar-boletos");
+  const modal = document.getElementById("modal-boletera");
 
-    botonesGenerar.forEach(boton => {
-      boton.addEventListener("click", function (e) {
-        e.preventDefault();
-        modal.style.display = "flex";
-      });
-    });
-
-
-    modal.addEventListener("click", function (e) {
-      if (e.target === modal) {
-        modal.style.display = "none";
-      }
+  botonesGenerar.forEach((boton) => {
+    boton.addEventListener("click", function (e) {
+      e.preventDefault();
+      modal.style.display = "flex";
     });
   });
 
-  
+  modal.addEventListener("click", function (e) {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+});
+
+
 
 // <?php if ($mensaje === "exito1"): ?>
 //   Swal.fire({
