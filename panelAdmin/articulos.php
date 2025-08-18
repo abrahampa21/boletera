@@ -111,17 +111,19 @@ if (isset($_POST["eliminar-articulo"])) {
 
   <!--Componente de generar boletera-->
   <div class="modal-boletera" id="modal-boletera">
-    <form action="" class="generar-boletera" id="generar boletera">
+    <form action="" class="generar-boletera" id="generar-boletera-form">
+      <input type="hidden" name="idArticulo" id="id-articulo-hidden"> <!-- este se llena dinámicamente -->
       <div class="inputs">
         <label for="boletera-cantidad">¿Cuántos boletos quieres generar?</label>
-        <input type="number" name="boletera-cantidad" id="" placeholder="ej. 600">
+        <input type="number" name="boletera-cantidad" id="boletera-cantidad" placeholder="ej. 600">
       </div>
       <div class="inputs">
         <label for="rango-boletera">Escribe el rango</label>
-        <input type="text" placeholder="ej. 1000-9999" name="rango-boletera">
+        <input type="text" placeholder="ej. 1000-9999" name="rango-boletera" id="rango-boletera">
       </div>
       <button type="submit">Generar</button>
     </form>
+
   </div>
 
   <!--Botón para salir-->
