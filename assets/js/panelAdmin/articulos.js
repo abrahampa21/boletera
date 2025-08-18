@@ -20,6 +20,25 @@ function hideFormArticulo() {
   registroArticulo.style.display = "none";
 }
 
+  document.addEventListener("DOMContentLoaded", function () {
+    const botonesGenerar = document.querySelectorAll(".btn-generar-boletos");
+    const modal = document.getElementById("modal-boletera");
+
+    botonesGenerar.forEach(boton => {
+      boton.addEventListener("click", function (e) {
+        e.preventDefault();
+        modal.style.display = "flex";
+      });
+    });
+
+
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  });
+
 // <?php if ($mensaje === "exito1"): ?>
 //   Swal.fire({
 //     title: 'El artículo ha sido eliminado correctamente.',
