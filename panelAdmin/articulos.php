@@ -72,7 +72,7 @@ if (isset($_POST["eliminar-articulo"])) {
             <h3><?= htmlspecialchars($articulo['nombreArticulo']) ?></h3>
             <input type="hidden" name="id-articulo" value="<?= $articulo['idArticulo'] ?>" />
             <div class="btns-modified">
-              <button>Generar boletos</button>
+              <button type="button" class="btn-generar-boletos">Generar boletos</button>
               <button type="submit" name="eliminar-articulo" onclick="eliminarArticulo(event)">Eliminar Artículo</button>
             </div>
           </form>
@@ -83,10 +83,12 @@ if (isset($_POST["eliminar-articulo"])) {
     </div>
 
 
+    <!--Botón para registrar artículo-->
     <button id="registrar-articulo" ondblclick="hideFormArticulo()" onclick="revealFormArticulo()">
       Registrar artículo
     </button>
 
+    <!--Componente para registrar artículo-->
     <form action="" autocomplete="off" method="POST" enctype="multipart/form-data" class="registro-articulo" id="registro-articulo">
       <h3>Ingrese los siguiente datos:</h3>
       <div class="div-nombre-articulo">
@@ -107,7 +109,23 @@ if (isset($_POST["eliminar-articulo"])) {
     </form>
   </div>
 
-    <a href="../panelAdmin.php"><i class="fa-solid fa-arrow-left"></i></a>
+  <!--Componente de generar boletera-->
+  <div class="modal-boletera" id="modal-boletera">
+    <form action="" class="generar-boletera" id="generar boletera">
+      <div class="inputs">
+        <label for="boletera-cantidad">¿Cuántos boletos quieres generar?</label>
+        <input type="number" name="boletera-cantidad" id="" placeholder="ej. 600">
+      </div>
+      <div class="inputs">
+        <label for="rango-boletera">Escribe el rango</label>
+        <input type="text" placeholder="ej. 1000-9999" name="rango-boletera">
+      </div>
+      <button type="submit">Generar</button>
+    </form>
+  </div>
+
+  <!--Botón para salir-->
+  <a href="../panelAdmin.php"><i class="fa-solid fa-arrow-left"></i></a>
 
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <!-- Script que dispara SweetAlert después de cargar la librería -->
