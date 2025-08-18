@@ -81,3 +81,21 @@ body{
   cursor: pointer;
   color: #fff;
 }
+
+.fa-right-from-bracket{
+    background-color: #b5251b;
+  padding: 1rem;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4%;
+  right: 1.5%;
+  cursor: pointer;
+  color: #fff;
+}
+
+@media (max-width:768px){
+  .fa-arrow-left, .fa-right-from-bracket{
+    font-size: 14px;
+  }
+}
