@@ -39,6 +39,8 @@ function hideFormArticulo() {
     });
   });
 
+  
+
 // <?php if ($mensaje === "exito1"): ?>
 //   Swal.fire({
 //     title: 'El artículo ha sido eliminado correctamente.',
