@@ -23,10 +23,13 @@ function hideFormArticulo() {
 document.addEventListener("DOMContentLoaded", function () {
   const botonesGenerar = document.querySelectorAll(".btn-generar-boletos");
   const modal = document.getElementById("modal-boletera");
+  const inputIdArticulo = document.getElementById("modal-id-articulo");
 
   botonesGenerar.forEach((boton) => {
     boton.addEventListener("click", function (e) {
       e.preventDefault();
+      const idArticulo = boton.getAttribute("data-id");
+      inputIdArticulo.value = idArticulo;
       modal.style.display = "flex";
     });
   });
@@ -37,8 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-
-
 
 // <?php if ($mensaje === "exito1"): ?>
 //   Swal.fire({
