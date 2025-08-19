@@ -37,7 +37,7 @@ $_SESSION['idArticuloSel'] = $idArticuloSel;
     <link rel="icon" href="../src/img/logoPaginas.png" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/e522357059.js" crossorigin="anonymous"></script>
-    <title>Boletera - Admin</title>
+    <title>Boletera</title>
 </head>
 
 <body>
@@ -56,7 +56,6 @@ $_SESSION['idArticuloSel'] = $idArticuloSel;
 
     </main>
 
-    <script src="../assets/js/panelVendedor/boletera.js"></script>
 </body>
 
 </html>
