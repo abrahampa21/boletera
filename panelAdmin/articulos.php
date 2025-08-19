@@ -77,7 +77,7 @@ if (isset($_POST["generar-boletos"])) {
       foreach ($vendedores as $idVendedor) {
         for ($j = 0; $j < $boletosPorVendedor && $index < count($folios); $j++, $index++) {
           $folio = $folios[$index];
-          if (!$conexion->query("INSERT INTO vendedorboleto (idVendedor, folioBoleto) VALUES ($idVendedor, $folio)")) {
+          if (!$conexion->query("INSERT INTO vendedorboleto (idVendedor, folioBoleto, idArticulo) VALUES ($idVendedor, $folio, $idArticulo)")) {
             echo "<script>alert('Error SQL vendedorboleto: " . $conexion->error . "');</script>";
           }
         }
@@ -85,7 +85,7 @@ if (isset($_POST["generar-boletos"])) {
       // Si sobran boletos, asignar al primer vendedor
       while ($index < count($folios)) {
         $folio = $folios[$index];
-        if (!$conexion->query("INSERT INTO vendedorboleto (idVendedor, folioBoleto) VALUES ({$vendedores[0]}, $folio)")) {
+        if (!$conexion->query("INSERT INTO vendedorboleto (idVendedor, folioBoleto, idArticulo) VALUES ({$vendedores[0]}, $folio, $idArticulo)")) {
           echo "<script>alert('Error SQL vendedorboleto: " . $conexion->error . "');</script>";
         }
         $index++;
