@@ -20,9 +20,9 @@ if (isset($_POST["registrar-articulo"])) {
   if ($mensaje === "") {
     $sql_insert = "INSERT INTO articulo (nombreArticulo, imagen) VALUES ('$nombreArticulo', '$imagenArticulo')";
     if ($conexion->query($sql_insert) === TRUE) {
-      $mensaje = "exito";
+      $mensaje = "exito-articulo";
     } else {
-      $mensaje = "error";
+      $mensaje = "error-articulo";
     }
   }
 }
@@ -43,6 +43,61 @@ if (isset($_POST["eliminar-articulo"])) {
       alert('Hubo un error al eliminar el artículo.');
       window.location = 'articulos.php';
     </script>";
+  }
+}
+
+// Generar boletos y repartir entre vendedores
+if (isset($_POST["generar-boletos"])) {
+  $idArticulo = intval($_POST['id-articulo']);
+  $cantidad = intval($_POST['boletera-cantidad']);
+  $rangoInicio = intval($_POST['rango-inicio']);
+  $rangoFinal = intval($_POST['rango-final']);
+
+  // Validar rango
+  if ($rangoFinal < $rangoInicio || ($rangoFinal - $rangoInicio + 1) < $cantidad) {
+    $mensaje = "error";
+  } else {
+    // Generar folios aleatorios únicos
+    $todosFolios = range($rangoInicio, $rangoFinal);
+    shuffle($todosFolios);
+    $folios = array_slice($todosFolios, 0, $cantidad);
+
+    // Obtener vendedores
+    $vendedores = [];
+    $resVendedores = $conexion->query("SELECT idVendedor FROM vendedor");
+    while ($row = $resVendedores->fetch_assoc()) {
+      $vendedores[] = $row['idVendedor'];
+    }
+    $numVendedores = count($vendedores);
+
+    if ($numVendedores > 0) {
+      // Calcular boletos por vendedor
+      $boletosPorVendedor = round($cantidad / $numVendedores);
+      $index = 0;
+      foreach ($vendedores as $idVendedor) {
+        for ($j = 0; $j < $boletosPorVendedor && $index < count($folios); $j++, $index++) {
+          $folio = $folios[$index];
+          if (!$conexion->query("INSERT INTO vendedorboleto (idVendedor, folioBoleto) VALUES ($idVendedor, $folio)")) {
+            echo "<script>alert('Error SQL vendedorboleto: " . $conexion->error . "');</script>";
+          }
+        }
+      }
+      // Si sobran boletos, asignar al primer vendedor
+      while ($index < count($folios)) {
+        $folio = $folios[$index];
+        if (!$conexion->query("INSERT INTO vendedorboleto (idVendedor, folioBoleto) VALUES ({$vendedores[0]}, $folio)")) {
+          echo "<script>alert('Error SQL vendedorboleto: " . $conexion->error . "');</script>";
+        }
+        $index++;
+      }
+      // Insertar cantidad en articuloboleto
+      if (!$conexion->query("INSERT INTO articuloboleto (idArticulo, cantidadBoletos) VALUES ($idArticulo, $cantidad) ON DUPLICATE KEY UPDATE cantidadBoletos = $cantidad")) {
+        echo "<script>alert('Error SQL articuloboleto: " . $conexion->error . "');</script>";
+      }
+      $mensaje = "exito";
+    } else {
+      $mensaje = "error";
+    }
   }
 }
 ?>
@@ -72,7 +127,7 @@ if (isset($_POST["eliminar-articulo"])) {
             <h3><?= htmlspecialchars($articulo['nombreArticulo']) ?></h3>
             <input type="hidden" name="id-articulo" value="<?= $articulo['idArticulo'] ?>" />
             <div class="btns-modified">
-              <button type="button" class="btn-generar-boletos">Generar boletos</button>
+              <button type="button" class="btn-generar-boletos" data-id="<?= $articulo['idArticulo'] ?>">Generar boletos</button>
               <button type="submit" name="eliminar-articulo" onclick="eliminarArticulo(event)">Eliminar Artículo</button>
             </div>
           </form>
@@ -111,8 +166,8 @@ if (isset($_POST["eliminar-articulo"])) {
 
   <!--Componente de generar boletera-->
   <div class="modal-boletera" id="modal-boletera">
-    <form action="" method="" class="generar-boletera" id="generar-boletera">
-      <input type="hidden" name="id-articulo" value="<?= $articulo['idArticulo'] ?>">
+    <form action="" method="POST" class="generar-boletera" id="generar-boletera">
+      <input type="hidden" name="id-articulo" id="modal-id-articulo" value="">
       <div class="inputs">
         <label for="boletera-cantidad">¿Cuántos boletos quieres generar?</label>
         <input type="number" name="boletera-cantidad" placeholder="ej. 600" required>
@@ -138,6 +193,14 @@ if (isset($_POST["eliminar-articulo"])) {
   <script>
     <?php if ($mensaje === "exito"): ?>
       Swal.fire({
+        title: 'Boletos generados exitosamente!',
+        text: 'Los boletos han sido asignados y registrados correctamente.',
+        icon: 'success'
+      }).then(() => {
+        window.location = 'articulos.php';
+      });
+    <?php elseif ($mensaje === "exito-articulo"): ?>
+      Swal.fire({
         title: 'Registro exitoso!',
         text: 'El artículo ha sido registrado correctamente.',
         icon: 'success'
@@ -145,6 +208,14 @@ if (isset($_POST["eliminar-articulo"])) {
         window.location = 'articulos.php';
       });
     <?php elseif ($mensaje === "error"): ?>
+      Swal.fire({
+        title: 'Error!',
+        text: 'Error al generar los boletos.',
+        icon: 'error'
+      }).then(() => {
+        window.location = 'articulos.php';
+      });
+    <?php elseif ($mensaje === "error-articulo"): ?>
       Swal.fire({
         title: 'Error!',
         text: 'Error al registrar el artículo.',
