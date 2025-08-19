@@ -91,6 +91,7 @@ if (isset($_POST["eliminar-articulo"])) {
     <!--Componente para registrar artículo-->
     <form action="" autocomplete="off" method="POST" enctype="multipart/form-data" class="registro-articulo" id="registro-articulo">
       <h3>Ingrese los siguiente datos:</h3>
+      <input type="hidden" name="id-articulo" value="<?= $articulo['idArticulo'] ?>">
       <div class="div-nombre-articulo">
         <input
           type="text"
