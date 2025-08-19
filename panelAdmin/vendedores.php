@@ -47,7 +47,7 @@ if (!$resultado) {
                     while ($fila = $resultado->fetch_assoc()) {
                         echo "<tr>";
                         echo "<td>" . htmlspecialchars($fila['nombre']) . " " . htmlspecialchars($fila['apellidoP']) . "</td>";
-                        echo "<td><a href='#'>Ver</a></td>";
+                        echo "<td><a href='boleteraArticulo.php?idVendedor=" . urlencode($fila['idVendedor']) . "'>Ver</a></td>";
                         echo "<td><a href='#'>Ver</a></td>";
                         echo "<td><a href='datosVendedor.php?id=" . urlencode($fila['idVendedor']) . "'>Ver</a></td>";
                         echo "</tr>";
@@ -65,7 +65,8 @@ if (!$resultado) {
                         while ($fila = $resultado->fetch_assoc()) {
                             echo "<div class='card'>";
                             echo "<h3>" . htmlspecialchars($fila['nombre']) . " " . htmlspecialchars($fila['apellidoP']) . "</h3>";
-                            echo "<a href='#'>Boletera</a>";
+                            echo "<a href='boleteraArticulo.php?idVendedor=" . urlencode($fila['idVendedor']) . "'>Boletera</a>";
+
                             echo "<a href='#'>Clientes</a>";
                             echo "<a href='datosVendedor.php?id=" . urlencode($fila['idVendedor']) . "'>Datos Personales</a>";
                             echo "</div>";

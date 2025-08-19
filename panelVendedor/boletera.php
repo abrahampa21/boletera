@@ -11,18 +11,22 @@ if (!isset($conexion) || !$conexion) {
 }
 
 $boletos = [];
-$usuario = $_SESSION['usuarioVendedor'];
-// Obtener el idvendedor usando el usuario
-$sqlVendedor = "SELECT idVendedor FROM vendedor WHERE usuario = '$usuario'";
-$resVendedor = $conexion->query($sqlVendedor);
-if (!$resVendedor) {
-  die('Error en consulta vendedor: ' . $conexion->error);
-}
 $idVendedor = 0;
-if ($resVendedor->num_rows > 0) {
-  $rowVendedor = $resVendedor->fetch_assoc();
-  $idVendedor = intval($rowVendedor['idVendedor']);
+
+if (isset($_SESSION['usuarioVendedor'])) {
+    $usuario = $_SESSION['usuarioVendedor'];
+    $sqlVendedor = "SELECT idVendedor FROM vendedor WHERE usuario = '$usuario'";
+    $resVendedor = $conexion->query($sqlVendedor);
+    if ($resVendedor && $resVendedor->num_rows > 0) {
+        $rowVendedor = $resVendedor->fetch_assoc();
+        $idVendedor = intval($rowVendedor['idVendedor']);
+    }
+} elseif (isset($_GET['idVendedor'])) {
+    $idVendedor = intval($_GET['idVendedor']);
+} else {
+    die('ID del vendedor no disponible.');
 }
+
 
 // Obtener artículos disponibles
 $articulos = [];
@@ -47,24 +51,31 @@ if ($idVendedor > 0 && $idArticuloSel > 0) {
     $boletos[] = $row['folioBoleto'];
   }
 }
+
+//Para registroCliente.php
+$_SESSION['idArticuloSel'] = $idArticuloSel;
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../assets/css/panelVendedor/boletera.css" />
-    <link rel="icon" href="../src/img/logoPaginas.png" />
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/e522357059.js" crossorigin="anonymous"></script>
-    <title>Boletera</title>
-  </head>
-  <body>
-  <main class="boletera" style="background: transparent; box-shadow: none; border: none;">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/css/panelVendedor/boletera.css" />
+  <link rel="icon" href="../src/img/logoPaginas.png" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/e522357059.js" crossorigin="anonymous"></script>
+  <title>Boletera</title>
+</head>
+
+<body>
+  <main class="boletera">
     <?php if (count($boletos) > 0): ?>
       <div class="boletos-grid">
         <?php foreach ($boletos as $folio): ?>
-          <div class="boleto-card">
+          <div class="boleto-card" data-folio="<?= htmlspecialchars($folio) ?>">
             <?= htmlspecialchars($folio) ?>
           </div>
         <?php endforeach; ?>
@@ -72,7 +83,12 @@ if ($idVendedor > 0 && $idArticuloSel > 0) {
     <?php else: ?>
       <p>No tienes boletos asignados para este artículo.</p>
     <?php endif; ?>
-    <a href="#" class="registrar-cliente" id="registrar-cliente">Registrar cliente</a>
+    <a href="registroCliente.php?idArticulo=<?= $idArticuloSel ?>" data-idarticulo="<?= $idArticuloSel ?>" class="registrar-cliente" id="registrar-cliente">Registrar cliente</a>
   </main>
-  </body>
+
+  <a href="../panelVendedor/articulosRifar.php"><i class="fa-solid fa-arrow-left"></i></a>
+
+  <script src="../assets/js/panelVendedor/boletera.js"></script>
+</body>
+
 </html>

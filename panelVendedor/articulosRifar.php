@@ -60,6 +60,9 @@ if (!$resultadoArticulos) {
     </table>
   </div>
 
+  <a href="../panelVendedor.php"><i class="fa-solid fa-arrow-left"></i></a>
+
+
   <!-- Modal para ver la imagen más grande-->
   <div id="modal-img" class="modal-img" onclick="cerrarModal()">
     <span class="cerrar">&times;</span>
