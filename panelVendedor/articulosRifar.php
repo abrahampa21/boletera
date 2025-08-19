@@ -52,7 +52,7 @@ if (!$resultadoArticulos) {
             <td>
               <img data-label="Imagen" src="data:image/jpeg;base64,<?php echo base64_encode($articulo['imagen']); ?>" alt="foto-artículo" onclick="agrandarImagen(this.src)">
             </td>
-            <td><a data-label="Boletera" href="#">Ver</a></td>
+            <td><a data-label="Boletera" href="boletera.php?idArticulo=<?php echo $articulo['idArticulo']; ?>">Ver</a></td>
             <td><a data-label="Clientes" href="#">Ver</a></td>
           </tr>
         <?php endwhile; ?>
