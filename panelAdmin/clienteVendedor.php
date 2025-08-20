@@ -7,6 +7,20 @@ if (!isset($_GET['idVendedor']) || !isset($_GET['idArticulo'])) {
 
 $idVendedor = intval($_GET['idVendedor']);
 $idArticuloSel = intval($_GET['idArticulo']);
+
+// Consulta para obtener nombre del cliente + sus boletos en base al artículo y vendedor que se lo vendió
+$sqlClienteBoletos = "SELECT cliente.nombre, GROUP_CONCAT(clienteboleto.folioBoleto SEPARATOR ', ') as Boletos
+FROM clienteboleto
+INNER JOIN cliente ON clienteboleto.idCliente = cliente.idCliente
+INNER JOIN vendedorBoleto ON clienteboleto.folioBoleto = vendedorBoleto.folioBoleto
+WHERE vendedorBoleto.idArticulo = $idArticuloSel
+  AND vendedorBoleto.idVendedor = $idVendedor
+GROUP BY cliente.nombre";
+  $resClienteBoletos = $conexion->query($sqlClienteBoletos);
+
+if (!$resClienteBoletos) {
+    die("Error en la consulta: " . $conexion->error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +46,18 @@ $idArticuloSel = intval($_GET['idArticulo']);
                 </tr>
             </thead>
             <tbody>
+                <?php if ($resClienteBoletos && $resClienteBoletos->num_rows > 0): ?>
+                    <?php while ($row = $resClienteBoletos->fetch_assoc()): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($row['nombre']) ?></td>
+                            <td><?= htmlspecialchars($row['Boletos']) ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="2">No hay clientes registrados para este vendedor y artículo.</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
