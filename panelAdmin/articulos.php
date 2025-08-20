@@ -63,11 +63,15 @@ if (isset($_POST["generar-boletos"])) {
     $folios = array_slice($todosFolios, 0, $cantidad);
 
     // Obtener vendedores
-    $vendedores = [];
-    $resVendedores = $conexion->query("SELECT idVendedor FROM vendedor");
-    while ($row = $resVendedores->fetch_assoc()) {
-      $vendedores[] = $row['idVendedor'];
+    $vendedores = isset($_POST['vendedores']) ? $_POST['vendedores'] : [];
+
+    if (empty($vendedores)) {
+      $mensaje = "error"; // No seleccionaron vendedores
+    } else {
+      $numVendedores = count($vendedores);
     }
+
+
     $numVendedores = count($vendedores);
 
     if ($numVendedores > 0) {
@@ -181,6 +185,19 @@ if (isset($_POST["generar-boletos"])) {
         <label for="rango-final">Escribe el valor final:</label>
         <input type="number" name="rango-final" placeholder="ej. 9999" required>
       </div>
+      <div class="inputs">
+        <label for="vendedores[]">Selecciona los vendedores:</label>
+        <select name="vendedores[]" id="select-vendedores" class="select-vendedores" multiple required>
+          <?php
+          $resVendedores = $conexion->query("SELECT idVendedor, nombre, apellidoP FROM vendedor");
+          while ($v = $resVendedores->fetch_assoc()):
+          ?>
+            <option value="<?= $v['idVendedor'] ?>"><?= htmlspecialchars($v['nombre']) . " " . htmlspecialchars($v['apellidoP']) ?></option>
+          <?php endwhile; ?>
+        </select>
+        <small>Mantén presionado CTRL o CMD para seleccionar varios</small>
+      </div>
+
       <button type="submit" name="generar-boletos">Generar</button>
     </form>
 

@@ -41,6 +41,21 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+//Verificar que se generó por lo menos un vendedor
+document
+  .getElementById("generar-boletera")
+  .addEventListener("submit", function (e) {
+    const select = document.getElementById("select-vendedores");
+    const selected = [...select.selectedOptions];
+    if (selected.length === 0) {
+      e.preventDefault();
+      Swal.fire({
+        title: "Selecciona al menos un vendedor",
+        icon: "warning",
+      });
+    }
+  });
+
 // <?php if ($mensaje === "exito1"): ?>
 //   Swal.fire({
 //     title: 'El artículo ha sido eliminado correctamente.',
