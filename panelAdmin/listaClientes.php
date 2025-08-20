@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("../src/conexion.php");
 
 // Verifica si la conexión fue exitosa
