@@ -97,6 +97,11 @@ body {
   color: #fff;
 }
 
+/*tbody de listaClientes.php*/
+#lista-clientes{
+  cursor: pointer;
+}
+
 /*Para la responsividad*/
 .cards-container {
   display: none;
