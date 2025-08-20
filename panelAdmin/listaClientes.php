@@ -4,28 +4,26 @@ include("../src/conexion.php");
 
 // Verifica si la conexión fue exitosa
 if ($conexion->connect_error) {
-  die("Conexión fallida: " . $conexion->connect_error);
+    die("Conexión fallida: " . $conexion->connect_error);
 }
 // Consulta: obtener nombre del cliente + sus boletos
 $sqlClienteBoletos = "
-  SELECT cliente.nombre, GROUP_CONCAT(clienteboleto.folioBoleto SEPARATOR ', ') AS Boletos 
+  SELECT cliente.nombre, cliente.apellidos, GROUP_CONCAT(clienteboleto.folioBoleto SEPARATOR ', ') AS Boletos 
   FROM clienteboleto 
   INNER JOIN cliente ON clienteboleto.idCliente = cliente.idCliente 
-  GROUP BY cliente.nombre
+  GROUP BY cliente.nombre, cliente.apellidos
 ";
+
 $resultadoClienteBoletos = $conexion->query($sqlClienteBoletos);
 
 if ($resultadoClienteBoletos->num_rows === 0) {
-  die("Cliente no encontrado.");
+    die("Cliente no encontrado.");
 }
 ?>
 
-
-
-
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,12 +45,29 @@ if ($resultadoClienteBoletos->num_rows === 0) {
                 </tr>
             </thead>
             <tbody id="lista-clientes">
-                <?php while($row = $resultadoClienteBoletos->fetch_assoc()): ?>
-                <tr>
-                  <td><?= htmlspecialchars($row['nombre']) ?></td>
-                  <td><?= htmlspecialchars($row['Boletos']) ?></td>
-                </tr>
-              <?php endwhile; ?>
+                <?php while ($row = $resultadoClienteBoletos->fetch_assoc()): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['nombre'] . " " . $row['apellidos'])?></td>
+                        <td><?= htmlspecialchars($row['Boletos']) ?></td>
+                    </tr>
+                <?php endwhile; ?>
+
+                <!--Para tabletas y celulares -->
+                <div class="cards-container">
+                    <?php
+                    if ($resultadoClienteBoletos->num_rows > 0) {
+                        $resultadoClienteBoletos->data_seek(0);
+                        while ($fila = $resultadoClienteBoletos->fetch_assoc()) {
+                            echo "<div class='card'>";
+                            echo "<h3>" . htmlspecialchars($fila['nombre']) . " " . htmlspecialchars($fila['apellidoP']) . "</h3>";
+                            echo "<h3>" .htmlspecialchars($fila['Boletos']) . " " . "</h3>";
+                            echo "</div>";
+                        }
+                    } else {
+                        echo "<p>No hay vendedores registrados</p>";
+                    }
+                    ?>
+                </div>
             </tbody>
         </table>
     </div>
@@ -62,4 +77,5 @@ if ($resultadoClienteBoletos->num_rows === 0) {
     <script src="../assets/js/panelAdmin/listaClientes.js"></script>
     <script src="../assets/js/login.js"></script>
 </body>
+
 </html>
