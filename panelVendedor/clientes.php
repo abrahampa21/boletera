@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/panelAdmin/vendedores.css">
+    <link rel="icon" href="../src/img/logoPaginas.png">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/e522357059.js" crossorigin="anonymous"></script>
+    <title>Clientes</title>
+</head>
+
+<body>
+    <div class="contenedor" data-aos="fade-down">
+        <table class="tabla-clientes-vendedores" id="tabla-clientes-vendedores">
+            <caption>Clientes registrados</caption>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Boletos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($resClienteBoletos && $resClienteBoletos->num_rows > 0): ?>
+                    <?php while ($row = $resClienteBoletos->fetch_assoc()): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($row['nombre']) ?></td>
+                            <td><?= htmlspecialchars($row['Boletos']) ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="2">No hay clientes registrados para este vendedor y artículo.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <a href="articulosRifar.php"><i class="fa-solid fa-arrow-left"></i></a>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="../assets/js/login.js"></script>
+</body>
+</html>
