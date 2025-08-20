@@ -1,17 +1,100 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
 include("../src/conexion.php");
-
 
 if (isset($_GET['idArticulo'])) {
     $_SESSION['idArticuloSel'] = intval($_GET['idArticulo']);
 }
 $idArticuloSel = $_SESSION['idArticuloSel'] ?? 0;
 
+
+use Dompdf\Dompdf;
+
+require_once '../vendor/autoload.php'; 
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar-cliente'])) {
+    $nombre = $_POST['name'];
+    $apellidos = $_POST['apellidos'];
+    $noCelular = $_POST['noCelular'];
+    $email = $_POST['email'];
+    $direccionFisica = $_POST['direcion-fisica'];
+    $entidad = $_POST['entidad'];
+    $metodoPago = $_POST['metodo-pago'];
+    $comprobante = $_FILES['comprobante']['tmp_name'];
+
+    $comprobanteBinario = !empty($comprobante) ? file_get_contents($comprobante) : null;
+
+    // Insertar cliente
+    $stmt = $conexion->prepare("INSERT INTO cliente (nombre, apellidos, noCelular, email, direccionFisica, entidad, metodoPago, comprobante) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssb", $nombre, $apellidos, $noCelular, $email, $direccionFisica, $entidad, $metodoPago, $comprobanteBinario);
+    $stmt->send_long_data(7, $comprobanteBinario);
+    $stmt->execute();
+
+    $idCliente = $stmt->insert_id;
+
+    // Obtener boletos seleccionados
+    $boletosSeleccionados = $_SESSION['boletosSeleccionados'] ?? [];
+
+    // Registrar boletos del cliente
+    foreach ($boletosSeleccionados as $folio) {
+        $stmtBoleto = $conexion->prepare("INSERT INTO clienteBoleto (idCliente, folioBoleto, idVendedor) VALUES (?, ?, ?)");
+        $stmtBoleto->bind_param("isi", $idCliente, $folio, $_SESSION['idVendedor']);
+        $stmtBoleto->execute();
+    }
+
+    // Obtener datos extra para el PDF
+    // Obtener datos extra para el PDF
+    $stmtVend = $conexion->prepare("SELECT nombre, apellidoP FROM vendedor WHERE idVendedor = ?");
+    $stmtVend->bind_param("i", $_SESSION['idVendedor']);
+    $stmtVend->execute();
+    $resVend = $stmtVend->get_result();
+    $vendedor = $resVend->fetch_assoc();
+
+    $stmtArt = $conexion->prepare("SELECT nombreArticulo FROM articulo WHERE idArticulo = ?");
+    $stmtArt->bind_param("i", $idArticuloSel);
+    $stmtArt->execute();
+    $resArt = $stmtArt->get_result();
+    $articulo = $resArt->fetch_assoc();
+
+    // Obtener nombre completo del vendedor
+    $stmtVend = $conexion->prepare("SELECT nombre, apellidoP FROM vendedor WHERE idVendedor = ?");
+    $stmtVend->bind_param("i", $_SESSION['idVendedor']);
+    $stmtVend->execute();
+    $resVend = $stmtVend->get_result();
+    $vendedor = $resVend->fetch_assoc();
+
+    // Obtener nombre del artículo
+    $stmtArt = $conexion->prepare("SELECT nombreArticulo FROM articulo WHERE idArticulo = ?");
+    $stmtArt->bind_param("i", $idArticuloSel);
+    $stmtArt->execute();
+    $resArt = $stmtArt->get_result();
+    $articulo = $resArt->fetch_assoc();
+
+    // Obtener boletos seleccionados
+    $boletosSeleccionados = $_SESSION['boletosSeleccionados'] ?? [];
+    $boletosTexto = !empty($boletosSeleccionados) ? implode(', ', $boletosSeleccionados) : 'No se seleccionaron boletos.';
+
+    // Generar HTML del PDF
+    $html = '
+    <h1>Registro de Cliente</h1>
+    <p><strong>Nombre del Cliente:</strong> ' . $nombre . ' ' . $apellidos . '</p>
+    <p><strong>Ciudad:</strong> ' . $entidad . '</p>
+    <p><strong>Domicilio:</strong> ' . $direccionFisica . '</p>
+    <p><strong>Teléfono:</strong> ' . $noCelular . '</p>
+    <p><strong>Nombre del Vendedor:</strong> ' . $vendedor['nombre'] . ' ' . $vendedor['apellidoP'] . '</p>
+    <p><strong>Artículo:</strong> ' . $articulo['nombreArticulo'] . '</p>
+    <p><strong>Método de Pago:</strong> ' . $metodoPago . '</p>
+    <p><strong>Folio(s) de boletos:</strong><br>' . $boletosTexto . '</p>
+    <h3>Gracias, ya estás participando</h3>';
+
+    // Renderizar PDF con DomPDF
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+    $dompdf->stream("registro_cliente.pdf", ["Attachment" => false]);
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -28,7 +111,8 @@ $idArticuloSel = $_SESSION['idArticuloSel'] ?? 0;
 
 <body>
 
-    <form action="" class="registro-cliente" method="post" id="registro-cliente" autocomplete="off" data-aos="fade-down">
+    <form action="" class="registro-cliente" enctype="multipart/form-data" method="post" id="registro-cliente" autocomplete="off" data-aos="fade-down">
+        <input type="hidden" name="boletosSeleccionados" value="<?= implode(',', $_SESSION['boletosSeleccionados'] ?? []) ?>">
         <h1>Registro del cliente</h1>
         <div class="campos-cliente">
             <div class="div-nombre div-campos">
