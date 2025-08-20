@@ -11,6 +11,7 @@ if (!isset($conexion) || !$conexion) {
 }
 
 $boletos = [];
+$boletosVendidos = []; // Array para almacenar boletos ya vendidos
 $idVendedor = 0;
 
 if (isset($_SESSION['usuarioVendedor'])) {
@@ -27,7 +28,6 @@ if (isset($_SESSION['usuarioVendedor'])) {
     die('ID del vendedor no disponible.');
 }
 
-
 // Obtener artículos disponibles
 $articulos = [];
 $sqlArticulos = "SELECT idArticulo, nombreArticulo FROM articulo";
@@ -42,6 +42,7 @@ if ($resArticulos) {
 $idArticuloSel = isset($_GET['idArticulo']) ? intval($_GET['idArticulo']) : (count($articulos) > 0 ? $articulos[0]['idArticulo'] : 0);
 
 if ($idVendedor > 0 && $idArticuloSel > 0) {
+  // Obtener todos los boletos del vendedor para este artículo
   $sql = "SELECT folioBoleto FROM vendedorboleto WHERE idVendedor = $idVendedor AND idArticulo = $idArticuloSel ORDER BY folioBoleto ASC";
   $res = $conexion->query($sql);
   if (!$res) {
@@ -50,13 +51,23 @@ if ($idVendedor > 0 && $idArticuloSel > 0) {
   while ($row = $res->fetch_assoc()) {
     $boletos[] = $row['folioBoleto'];
   }
+  
+  // Obtener boletos ya vendidos (que están en clienteboleto)
+  $sqlVendidos = "SELECT DISTINCT cb.folioBoleto 
+                  FROM clienteboleto cb 
+                  WHERE cb.idVendedor = $idVendedor";
+  $resVendidos = $conexion->query($sqlVendidos);
+  if ($resVendidos) {
+    while ($row = $resVendidos->fetch_assoc()) {
+      $boletosVendidos[] = $row['folioBoleto'];
+    }
+  }
 }
 
 //Para registroCliente.php
 $_SESSION['idArticuloSel'] = $idArticuloSel;
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -75,8 +86,14 @@ $_SESSION['idArticuloSel'] = $idArticuloSel;
     <?php if (count($boletos) > 0): ?>
       <div class="boletos-grid">
         <?php foreach ($boletos as $folio): ?>
-          <div class="boleto-card" data-folio="<?= htmlspecialchars($folio) ?>">
+          <?php $esVendido = in_array($folio, $boletosVendidos); ?>
+          <div class="boleto-card <?= $esVendido ? 'vendido' : '' ?>" 
+               data-folio="<?= htmlspecialchars($folio) ?>"
+               <?= $esVendido ? 'data-vendido="true"' : '' ?>>
             <?= htmlspecialchars($folio) ?>
+            <?php if ($esVendido): ?>
+              <span class="vendido-label">VENDIDO</span>
+            <?php endif; ?>
           </div>
         <?php endforeach; ?>
       </div>
@@ -88,6 +105,10 @@ $_SESSION['idArticuloSel'] = $idArticuloSel;
 
   <a href="../panelVendedor/articulosRifar.php"><i class="fa-solid fa-arrow-left"></i></a>
 
+  <script>
+    // Pasar los boletos vendidos al JavaScript
+    const boletosVendidos = <?= json_encode($boletosVendidos) ?>;
+  </script>
   <script src="../assets/js/panelVendedor/boletera.js"></script>
 </body>
 
