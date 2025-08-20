@@ -42,6 +42,7 @@ $idVendedor = intval($_GET['idVendedor']);
                 <tr>
                     <th>Artículo</th>
                     <th>Boletera</th>
+                    <th>Clientes</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,6 +51,7 @@ $idVendedor = intval($_GET['idVendedor']);
                         <td class="nombre-articulo"><?php echo htmlspecialchars($articulo['nombreArticulo']); ?></td>
                         <td><a data-label="Boletera" href="../panelAdmin/boleteraAdmin.php?idArticulo=<?php echo $articulo['idArticulo']; ?>&idVendedor=<?php echo $idVendedor; ?>">Ver</a>
                         </td>
+                        <td><a  data-label="Clientes" href="clienteVendedor.php?idVendedor=<?= $idVendedor ?>&idArticulo=<?= $articulo['idArticulo'] ?>">Ver</a></td>
 
                     </tr>
                 <?php endwhile; ?>

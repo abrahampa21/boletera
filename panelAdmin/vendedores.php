@@ -31,13 +31,12 @@ if (!$resultado) {
 
 <body>
     <div class="contenedor" data-aos="fade-down">
-        <table class="tabla-vendedores" id="tabla-vendedores">
+        <table class="tabla-clientes-vendedores" id="tabla-clientes-vendedores">
             <caption>Vendedores</caption>
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Boletera</th>
-                    <th>Clientes</th>
+                    <th>Boletera y Clientes</th>
                     <th>Datos Personales</th>
                 </tr>
             </thead>
@@ -47,8 +46,7 @@ if (!$resultado) {
                     while ($fila = $resultado->fetch_assoc()) {
                         echo "<tr>";
                         echo "<td>" . htmlspecialchars($fila['nombre']) . " " . htmlspecialchars($fila['apellidoP']) . "</td>";
-                        echo "<td><a href='boleteraArticulo.php?idVendedor=" . urlencode($fila['idVendedor']) . "'>Ver</a></td>";
-                        echo "<td><a href='#'>Ver</a></td>";
+                        echo "<td><a href='boleteraVendedor.php?idVendedor=" . urlencode($fila['idVendedor']) . "'>Ver</a></td>";
                         echo "<td><a href='datosVendedor.php?id=" . urlencode($fila['idVendedor']) . "'>Ver</a></td>";
                         echo "</tr>";
                     }
@@ -65,9 +63,7 @@ if (!$resultado) {
                         while ($fila = $resultado->fetch_assoc()) {
                             echo "<div class='card'>";
                             echo "<h3>" . htmlspecialchars($fila['nombre']) . " " . htmlspecialchars($fila['apellidoP']) . "</h3>";
-                            echo "<a href='boleteraArticulo.php?idVendedor=" . urlencode($fila['idVendedor']) . "'>Boletera</a>";
-
-                            echo "<a href='#'>Clientes</a>";
+                            echo "<a href='boleteraArticulo.php?idVendedor=" . urlencode($fila['idVendedor']) . "'>Boletera y Clientes</a>";
                             echo "<a href='datosVendedor.php?id=" . urlencode($fila['idVendedor']) . "'>Datos Personales</a>";
                             echo "</div>";
                         }

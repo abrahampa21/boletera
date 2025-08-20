@@ -33,7 +33,7 @@ body {
   color: var(--texto);
 }
 
-.tabla-vendedores {
+.tabla-clientes-vendedores {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
@@ -42,7 +42,7 @@ body {
   overflow: hidden;
 }
 
-.tabla-vendedores caption {
+.tabla-clientes-vendedores caption {
   font-family: "Playfair Display", serif;
   font-size: 1.8em;
   font-weight: bold;
@@ -50,38 +50,38 @@ body {
   color: var(--verde-oscuro);
 }
 
-.tabla-vendedores thead {
+.tabla-clientes-vendedores thead {
   background-color: var(--verde-fuerte);
   color: var(--blanco);
 }
 
-.tabla-vendedores th,
-.tabla-vendedores td {
+.tabla-clientes-vendedores th,
+.tabla-clientes-vendedores td {
   padding: 15px;
   text-align: center;
   font-size: 1em;
 }
 
-.tabla-vendedores tbody tr {
+.tabla-clientes-vendedores tbody tr {
   transition: background-color 0.3s;
 }
 
-.tabla-vendedores tbody tr:nth-child(even) {
+.tabla-clientes-vendedores tbody tr:nth-child(even) {
   background-color: var(--acento);
 }
 
-.tabla-vendedores tbody tr:hover {
+.tabla-clientes-vendedores tbody tr:hover {
   color: var(--texto);
 }
 
-.tabla-vendedores a {
+.tabla-clientes-vendedores a {
   color: var(--verde-oscuro);
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s;
 }
 
-.tabla-vendedores a:hover {
+.tabla-clientes-vendedores a:hover {
   color: var(--verde-medio);
 }
 
@@ -103,7 +103,7 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-  .tabla-vendedores {
+  .tabla-clientes-vendedores {
     display: none;
   }
 

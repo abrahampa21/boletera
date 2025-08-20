@@ -43,7 +43,7 @@ if ($resultado && $resultado->num_rows > 0) {
                 </div>
                 <div class="apartados">
                     <i class="fa-solid fa-user-check"></i>
-                    <a href="#">Lista de clientes</a></li>
+                    <a href="panelAdmin/listaClientes.php">Lista de clientes</a></li>
                 </div>
                 <div class="apartados">
                     <i class="fa-solid fa-ticket"></i>
@@ -60,7 +60,7 @@ if ($resultado && $resultado->num_rows > 0) {
                 </div>
                 <div class="apartados">
                     <i class="fa-solid fa-user-check"></i>
-                    <a href="#">Lista de clientes</a></li>
+                    <a href="panelAdmin/listaClientes.php">Lista de clientes</a></li>
                 </div>
                 <div class="apartados">
                     <i class="fa-solid fa-ticket"></i>
