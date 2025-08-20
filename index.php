@@ -36,10 +36,11 @@ if (isset($_POST["ingresar"])) {
         header("Location: panelVendedor.php");
         exit();
     } else {
-        echo "<script>
+        $mensajeresultado="error";
+        /*echo "<script>
         alert('Usuario, contraseña o token incorrectos');
         window.location = 'index.php';
-    </script>";
+    </script>";*/
     }
 }
 
@@ -55,11 +56,7 @@ if (isset($_POST["registrar-admin"])) {
     $resultado_verificar = $conexion->query($verificar_usuario);
 
     if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
-        echo "<script>
-            alert('El usuario ya existe. Intenta con otro.');
-            window.location = 'index.php';
-        </script>";
-        exit();
+        $mensajeusuarioexiste = "error";
     }
 
     // Insertar nuevo administrador
@@ -67,15 +64,17 @@ if (isset($_POST["registrar-admin"])) {
                    VALUES ('$usuario', '$nombre', '$password_encriptada', '$correo')";
 
     if ($conexion->query($sql_insert) === TRUE) {
-        echo "<script>
+        $mensajeadmin = "exito";
+        /*echo "<script>
             alert('Registro exitoso. En unos momentos se te asignará tu código de seguridad');
             window.location = 'index.php';
-        </script>";
+        </script>";*/
     } else {
-        echo "<script>
+       $mensajeadmin = "error";
+       /* echo "<script>
             alert('Error al registrar: " . $conexion->error . "');
             window.location = 'index.php';
-        </script>";
+        </script>";*/
     }
 }
 
@@ -95,7 +94,7 @@ if (isset($_POST["registrar-vendedor"])) {
         $ine_tmp = $_FILES['ine-vendedor']['tmp_name'];
         $ine = addslashes(file_get_contents($ine_tmp)); // listo para BLOB
     } else {
-        echo "<script>alert('Error al subir el INE'); window.location='login.php';</script>";
+        $mensajeine = "error-foto";
         exit();
     }
     // Verificar si el usuario ya existe
@@ -103,10 +102,7 @@ if (isset($_POST["registrar-vendedor"])) {
     $resultado_verificar = $conexion->query($verificar_usuario);
 
     if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
-        echo "<script>
-            alert('El usuario ya existe. Intenta con otro.');
-            window.location = 'index.php';
-        </script>";
+        $mensajeusuario = "error";
         exit();
     }
 
@@ -117,17 +113,12 @@ if (isset($_POST["registrar-vendedor"])) {
                    , '$password_encriptada','$ine','$numeroCel', '$numeroRef')";
 
     if ($conexion->query($sql_insert) === TRUE) {
-        echo "<script>
-            alert('Registro exitoso. Ya puedes iniciar sesión.');
-            window.location = 'index.php';
-        </script>";
+        $mensajevendedor = "exito";
     } else {
-        echo "<script>
-            alert('Error al registrar: " . $conexion->error . "');
-            window.location = 'login.php';
-        </script>";
+        $mensajevendedor = "error";
     }
 }
+
 
 //Recuperar contraseña
 if (isset($_POST["recuperar-btn"])) {
@@ -144,20 +135,20 @@ if (isset($_POST["recuperar-btn"])) {
     if ($resultadoAdmin && $resultadoAdmin->num_rows > 0) {
         $actualizarAdmin = "UPDATE administrador SET password = '$contraseñaNuevaEncriptada' WHERE email = '$email'";
         if ($conexion->query($actualizarAdmin) === true) {
-            echo "<script>alert('Contraseña actualizada correctamente')</script>";
+            $mensajecontraseña = "exito";
         } else {
-            echo "<script>alert('Error al actualizar la contraseña" . $conexion->error . "')</script>";
+            $mensajecontraseña = "error";
         }
     } else {
         if ($resultadoVendedor && $resultadoVendedor->num_rows > 0) {
             $actualizarVendedor = "UPDATE vendedor SET password = '$contraseñaNuevaEncriptada' WHERE email = '$email'";
             if ($conexion->query($actualizarVendedor) === true) {
-                echo "<script>alert('Contraseña actualizada correctamente')</script>";
+                $mensajecontraseña = "exito";
             } else {
-                echo "<script>alert('Error al actualizar la contraseña" . $conexion->error . "')</script>";
+                $mensajecontraseña = "error";
             }
         } else {
-            echo "<script>alert('Correo no registrado'); window.location = 'index.php';</script>";
+            $mensajecontraseña = "error1";
         }
     }
 }
@@ -173,6 +164,7 @@ if (isset($_POST["recuperar-btn"])) {
     <link rel="stylesheet" href="assets/css/login.css">
     <link rel="icon" href="src/img/logoPaginas.png">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/e522357059.js" crossorigin="anonymous"></script>
     <title>Inicio de Sesión</title>
 </head>
@@ -303,6 +295,109 @@ if (isset($_POST["recuperar-btn"])) {
     <!--Librerías JavaScript-->
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="assets/js/login.js"></script>
+    <script>
+        <?php if ($mensajeusuarioexiste === "error"): ?>
+      Swal.fire({
+        title: 'Error!',
+        text: 'El usuario ya existe. Intenta con otro.',
+        icon: 'error'
+      }).then(() => {
+        exit();
+      });
+      <?php endif; ?>
+
+      <?php if ($mensajeadmin === "exito"): ?>
+      Swal.fire({
+        title: 'Éxito!',
+        text: 'El administrador ha sido registrado exitosamente. En unos momentos se te asignará tu código de seguridad.',
+        icon: 'success'
+      }).then(() => {
+        window.location = 'index.php';
+      });
+      <?php elseif ($mensajeadmin === "error"): ?>
+      Swal.fire({
+        title: 'Error!',
+        text: 'Error al registrar el administrador. El usuario ya existe.',
+        icon: 'error'
+      }).then(() => {
+       window.location = 'index.php';
+      });
+      <?php endif; ?>
+
+      <?php if ($mensajeine === "error-foto"): ?>
+      Swal.fire({
+        title: 'Error!',
+        text: 'Error al subir el INE.',
+        icon: 'error'
+      }).then(() => {
+        window.location = 'index.php';
+      });
+      <?php endif; ?>
+
+      <?php if ($mensajeusuario === "error"): ?>
+      Swal.fire({
+        title: 'Error!',
+        text: 'El usuario ya existe. Intenta con otro.',
+        icon: 'error'
+      }).then(() => {
+        window.location = 'index.php';
+      });
+      <?php endif; ?>
+
+      <?php if ($mensajevendedor === "exito"): ?>
+      Swal.fire({
+        title: 'Éxito!',
+        text: 'El vendedor ha sido registrado exitosamente. Ya puedes iniciar sesión.',
+        icon: 'success'
+      }).then(() => {
+        window.location = 'index.php';
+      });
+      <?php elseif ($mensajevendedor === "error"): ?>
+      Swal.fire({
+        title: 'Error!',
+        text: 'Error al registrar el vendedor. El usuario ya existe.',
+        icon: 'error'
+      }).then(() => {
+        window.location = 'index.php';
+      });
+      <?php endif; ?>
+
+      <?php if ($mensajecontraseña === "exito"): ?>
+      Swal.fire({
+        title: 'Éxito!',
+        text: 'La contraseña ha sido actualizada correctamente.',
+        icon: 'success'
+      }).then(() => {
+        window.location = 'index.php';
+      });
+      <?php elseif ($mensajecontraseña === "error"): ?>
+      Swal.fire({
+        title: 'Error!',
+        text: 'Error al actualizar la contraseña.',
+        icon: 'error'
+      }).then(() => {
+        window.location = 'index.php';
+      });
+      <?php elseif ($mensajecontraseña === "error1"): ?>
+      Swal.fire({
+        title: 'Error!',
+        text: 'El correo no está registrado.',
+        icon: 'error'
+      }).then(() => {
+        window.location = 'index.php';
+      });
+      <?php endif; ?>
+      <?php if ($mensajeresultado === "error"): ?>
+      Swal.fire({
+        title: 'Error!',
+        text: 'Usuario o token incorrectos.',
+        icon: 'error'
+      }).then(() => {
+        window.location = 'index.php';
+      });
+      <?php endif; ?>
+    </script>
 </body>
 
 </html>
+
