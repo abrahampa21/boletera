@@ -1,3 +1,28 @@
+<?php
+include("../src/conexion.php");
+
+// Verifica si la conexión fue exitosa
+if ($conexion->connect_error) {
+  die("Conexión fallida: " . $conexion->connect_error);
+}
+// Consulta: obtener nombre del cliente + sus boletos
+$sqlClienteBoletos = "
+  SELECT cliente.nombre, GROUP_CONCAT(clienteboleto.folioBoleto SEPARATOR ', ') AS Boletos 
+  FROM clienteboleto 
+  INNER JOIN cliente ON clienteboleto.idCliente = cliente.idCliente 
+  GROUP BY cliente.nombre
+";
+$resultadoClienteBoletos = $conexion->query($sqlClienteBoletos);
+
+if ($resultadoClienteBoletos->num_rows === 0) {
+  die("Cliente no encontrado.");
+}
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,6 +46,12 @@
                 </tr>
             </thead>
             <tbody id="lista-clientes">
+                <?php while($row = $resultadoClienteBoletos->fetch_assoc()): ?>
+                <tr>
+                  <td><?= htmlspecialchars($row['nombre']) ?></td>
+                  <td><?= htmlspecialchars($row['Boletos']) ?></td>
+                </tr>
+              <?php endwhile; ?>
             </tbody>
         </table>
     </div>
