@@ -45,11 +45,60 @@ body a {
   transition: background 0.2s, color 0.2s;
   cursor: pointer;
   color: #333;
+  border: 2px solid #ccc;
+  text-align: center;
+  position: relative;
 }
 
 .boleto-card:hover {
   background: #205c2c;
   color: #fff;
+}
+
+.boleto-card.seleccionado {
+  background-color: rgb(58, 103, 71);
+  color: #fff;
+}
+
+/* Estilos para boletos vendidos */
+.boleto-card.vendido {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+  cursor: not-allowed !important;
+  opacity: 0.8;
+  border-color: #a71e2a !important;
+}
+
+.boleto-card.vendido:hover {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+}
+
+/* Etiqueta de VENDIDO */
+.vendido-label {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #fff;
+  color: #dc3545;
+  font-size: 0.6em;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #dc3545;
+}
+
+/* Estilos para boletos registrados temporalmente */
+.boleto-card.registrado {
+  background-color: #6c757d;
+  color: #fff;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+
+.boleto-card.registrado:hover {
+  background-color: #6c757d !important;
+  color: #fff !important;
 }
 
 .boletera .registrar-cliente {
@@ -66,33 +115,8 @@ body a {
   text-align: center;
 }
 
-.boletera .registrar-cliente {
-  background-color: rgb(85, 119, 95);
-  color: #fff;
-  border: none;
-  font-size: 16px;
-  border-radius: 10px;
-  transition: 0.2s ease-in-out;
-  cursor: pointer;
-  margin-top: 1.5rem;
-  padding: 10px;
-}
-
 .boletera .registrar-cliente:hover {
   background-color: rgb(58, 103, 71);
-}
-
-.boleto-card {
-  cursor: pointer;
-  border: 2px solid #ccc;
-  padding: 10px;
-  text-align: center;
-  transition: background-color 0.3s, border-color 0.3s;
-}
-
-.boleto-card.seleccionado {
-  background-color: rgb(58, 103, 71);
-  color: #fff;
 }
 
 .fa-arrow-left {
