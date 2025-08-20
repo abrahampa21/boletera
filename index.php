@@ -22,7 +22,7 @@ if (isset($_POST["ingresar"])) {
         header("Location: panelAdmin.php");
         exit();
     } // Si no es administrador, verificar si es vendedor
-    $sql_vendedor = "SELECT usuario FROM vendedor 
+    $sql_vendedor = "SELECT idVendedor, usuario FROM vendedor 
                  WHERE usuario = '$usuario' 
                  AND password = '$password_encriptada' 
                  LIMIT 1";
@@ -32,6 +32,7 @@ if (isset($_POST["ingresar"])) {
     if ($resultado_vendedor && $resultado_vendedor->num_rows > 0) {
         $row = $resultado_vendedor->fetch_assoc();
         $_SESSION['usuarioVendedor'] = $row['usuario'];
+        $_SESSION['idVendedor'] = $row['idVendedor'];
         header("Location: panelVendedor.php");
         exit();
     } else {
