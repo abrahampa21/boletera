@@ -1,3 +1,5 @@
 configuracion.php
 boletera.sql
 vendor/
+composer.json
+composer.lock
