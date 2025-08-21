@@ -129,6 +129,7 @@ body {
   .card h3 {
     margin-bottom: 10px;
     font-size: 1.2em;
+    font-weight: 700;
     color: var(--verde-oscuro);
   }
 

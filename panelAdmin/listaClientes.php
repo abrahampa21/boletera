@@ -66,8 +66,8 @@ if (!$resultadoClienteBoletos) {
                         $resultadoClienteBoletos->data_seek(0);
                         while ($fila = $resultadoClienteBoletos->fetch_assoc()) {
                             echo "<div class='card'>";
-                            echo "<h3>" . htmlspecialchars($fila['nombre']) . " " . htmlspecialchars($fila['apellidoP']) . "</h3>";
-                            echo "<h3>" . htmlspecialchars($fila['Boletos']) . " " . "</h3>";
+                            echo "<h3> Nombre: " . htmlspecialchars($fila['nombre']) . " " . htmlspecialchars($fila['apellidoP']) . "</h3>";
+                            echo "<h3>Boletos: " . htmlspecialchars($fila['Boletos']) . " " . "</h3>";
                             echo "</div>";
                         }
                     } else {

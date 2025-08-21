@@ -63,7 +63,8 @@ if (!$resultado) {
                         while ($fila = $resultado->fetch_assoc()) {
                             echo "<div class='card'>";
                             echo "<h3>" . htmlspecialchars($fila['nombre']) . " " . htmlspecialchars($fila['apellidoP']) . "</h3>";
-                            echo "<a href='boleteraArticulo.php?idVendedor=" . urlencode($fila['idVendedor']) . "'>Boletera y Clientes</a>";
+                            echo "<a href='boleteraVendedor.php?idVendedor=" . urlencode($fila['idVendedor']) . "'>Boletera y Clientes</a>";
+                            echo "<br>";
                             echo "<a href='datosVendedor.php?id=" . urlencode($fila['idVendedor']) . "'>Datos Personales</a>";
                             echo "</div>";
                         }
