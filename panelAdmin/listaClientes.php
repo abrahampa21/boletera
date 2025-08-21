@@ -16,8 +16,8 @@ $sqlClienteBoletos = "
 
 $resultadoClienteBoletos = $conexion->query($sqlClienteBoletos);
 
-if ($resultadoClienteBoletos->num_rows === 0) {
-    die("Cliente no encontrado.");
+if (!$resultadoClienteBoletos) {
+    die("Error en la consulta: " . $conexion->error);
 }
 ?>
 
@@ -45,12 +45,19 @@ if ($resultadoClienteBoletos->num_rows === 0) {
                 </tr>
             </thead>
             <tbody id="lista-clientes">
-                <?php while ($row = $resultadoClienteBoletos->fetch_assoc()): ?>
+                <?php if ($resultadoClienteBoletos && $resultadoClienteBoletos->num_rows > 0): ?>
+                    <?php while ($row = $resultadoClienteBoletos->fetch_assoc()): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($row['nombre'] . " " . $row['apellidos']) ?></td>
+                            <td><?= htmlspecialchars($row['Boletos']) ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
                     <tr>
-                        <td><?= htmlspecialchars($row['nombre'] . " " . $row['apellidos'])?></td>
-                        <td><?= htmlspecialchars($row['Boletos']) ?></td>
+                        <td colspan="2">No hay clientes registrados para este vendedor y artículo.</td>
                     </tr>
-                <?php endwhile; ?>
+                <?php endif; ?>
+
 
                 <!--Para tabletas y celulares -->
                 <div class="cards-container">
@@ -60,11 +67,11 @@ if ($resultadoClienteBoletos->num_rows === 0) {
                         while ($fila = $resultadoClienteBoletos->fetch_assoc()) {
                             echo "<div class='card'>";
                             echo "<h3>" . htmlspecialchars($fila['nombre']) . " " . htmlspecialchars($fila['apellidoP']) . "</h3>";
-                            echo "<h3>" .htmlspecialchars($fila['Boletos']) . " " . "</h3>";
+                            echo "<h3>" . htmlspecialchars($fila['Boletos']) . " " . "</h3>";
                             echo "</div>";
                         }
                     } else {
-                        echo "<p>No hay vendedores registrados</p>";
+                        echo "<p>No hay clientes registrados</p>";
                     }
                     ?>
                 </div>
