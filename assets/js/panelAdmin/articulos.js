@@ -2,14 +2,25 @@ const registroArticulo = document.getElementById("registro-articulo");
 
 AOS.init();
 
-function eliminarArticulo(e) {
-  const confirmacion = confirm(
-    "¿Estás seguro que deseas eliminar el artículo?"
-  );
-  if (!confirmacion) {
-    e.preventDefault();
-  }
-}
+ // FUNCIÓN PARA CONFIRMAR ELIMINACIÓN
+    function confirmarEliminar(idArticulo, nombreArticulo) {
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: `¿Deseas eliminar el artículo "${nombreArticulo}"? Esta acción no se puede deshacer.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Si confirma, enviar el formulario de eliminación
+          document.getElementById('id-articulo-eliminar').value = idArticulo;
+          document.getElementById('form-eliminar').submit();
+        }
+      });
+    }
 
 //Revelar el formulario para meter un nuevo artículo
 function revealFormArticulo() {

@@ -31,18 +31,14 @@ if (isset($_POST["registrar-articulo"])) {
 $sqlArticulos = "SELECT idArticulo, nombreArticulo, imagen FROM articulo";
 $resultadoArticulos = $conexion->query($sqlArticulos);
 
-//Eliminar artículos
-if (isset($_POST["eliminar-articulo"])) {
+//Eliminar artículos - LÓGICA CORREGIDA
+if (isset($_POST["confirmar-eliminar"])) {
   $idArticulo = intval($_POST['id-articulo']);
-  $eliminarArticulo = "DELETE FROM articulo where idArticulo = '$idArticulo'";
+  $eliminarArticulo = "DELETE FROM articulo WHERE idArticulo = '$idArticulo'";
   if ($conexion->query($eliminarArticulo) === true) {
-    header("Location: articulos.php");
-    exit;
+    $mensaje = "exito-eliminar";
   } else {
-    echo "<script>
-      alert('Hubo un error al eliminar el artículo.');
-      window.location = 'articulos.php';
-    </script>";
+    $mensaje = "error-eliminar";
   }
 }
 
@@ -70,7 +66,6 @@ if (isset($_POST["generar-boletos"])) {
     } else {
       $numVendedores = count($vendedores);
     }
-
 
     $numVendedores = count($vendedores);
 
@@ -132,7 +127,8 @@ if (isset($_POST["generar-boletos"])) {
             <input type="hidden" name="id-articulo" value="<?= $articulo['idArticulo'] ?>" />
             <div class="btns-modified">
               <button type="button" class="btn-generar-boletos" data-id="<?= $articulo['idArticulo'] ?>">Generar boletos</button>
-              <button type="submit" name="eliminar-articulo" onclick="eliminarArticulo(event)">Eliminar Artículo</button>
+              <!-- BOTÓN MODIFICADO: ahora usa onclick con JavaScript -->
+              <button type="button" class="btn-eliminar" onclick="confirmarEliminar(<?= $articulo['idArticulo'] ?>, '<?= htmlspecialchars($articulo['nombreArticulo']) ?>')">Eliminar Artículo</button>
             </div>
           </form>
         <?php endwhile; ?>
@@ -140,7 +136,6 @@ if (isset($_POST["generar-boletos"])) {
         <p>No hay artículos registrados aún.</p>
       <?php endif; ?>
     </div>
-
 
     <!--Botón para registrar artículo-->
     <button id="registrar-articulo" ondblclick="hideFormArticulo()" onclick="revealFormArticulo()">
@@ -150,7 +145,6 @@ if (isset($_POST["generar-boletos"])) {
     <!--Componente para registrar artículo-->
     <form action="" autocomplete="off" method="POST" enctype="multipart/form-data" class="registro-articulo" id="registro-articulo">
       <h3>Ingrese los siguiente datos:</h3>
-      <input type="hidden" name="id-articulo" value="<?= $articulo['idArticulo'] ?>">
       <div class="div-nombre-articulo">
         <input
           type="text"
@@ -200,8 +194,13 @@ if (isset($_POST["generar-boletos"])) {
 
       <button type="submit" name="generar-boletos">Generar</button>
     </form>
-
   </div>
+
+  <!-- FORM OCULTO PARA ELIMINAR -->
+  <form id="form-eliminar" method="POST" style="display: none;">
+    <input type="hidden" name="id-articulo" id="id-articulo-eliminar">
+    <input type="hidden" name="confirmar-eliminar" value="1">
+  </form>
 
   <!--Botón para salir-->
   <a href="../panelAdmin.php"><i class="fa-solid fa-arrow-left"></i></a>
@@ -209,6 +208,8 @@ if (isset($_POST["generar-boletos"])) {
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <!-- Script que dispara SweetAlert después de cargar la librería -->
   <script>
+   
+
     <?php if ($mensaje === "exito"): ?>
       Swal.fire({
         title: 'Boletos generados exitosamente!',
@@ -225,6 +226,14 @@ if (isset($_POST["generar-boletos"])) {
       }).then(() => {
         window.location = 'articulos.php';
       });
+    <?php elseif ($mensaje === "exito-eliminar"): ?>
+      Swal.fire({
+        title: 'Eliminado!',
+        text: 'El artículo ha sido eliminado correctamente.',
+        icon: 'success'
+      }).then(() => {
+        window.location = 'articulos.php';
+      });
     <?php elseif ($mensaje === "error"): ?>
       Swal.fire({
         title: 'Error!',
@@ -237,6 +246,14 @@ if (isset($_POST["generar-boletos"])) {
       Swal.fire({
         title: 'Error!',
         text: 'Error al registrar el artículo.',
+        icon: 'error'
+      }).then(() => {
+        window.location = 'articulos.php';
+      });
+    <?php elseif ($mensaje === "error-eliminar"): ?>
+      Swal.fire({
+        title: 'Error!',
+        text: 'Error al eliminar el artículo.',
         icon: 'error'
       }).then(() => {
         window.location = 'articulos.php';
