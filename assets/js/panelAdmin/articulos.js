@@ -2,25 +2,34 @@ const registroArticulo = document.getElementById("registro-articulo");
 
 AOS.init();
 
- // FUNCIÓN PARA CONFIRMAR ELIMINACIÓN
-    function confirmarEliminar(idArticulo, nombreArticulo) {
-      Swal.fire({
-        title: '¿Estás seguro?',
-        text: `¿Deseas eliminar el artículo "${nombreArticulo}"? Esta acción no se puede deshacer.`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // Si confirma, enviar el formulario de eliminación
-          document.getElementById('id-articulo-eliminar').value = idArticulo;
-          document.getElementById('form-eliminar').submit();
-        }
-      });
+// FUNCIÓN PARA CONFIRMAR ELIMINACIÓN
+function confirmarEliminar(idArticulo, nombreArticulo) {
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: `¿Deseas eliminar el artículo "${nombreArticulo}"? Esta acción no se puede deshacer.`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+    willOpen: (popup) => {
+      document.body.style.overflow = "auto";
+
+      setTimeout(() => {
+        popup.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 100);
+    },
+    willClose: () => {
+      document.body.style.overflow = "auto";
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      document.getElementById("id-articulo-eliminar").value = idArticulo;
+      document.getElementById("form-eliminar").submit();
     }
+  });
+}
 
 //Revelar el formulario para meter un nuevo artículo
 function revealFormArticulo() {
@@ -42,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const idArticulo = boton.getAttribute("data-id");
       inputIdArticulo.value = idArticulo;
       modal.style.display = "flex";
+      modal.scrollIntoView({ behavior: "smooth", block: "center" });
     });
   });
 

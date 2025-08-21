@@ -184,9 +184,9 @@ if (isset($_POST["generar-boletos"])) {
         <select name="vendedores[]" id="select-vendedores" class="select-vendedores" multiple required>
           <?php
           $resVendedores = $conexion->query("SELECT idVendedor, nombre, apellidoP FROM vendedor");
-          while ($v = $resVendedores->fetch_assoc()):
+          while ($row = $resVendedores->fetch_assoc()):
           ?>
-            <option value="<?= $v['idVendedor'] ?>"><?= htmlspecialchars($v['nombre']) . " " . htmlspecialchars($v['apellidoP']) ?></option>
+            <option value="<?= $row['idVendedor'] ?>"><?= htmlspecialchars($row['nombre']) . " " . htmlspecialchars($row['apellidoP']) ?></option>
           <?php endwhile; ?>
         </select>
         <small>Mantén presionado CTRL o CMD para seleccionar varios</small>

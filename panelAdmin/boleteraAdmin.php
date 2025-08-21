@@ -22,6 +22,17 @@ while ($row = $res->fetch_assoc()) {
     $boletos[] = $row['folioBoleto'];
 }
 
+// Obtener boletos vendidos para el vendedor
+$boletosVendidos = [];
+$sqlVendidos = "SELECT DISTINCT cb.folioBoleto FROM clienteboleto cb WHERE cb.idVendedor = $idVendedor";
+$resVendidos = $conexion->query($sqlVendidos);
+if ($resVendidos) {
+    while ($row = $resVendidos->fetch_assoc()) {
+        $boletosVendidos[] = $row['folioBoleto'];
+    }
+}
+
+
 // Para usar en otras partes si se necesita
 session_start();
 $_SESSION['idArticuloSel'] = $idArticuloSel;
@@ -42,18 +53,23 @@ $_SESSION['idArticuloSel'] = $idArticuloSel;
 
 <body>
     <main class="boletera">
-        <?php if (count($boletos) > 0): ?>
-            <div class="boletos-grid">
-                <?php foreach ($boletos as $folio): ?>
-                    <div class="boleto-card" data-folio="<?= htmlspecialchars($folio) ?>">
-                        <?= htmlspecialchars($folio) ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <p>No hay boletos asignados para este artículo.</p>
-        <?php endif; ?>
-
+        <div class="boletos-grid">
+            <?php
+            foreach ($boletos as $boleto) {
+                $esVendido = in_array($boleto, $boletosVendidos);
+                $clase = "boleto-card";
+                if ($esVendido) {
+                    $clase .= " vendido";
+                }
+                echo '<div class="' . $clase . '">';
+                echo htmlspecialchars($boleto);
+                if ($esVendido) {
+                    echo '<span class="vendido-label">VENDIDO</span>';
+                }
+                echo '</div>';
+            }
+            ?>
+        </div>
     </main>
 
     <a href="boleteraVendedor.php?idVendedor=<?= $idVendedor ?>"><i class="fa-solid fa-arrow-left"></i></a>
