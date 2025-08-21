@@ -101,6 +101,7 @@ $_SESSION['idArticuloSel'] = $idArticuloSel;
       <p>No tienes boletos asignados para este artículo.</p>
     <?php endif; ?>
     <a href="registroCliente.php?idArticulo=<?= $idArticuloSel ?>" data-idarticulo="<?= $idArticuloSel ?>" class="registrar-cliente" id="registrar-cliente">Registrar cliente</a>
+    <a href="#" class="imprimir-boletera" id="imprimir-boletera">Imprimir boletera</a>
   </main>
 
   <a href="../panelVendedor/articulosRifar.php"><i class="fa-solid fa-arrow-left"></i></a>

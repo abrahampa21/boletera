@@ -26,6 +26,8 @@ body a {
   width: 50%;
   padding: 2rem;
   border-radius: 12px;
+  display: flex;
+  flex-direction: column;
 }
 
 .boletos-grid {
@@ -101,9 +103,13 @@ body a {
   color: #fff !important;
 }
 
-.boletera .registrar-cliente {
+.boletera .registrar-cliente{
+  margin: 40px auto 1rem auto;
+
+}
+
+.boletera .registrar-cliente, .boletera .imprimir-boletera {
   display: block;
-  margin: 40px auto 0 auto;
   background-color: rgb(85, 119, 95);
   color: #fff;
   border: none;
@@ -113,9 +119,11 @@ body a {
   cursor: pointer;
   padding: 10px 24px;
   text-align: center;
+  width: 100%;
 }
 
-.boletera .registrar-cliente:hover {
+
+.boletera .registrar-cliente:hover, .boletera .imprimir-boletera:hover {
   background-color: rgb(58, 103, 71);
 }
 
