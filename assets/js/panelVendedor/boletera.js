@@ -8,7 +8,6 @@ const imprimirBoletera = document.getElementById("imprimir-boletera");
 
 boletosCard.forEach((boleto) => {
   boleto.addEventListener("click", () => {
-    // Si ya se registraron los boletos o el boleto está vendido, no permitir selección
     if (
       boletosRegistrados ||
       boleto.classList.contains("vendido") ||
@@ -37,7 +36,6 @@ registrarCliente.addEventListener("click", function (e) {
     return;
   }
 
-  // Verificar que ningún boleto seleccionado esté ya vendido
   const boletosInvalidos = boletosSeleccionados.filter((folio) => {
     const boleto = document.querySelector(`[data-folio="${folio}"]`);
     return (

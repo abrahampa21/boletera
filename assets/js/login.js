@@ -82,23 +82,7 @@ function revealRecoverPass() {
   });
 }
 
-// //Cambio de fondo cada cierto tiempo
-// const backgroundImages = [
-//     "src/img/fondo.webp",
-//     "src/img/fondo2.webp"
-// ];
-
-// let cont = 0;
-
-// function changeBackground() {
-//   document.body.style.backgroundImage = `url("${backgroundImages[cont]}")`;
-//   cont = (cont + 1) % backgroundImages.length;
-// }
-
-// setInterval(changeBackground, 3000);
-
-// window.onload = changeBackground;
-
+//Validar contraseña en el frontend
 if (contraseñaAdmin) {
   contraseñaAdmin.addEventListener("input", function () {
     const value = contraseñaAdmin.value;

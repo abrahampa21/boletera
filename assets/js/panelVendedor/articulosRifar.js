@@ -1,4 +1,5 @@
-  function agrandarImagen(src) {
+//Funciones para maximizar la imagen
+function agrandarImagen(src) {
     var modal = document.getElementById("modal-img");
     var modalImg = document.getElementById("imgModal");
     modal.style.display = "block";
