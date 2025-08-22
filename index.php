@@ -3,31 +3,29 @@ session_start();
 include("src/conexion.php");
 
 if (isset($_POST["ingresar"])) {
-    $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);
-    $password = mysqli_real_escape_string($conexion, $_POST['contraseña']);
-    $token    = mysqli_real_escape_string($conexion, $_POST['token']);
+    $usuario = $_POST['usuario'];
+    $password = $_POST['contraseña'];
+    $token    = $_POST['token'];
     $password_encriptada = sha1($password);
-    // Ahora verificamos usuario, password y token
-    $sql_admin = "SELECT usuario FROM administrador 
-                  WHERE usuario = '$usuario' 
-                  AND password = '$password_encriptada' 
-                  AND token = '$token' 
-                  LIMIT 1";
 
-    $resultado_admin = $conexion->query($sql_admin);
+    // Administrador
+    $stmt_admin = $conexion->prepare("SELECT usuario FROM administrador WHERE usuario = ? AND password = ? AND token = ? LIMIT 1"); //Prepara la conexión
+    $stmt_admin->bind_param("sss", $usuario, $password_encriptada, $token); //Enlaza variables
+    $stmt_admin->execute(); //Ejecuta
+    $resultado_admin = $stmt_admin->get_result(); //Obtiene resultados
 
     if ($resultado_admin && $resultado_admin->num_rows > 0) {
         $row = $resultado_admin->fetch_assoc();
         $_SESSION['usuarioAdmin'] = $row['usuario'];
         header("Location: panelAdmin.php");
         exit();
-    } // Si no es administrador, verificar si es vendedor
-    $sql_vendedor = "SELECT idVendedor, usuario FROM vendedor 
-                 WHERE usuario = '$usuario' 
-                 AND password = '$password_encriptada' 
-                 LIMIT 1";
+    }
 
-    $resultado_vendedor = $conexion->query($sql_vendedor);
+    // Vendedor
+    $stmt_vendedor = $conexion->prepare("SELECT idVendedor, usuario FROM vendedor WHERE usuario = ? AND password = ? LIMIT 1");
+    $stmt_vendedor->bind_param("ss", $usuario, $password_encriptada);
+    $stmt_vendedor->execute();
+    $resultado_vendedor = $stmt_vendedor->get_result();
 
     if ($resultado_vendedor && $resultado_vendedor->num_rows > 0) {
         $row = $resultado_vendedor->fetch_assoc();
@@ -36,124 +34,118 @@ if (isset($_POST["ingresar"])) {
         header("Location: panelVendedor.php");
         exit();
     } else {
-        $mensajeresultado="error";
-        /*echo "<script>
-        alert('Usuario, contraseña o token incorrectos');
-        window.location = 'index.php';
-    </script>";*/
+        $mensajeresultado = "error";
     }
 }
 
 // Registro para administrador
 if (isset($_POST["registrar-admin"])) {
-    $nombre = mysqli_real_escape_string($conexion, $_POST['nombre']);
-    $correo = mysqli_real_escape_string($conexion, $_POST['email']);
-    $usuario = mysqli_real_escape_string($conexion, $_POST['usuario']);
-    $password = mysqli_real_escape_string($conexion, $_POST['contraseña']);
+    $nombre = $_POST['nombre'];
+    $correo = $_POST['email'];
+    $usuario = $_POST['usuario'];
+    $password = $_POST['contraseña'];
     $password_encriptada = sha1($password);
+
     // Verificar si el usuario ya existe
-    $verificar_usuario = "SELECT usuario FROM administrador WHERE usuario = '$usuario' LIMIT 1";
-    $resultado_verificar = $conexion->query($verificar_usuario);
+    $stmt_verificar = $conexion->prepare("SELECT usuario FROM administrador WHERE usuario = ? LIMIT 1");
+    $stmt_verificar->bind_param("s", $usuario);
+    $stmt_verificar->execute();
+    $resultado_verificar = $stmt_verificar->get_result();
 
     if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
         $mensajeusuarioexiste = "error";
-    }
-
-    // Insertar nuevo administrador
-    $sql_insert = "INSERT INTO administrador (usuario, nombreCompleto, password, email) 
-                   VALUES ('$usuario', '$nombre', '$password_encriptada', '$correo')";
-
-    if ($conexion->query($sql_insert) === TRUE) {
-        $mensajeadmin = "exito";
-        /*echo "<script>
-            alert('Registro exitoso. En unos momentos se te asignará tu código de seguridad');
-            window.location = 'index.php';
-        </script>";*/
     } else {
-       $mensajeadmin = "error";
-       /* echo "<script>
-            alert('Error al registrar: " . $conexion->error . "');
-            window.location = 'index.php';
-        </script>";*/
+        // Insertar nuevo administrador
+        $stmt_insert = $conexion->prepare("INSERT INTO administrador (usuario, nombreCompleto, password, email) VALUES (?, ?, ?, ?)");
+        $stmt_insert->bind_param("ssss", $usuario, $nombre, $password_encriptada, $correo);
+        if ($stmt_insert->execute()) {
+            $mensajeadmin = "exito";
+        } else {
+            $mensajeadmin = "error";
+        }
     }
 }
 
-//Registro del vendedor
+// Registro del vendedor
 if (isset($_POST["registrar-vendedor"])) {
-    $nombre = mysqli_real_escape_string($conexion, $_POST['nombre-vendedor']);
-    $apellidoP = mysqli_real_escape_string($conexion, $_POST['apellidoP-vendedor']);
-    $apellidoM = mysqli_real_escape_string($conexion, $_POST['apellidoM-vendedor']);
-    $correo = mysqli_real_escape_string($conexion, $_POST['email-vendedor']);
-    $usuario = mysqli_real_escape_string($conexion, $_POST['usuario-vendedor']);
-    $password = mysqli_real_escape_string($conexion, $_POST['contraseña-vendedor']);
-    $numeroCel = mysqli_real_escape_string($conexion, $_POST['noCelular-vendedor']);
-    $numeroRef = mysqli_real_escape_string($conexion, $_POST['noReferencia-vendedor']);
+    $nombre = $_POST['nombre-vendedor'];
+    $apellidoP = $_POST['apellidoP-vendedor'];
+    $apellidoM = $_POST['apellidoM-vendedor'];
+    $correo = $_POST['email-vendedor'];
+    $usuario = $_POST['usuario-vendedor'];
+    $password = $_POST['contraseña-vendedor'];
+    $numeroCel = $_POST['noCelular-vendedor'];
+    $numeroRef = $_POST['noReferencia-vendedor'];
     $password_encriptada = sha1($password);
-    // Se verifica si se subió la imagen
+
     if (isset($_FILES['ine-vendedor']) && $_FILES['ine-vendedor']['error'] === 0) {
         $ine_tmp = $_FILES['ine-vendedor']['tmp_name'];
-        $ine = addslashes(file_get_contents($ine_tmp)); // listo para BLOB
+        $ine = file_get_contents($ine_tmp);
     } else {
         $mensajeine = "error-foto";
         exit();
     }
+
     // Verificar si el usuario ya existe
-    $verificar_usuario = "SELECT usuario FROM vendedor WHERE usuario = '$usuario' LIMIT 1";
-    $resultado_verificar = $conexion->query($verificar_usuario);
+    $stmt_verificar = $conexion->prepare("SELECT usuario FROM vendedor WHERE usuario = ? LIMIT 1");
+    $stmt_verificar->bind_param("s", $usuario);
+    $stmt_verificar->execute();
+    $resultado_verificar = $stmt_verificar->get_result();
 
     if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
         $mensajeusuario = "error";
         exit();
-    }
-
-    // Insertar nuevo vendedor
-    $sql_insert = "INSERT INTO vendedor (usuario, nombre, apellidoP, apellidoM, email, password, 
-    fotoINE, noCelular, noReferencia) 
-                   VALUES ('$usuario', '$nombre','$apellidoP','$apellidoM', '$correo' 
-                   , '$password_encriptada','$ine','$numeroCel', '$numeroRef')";
-
-    if ($conexion->query($sql_insert) === TRUE) {
-        $mensajevendedor = "exito";
     } else {
-        $mensajevendedor = "error";
+        // Insertar nuevo vendedor
+        $stmt_insert = $conexion->prepare("INSERT INTO vendedor (usuario, nombre, apellidoP, apellidoM, email, password, fotoINE, noCelular, noReferencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt_insert->bind_param("sssssssss", $usuario, $nombre, $apellidoP, $apellidoM, $correo, $password_encriptada, $ine, $numeroCel, $numeroRef);
+        if ($stmt_insert->execute()) {
+            $mensajevendedor = "exito";
+        } else {
+            $mensajevendedor = "error";
+        }
     }
 }
 
-
-//Recuperar contraseña
+// Recuperar contraseña
 if (isset($_POST["recuperar-btn"])) {
-    $email = mysqli_real_escape_string($conexion, $_POST['email-recuperar']);
-    $contraseñaNueva = mysqli_real_escape_string($conexion, $_POST['contraseña-recuperar']);
+    $email = $_POST['email-recuperar'];
+    $contraseñaNueva = $_POST['contraseña-recuperar'];
     $contraseñaNuevaEncriptada = sha1($contraseñaNueva);
 
-    $esAdministrador = "SELECT * FROM administrador WHERE email = '$email' LIMIT 1";
-    $esVendedor = "SELECT * FROM vendedor WHERE email = '$email' LIMIT 1";
-    $resultadoAdmin = $conexion->query($esAdministrador);
-    $resultadoVendedor = $conexion->query($esVendedor);
+    // Administrador
+    $stmt_admin = $conexion->prepare("SELECT * FROM administrador WHERE email = ? LIMIT 1");
+    $stmt_admin->bind_param("s", $email);
+    $stmt_admin->execute();
+    $resultadoAdmin = $stmt_admin->get_result();
 
-    //Para actualizar administrador
+    // Vendedor
+    $stmt_vendedor = $conexion->prepare("SELECT * FROM vendedor WHERE email = ? LIMIT 1");
+    $stmt_vendedor->bind_param("s", $email);
+    $stmt_vendedor->execute();
+    $resultadoVendedor = $stmt_vendedor->get_result();
+
     if ($resultadoAdmin && $resultadoAdmin->num_rows > 0) {
-        $actualizarAdmin = "UPDATE administrador SET password = '$contraseñaNuevaEncriptada' WHERE email = '$email'";
-        if ($conexion->query($actualizarAdmin) === true) {
+        $stmt_update = $conexion->prepare("UPDATE administrador SET password = ? WHERE email = ?");
+        $stmt_update->bind_param("ss", $contraseñaNuevaEncriptada, $email);
+        if ($stmt_update->execute()) {
+            $mensajecontraseña = "exito";
+        } else {
+            $mensajecontraseña = "error";
+        }
+    } else if ($resultadoVendedor && $resultadoVendedor->num_rows > 0) {
+        $stmt_update = $conexion->prepare("UPDATE vendedor SET password = ? WHERE email = ?");
+        $stmt_update->bind_param("ss", $contraseñaNuevaEncriptada, $email);
+        if ($stmt_update->execute()) {
             $mensajecontraseña = "exito";
         } else {
             $mensajecontraseña = "error";
         }
     } else {
-        if ($resultadoVendedor && $resultadoVendedor->num_rows > 0) {
-            $actualizarVendedor = "UPDATE vendedor SET password = '$contraseñaNuevaEncriptada' WHERE email = '$email'";
-            if ($conexion->query($actualizarVendedor) === true) {
-                $mensajecontraseña = "exito";
-            } else {
-                $mensajecontraseña = "error";
-            }
-        } else {
-            $mensajecontraseña = "error1";
-        }
+        $mensajecontraseña = "error1";
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -297,107 +289,106 @@ if (isset($_POST["recuperar-btn"])) {
     <script src="assets/js/login.js"></script>
     <script>
         <?php if ($mensajeusuarioexiste === "error"): ?>
-      Swal.fire({
-        title: 'Error!',
-        text: 'El usuario ya existe. Intenta con otro.',
-        icon: 'error'
-      }).then(() => {
-        exit();
-      });
-      <?php endif; ?>
+            Swal.fire({
+                title: 'Error!',
+                text: 'El usuario ya existe. Intenta con otro.',
+                icon: 'error'
+            }).then(() => {
+                exit();
+            });
+        <?php endif; ?>
 
-      <?php if ($mensajeadmin === "exito"): ?>
-      Swal.fire({
-        title: 'Éxito!',
-        text: 'El administrador ha sido registrado exitosamente. En unos momentos se te asignará tu código de seguridad.',
-        icon: 'success'
-      }).then(() => {
-        window.location = 'index.php';
-      });
-      <?php elseif ($mensajeadmin === "error"): ?>
-      Swal.fire({
-        title: 'Error!',
-        text: 'Error al registrar el administrador. El usuario ya existe.',
-        icon: 'error'
-      }).then(() => {
-       window.location = 'index.php';
-      });
-      <?php endif; ?>
+        <?php if ($mensajeadmin === "exito"): ?>
+            Swal.fire({
+                title: 'Éxito!',
+                text: 'El administrador ha sido registrado exitosamente. En unos momentos se te asignará tu código de seguridad.',
+                icon: 'success'
+            }).then(() => {
+                window.location = 'index.php';
+            });
+        <?php elseif ($mensajeadmin === "error"): ?>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Error al registrar el administrador. El usuario ya existe.',
+                icon: 'error'
+            }).then(() => {
+                window.location = 'index.php';
+            });
+        <?php endif; ?>
 
-      <?php if ($mensajeine === "error-foto"): ?>
-      Swal.fire({
-        title: 'Error!',
-        text: 'Error al subir el INE.',
-        icon: 'error'
-      }).then(() => {
-        window.location = 'index.php';
-      });
-      <?php endif; ?>
+        <?php if ($mensajeine === "error-foto"): ?>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Error al subir el INE.',
+                icon: 'error'
+            }).then(() => {
+                window.location = 'index.php';
+            });
+        <?php endif; ?>
 
-      <?php if ($mensajeusuario === "error"): ?>
-      Swal.fire({
-        title: 'Error!',
-        text: 'El usuario ya existe. Intenta con otro.',
-        icon: 'error'
-      }).then(() => {
-        window.location = 'index.php';
-      });
-      <?php endif; ?>
+        <?php if ($mensajeusuario === "error"): ?>
+            Swal.fire({
+                title: 'Error!',
+                text: 'El usuario ya existe. Intenta con otro.',
+                icon: 'error'
+            }).then(() => {
+                window.location = 'index.php';
+            });
+        <?php endif; ?>
 
-      <?php if ($mensajevendedor === "exito"): ?>
-      Swal.fire({
-        title: 'Éxito!',
-        text: 'El vendedor ha sido registrado exitosamente. Ya puedes iniciar sesión.',
-        icon: 'success'
-      }).then(() => {
-        window.location = 'index.php';
-      });
-      <?php elseif ($mensajevendedor === "error"): ?>
-      Swal.fire({
-        title: 'Error!',
-        text: 'Error al registrar el vendedor. El usuario ya existe.',
-        icon: 'error'
-      }).then(() => {
-        window.location = 'index.php';
-      });
-      <?php endif; ?>
+        <?php if ($mensajevendedor === "exito"): ?>
+            Swal.fire({
+                title: 'Éxito!',
+                text: 'El vendedor ha sido registrado exitosamente. Ya puedes iniciar sesión.',
+                icon: 'success'
+            }).then(() => {
+                window.location = 'index.php';
+            });
+        <?php elseif ($mensajevendedor === "error"): ?>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Error al registrar el vendedor. El usuario ya existe.',
+                icon: 'error'
+            }).then(() => {
+                window.location = 'index.php';
+            });
+        <?php endif; ?>
 
-      <?php if ($mensajecontraseña === "exito"): ?>
-      Swal.fire({
-        title: 'Éxito!',
-        text: 'La contraseña ha sido actualizada correctamente.',
-        icon: 'success'
-      }).then(() => {
-        window.location = 'index.php';
-      });
-      <?php elseif ($mensajecontraseña === "error"): ?>
-      Swal.fire({
-        title: 'Error!',
-        text: 'Error al actualizar la contraseña.',
-        icon: 'error'
-      }).then(() => {
-        window.location = 'index.php';
-      });
-      <?php elseif ($mensajecontraseña === "error1"): ?>
-      Swal.fire({
-        title: 'Error!',
-        text: 'El correo no está registrado.',
-        icon: 'error'
-      }).then(() => {
-        window.location = 'index.php';
-      });
-      <?php endif; ?>
-      <?php if ($mensajeresultado === "error"): ?>
-      Swal.fire({
-        title: 'Error!',
-        text: 'Usuario o token incorrectos.',
-        icon: 'error'
-      }).then(() => {
-        window.location = 'index.php';
-      });
-      <?php endif; ?>
+        <?php if ($mensajecontraseña === "exito"): ?>
+            Swal.fire({
+                title: 'Éxito!',
+                text: 'La contraseña ha sido actualizada correctamente.',
+                icon: 'success'
+            }).then(() => {
+                window.location = 'index.php';
+            });
+        <?php elseif ($mensajecontraseña === "error"): ?>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Error al actualizar la contraseña.',
+                icon: 'error'
+            }).then(() => {
+                window.location = 'index.php';
+            });
+        <?php elseif ($mensajecontraseña === "error1"): ?>
+            Swal.fire({
+                title: 'Error!',
+                text: 'El correo no está registrado.',
+                icon: 'error'
+            }).then(() => {
+                window.location = 'index.php';
+            });
+        <?php endif; ?>
+        <?php if ($mensajeresultado === "error"): ?>
+            Swal.fire({
+                title: 'Error!',
+                text: 'Usuario o token incorrectos.',
+                icon: 'error'
+            }).then(() => {
+                window.location = 'index.php';
+            });
+        <?php endif; ?>
     </script>
 </body>
 
 </html>
-
