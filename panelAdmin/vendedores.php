@@ -6,16 +6,35 @@ if ($conexion->connect_error) {
     die("Conexión fallida: " . $conexion->connect_error);
 }
 
-// Consulta 
+//Mostrar vendedores
 $sql = "SELECT idVendedor, nombre, apellidoP FROM vendedor";
 $resultado = $conexion->query($sql);
 
 if (!$resultado) {
     die("Error en la consulta: " . $conexion->error);
 }
+
+//Eliminar a un vendedor
+if (isset($_POST["vendedor-id"]) && isset($_POST["borrar-vendedor"])) {
+    $id_vendedor = $_POST["vendedor-id"];
+
+    $statement = $conexion->prepare("DELETE FROM vendedor WHERE idVendedor = ?");
+    $statement->bind_param("i", $id_vendedor);
+
+    if ($statement->execute()) {
+        echo "<script>
+        alert('Vendedor eliminado correctamente');
+        window.location.href = 'vendedores.php';
+        </script>";
+    } else {
+        echo "<script>
+        alert('No se pudo eliminar al vendedor');
+        window.location.href = 'vendedores.php';
+        </script>";
+    }
+}
+
 ?>
-
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -38,6 +57,7 @@ if (!$resultado) {
                     <th>Nombre</th>
                     <th>Boletera y Clientes</th>
                     <th>Datos Personales</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,6 +68,12 @@ if (!$resultado) {
                         echo "<td>" . htmlspecialchars($fila['nombre']) . " " . htmlspecialchars($fila['apellidoP']) . "</td>";
                         echo "<td><a href='boleteraVendedor.php?idVendedor=" . urlencode($fila['idVendedor']) . "'>Ver</a></td>";
                         echo "<td><a href='datosVendedor.php?id=" . urlencode($fila['idVendedor']) . "'>Ver</a></td>";
+                        echo "<td>
+                        <form method='post' onsubmit=\"return confirm('¿Está seguro de eliminar al vendedor?');\">
+                            <input type='hidden' name='vendedor-id' value='" . intval($fila["idVendedor"]) . "'>
+                            <button type='submit' class='borrar-vendedor' name='borrar-vendedor'>Dar de baja</button>
+                        </form>
+                        </td>";
                         echo "</tr>";
                     }
                 } else {
@@ -66,6 +92,10 @@ if (!$resultado) {
                             echo "<a href='boleteraVendedor.php?idVendedor=" . urlencode($fila['idVendedor']) . "'>Boletera y Clientes</a>";
                             echo "<br>";
                             echo "<a href='datosVendedor.php?id=" . urlencode($fila['idVendedor']) . "'>Datos Personales</a>";
+                            echo "<form method='post' onsubmit=\"return confirm('¿Está seguro de eliminar al vendedor?');\">
+                                <input type='hidden' name='vendedor-id' value='" . intval($fila["idVendedor"]) . "'>
+                                <button type='submit' class='borrar-vendedor-responsive' name='borrar-vendedor'>Dar de baja</button>
+                            </form>";
                             echo "</div>";
                         }
                     } else {

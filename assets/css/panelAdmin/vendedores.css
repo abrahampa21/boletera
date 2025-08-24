@@ -97,6 +97,29 @@ body {
   color: #fff;
 }
 
+.borrar-vendedor{
+  background-color: rgb(85, 119, 95);
+  border: none;
+  padding: 13px;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.borrar-vendedor:hover{
+  background-color: rgb(58, 103, 71);
+}
+
+.borrar-vendedor-responsive{
+  background-color: rgb(85, 119, 95);
+  border: none;
+  padding: 13px;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
 /*tbody de listaClientes.php*/
 #lista-clientes{
   cursor: pointer;
