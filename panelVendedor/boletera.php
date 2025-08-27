@@ -107,7 +107,7 @@ $_SESSION['idArticuloSel'] = $idArticuloSel;
   <a href="../panelVendedor/articulosRifar.php"><i class="fa-solid fa-arrow-left"></i></a>
 
   <script>
-    // Pasar los boletos vendidos al JavaScript
+    // Pasar los boletos vendidos al JS
     const boletosVendidos = <?= json_encode($boletosVendidos) ?>;
   </script>
   <script src="../assets/js/panelVendedor/boletera.js"></script>

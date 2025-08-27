@@ -97,7 +97,7 @@ body {
   color: #fff;
 }
 
-.borrar-vendedor{
+.borrar-vendedor {
   background-color: rgb(85, 119, 95);
   border: none;
   padding: 13px;
@@ -106,11 +106,11 @@ body {
   cursor: pointer;
 }
 
-.borrar-vendedor:hover{
+.borrar-vendedor:hover {
   background-color: rgb(58, 103, 71);
 }
 
-.borrar-vendedor-responsive{
+.borrar-vendedor-responsive {
   background-color: rgb(85, 119, 95);
   border: none;
   padding: 13px;
@@ -121,13 +121,24 @@ body {
 }
 
 /*tbody de listaClientes.php*/
-#lista-clientes{
+#lista-clientes {
   cursor: pointer;
 }
 
 /*Para la responsividad*/
 .cards-container {
   display: none;
+}
+
+#copiar-clientes {
+  display: none;
+  margin: 20px auto;
+  background-color: rgb(85, 119, 95);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  width: auto;
 }
 
 @media screen and (max-width: 768px) {
@@ -139,6 +150,10 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+  }
+
+  #copiar-clientes {
+    display: block;
   }
 
   .card {

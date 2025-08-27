@@ -54,7 +54,7 @@ $resultadoArticulos = $conexion->query($sqlArticulos);
         </nav>
     </header>
 
-    <a href="src/logout.php" class="exit" title="Salir"><i class="fa-solid fa-right-from-bracket"></i></a>
+    <a href="src/logout.php" class="exit" onclick="return confirm('¿Estás seguro que quieres salir?');" title="Salir"><i class="fa-solid fa-right-from-bracket"></i></a>
 
     <script src="assets/js/paneles.js"></script>
 </body>

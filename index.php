@@ -164,7 +164,7 @@ if (isset($_POST["recuperar-btn"])) {
 <body>
 
     <!--Inicio de sesión-->
-    <form method="post" action="" class="inicio-sesion forms" autocomplete="off" id="inicio-sesion" data-aos="fade-down" data-aos-duration="1500">
+    <form method="post" action="" class="inicio-sesion forms" autocomplete="on" id="inicio-sesion" data-aos="fade-down" data-aos-duration="1500">
         <div class="form-container">
             <h1>Inicio de Sesión</h1>
             <img src="src/img/logo.png" alt="Décori" title="Décori">
@@ -192,7 +192,7 @@ if (isset($_POST["recuperar-btn"])) {
     </form>
 
     <!--Recuperar contraseña-->
-    <form action="" method="post" class="recuperar-contraseña" id="recuperar-contraseña">
+    <form action="" method="post" autocomplete="on" class="recuperar-contraseña" id="recuperar-contraseña">
         <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar" onclick="revealLogin()"></i>
         <h2>Recuperar contraseña</h2>
         <p>Introduce los siguientes datos</p>
@@ -211,7 +211,7 @@ if (isset($_POST["recuperar-btn"])) {
     </form>
 
     <!--Registro para administrador-->
-    <form class="registro-admin forms" id="registro-admin" method="post" action="" autocomplete="off">
+    <form class="registro-admin forms" id="registro-admin" method="post" action="" autocomplete="on">
         <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar" onclick="revealLogin()"></i>
         <h1>Registro para administrador</h1>
         <div class="container-campos">
@@ -238,7 +238,7 @@ if (isset($_POST["recuperar-btn"])) {
     </form>
 
     <!--Registro para vendedor-->
-    <form class="registro-vendedor forms" id="registro-vendedor" action="" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form class="registro-vendedor forms" id="registro-vendedor" action="" method="post" enctype="multipart/form-data" autocomplete="on">
         <i id="regresar-icono" class="arrow fa-solid fa-arrow-left" title="Regresar" onclick="revealLogin()"></i>
         <h1>Registro para vendedor</h1>
         <div class="container-campos">

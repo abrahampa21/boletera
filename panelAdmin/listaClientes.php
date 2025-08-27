@@ -44,7 +44,7 @@ if (!$resultadoClienteBoletos) {
                     <th>Boletos</th>
                 </tr>
             </thead>
-            <tbody id="lista-clientes">
+            <tbody id="lista-clientes" class="lista-clientes">
                 <?php if ($resultadoClienteBoletos && $resultadoClienteBoletos->num_rows > 0): ?>
                     <?php while ($row = $resultadoClienteBoletos->fetch_assoc()): ?>
                         <tr>
@@ -60,6 +60,8 @@ if (!$resultadoClienteBoletos) {
 
 
                 <!--Para tabletas y celulares -->
+                <button id="copiar-clientes"">Copiar Clientes</button>
+
                 <div class="cards-container">
                     <?php
                     if ($resultadoClienteBoletos->num_rows > 0) {
