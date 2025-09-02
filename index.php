@@ -164,7 +164,7 @@ if (isset($_POST["recuperar-btn"])) {
 <body>
 
     <!--Inicio de sesión-->
-    <form method="post" action="" class="inicio-sesion forms" autocomplete="on" id="inicio-sesion" data-aos="fade-down" data-aos-duration="1500">
+    <form method="post" action="" class="inicio-sesion forms" autocomplete="on" id="inicio-sesion" data-aos="fade-down" data-aos-duration="1000">
         <div class="form-container">
             <h1>Inicio de Sesión</h1>
             <img src="src/img/logo.png" alt="Décori" title="Décori">

@@ -45,7 +45,7 @@ $resultadoArticulos = $conexion->query($sqlArticulos);
             </div>
             <div class="links-vendedor">
                 <i class="fa-solid fa-truck"></i>
-                <a href="panelVendedor/articulosRifar.php">Artículos a rifar</a>
+                <a href="panelVendedor/articulosRifar.php">Artículos</a>
             </div>
             <div class="user">
                 <i class="fa-solid fa-user" ></i>
@@ -53,6 +53,8 @@ $resultadoArticulos = $conexion->query($sqlArticulos);
             </div>
         </nav>
     </header>
+
+    <main class="main-vendedor"></main>
 
     <a href="src/logout.php" class="exit" onclick="return confirm('¿Estás seguro que quieres salir?');" title="Salir"><i class="fa-solid fa-right-from-bracket"></i></a>
 

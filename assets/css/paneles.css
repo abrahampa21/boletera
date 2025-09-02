@@ -47,18 +47,19 @@ nav .links {
   gap: 3rem;
 }
 
-nav .links-vendedor{
+nav .links-vendedor {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-nav .img-company, nav.links{
+nav.links {
   padding-left: 2.5rem;
 }
 
 /*Para el panel del vendedor y administrador*/
-nav .apartados a:hover, nav .links a:hover {
+nav .apartados a:hover,
+nav .links a:hover {
   text-decoration: underline;
 }
 
@@ -76,7 +77,7 @@ nav .apartados a:hover, nav .links a:hover {
   position: absolute;
   top: 75%;
   right: 35%;
-  background-color: #ddb373;
+  background-color: rgb(25, 45, 44);
   list-style: none;
   padding: 20px 15px;
   margin: 0;
@@ -106,8 +107,25 @@ nav .apartados a:hover, nav .links a:hover {
   pointer-events: auto;
 }
 
+/*Hero content*/
+.main-admin {
+  background-image: url("../../src/img/fondoPaneles.jpg");
+  height: calc(100dvh - 100px);
+  background-size: cover;
+  background-position: center;
+  filter: blur(4px);
+}
+
+.main-vendedor {
+  background-image: url("../../src/img/fondoVendedor.jpg");
+  height: calc(100dvh - 100px);
+  background-size: cover;
+  background-position: center;
+  filter: blur(4px);
+}
+
 /*Botón salir*/
-.exit{
+.exit {
   background-color: #ff0000;
   color: #fff;
   position: fixed;
@@ -119,7 +137,7 @@ nav .apartados a:hover, nav .links a:hover {
 }
 
 @media (max-width: 1000px) {
-  nav{
+  nav {
     justify-content: space-around;
   }
   .toggle i {
@@ -129,7 +147,7 @@ nav .apartados a:hover, nav .links a:hover {
     display: none;
   }
 
-  .exit{
+  .exit {
     bottom: 2%;
   }
 }
@@ -148,17 +166,21 @@ nav .apartados a:hover, nav .links a:hover {
   }
 }
 
-@media (max-width: 500px){
-  header{
+@media (max-width: 500px) {
+  header {
     padding: 14px 0;
   }
-    .menu{
-        right: 25%;
-    }
+  .menu {
+    right: 25%;
+  }
+
+  nav .links-vendedor{
+    gap: 5px;
+  }
 }
 
-@media (max-width: 400px){
-    .menu{
-        right: 10%;
-    }
+@media (max-width: 400px) {
+  .menu {
+    right: 10%;
+  }
 }

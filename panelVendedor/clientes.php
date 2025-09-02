@@ -1,3 +1,40 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+session_start();
+include("../src/conexion.php");
+
+if (!isset($_SESSION['idVendedor'])) {
+    die('Error: Sesión no iniciada.');
+}
+
+if (!isset($_GET['idArticulo'])) {
+    die('Error: ID del artículo no recibido.');
+}
+
+$idVendedor = intval($_SESSION['idVendedor']);
+$idArticuloSel = intval($_GET['idArticulo']);
+
+// Consulta: obtener clientes + boletos vendidos por ese vendedor para ese artículo
+$sqlClienteBoletos = "SELECT cliente.nombre, cliente.apellidos, 
+    GROUP_CONCAT(clienteboleto.folioBoleto SEPARATOR ', ') as Boletos
+FROM clienteboleto
+INNER JOIN cliente ON clienteboleto.idCliente = cliente.idCliente
+INNER JOIN vendedorBoleto ON clienteboleto.folioBoleto = vendedorBoleto.folioBoleto
+WHERE vendedorBoleto.idArticulo = $idArticuloSel
+  AND vendedorBoleto.idVendedor = $idVendedor
+GROUP BY cliente.nombre, cliente.apellidos";
+
+$resClienteBoletos = $conexion->query($sqlClienteBoletos);
+
+if (!$resClienteBoletos) {
+    die("Error en la consulta: " . $conexion->error);
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -24,7 +61,7 @@
                 <?php if ($resClienteBoletos && $resClienteBoletos->num_rows > 0): ?>
                     <?php while ($row = $resClienteBoletos->fetch_assoc()): ?>
                         <tr>
-                            <td><?= htmlspecialchars($row['nombre']) ?></td>
+                            <td><?= htmlspecialchars($row['nombre'] . ' ' . $row["apellidos"]) ?></td>
                             <td><?= htmlspecialchars($row['Boletos']) ?></td>
                         </tr>
                     <?php endwhile; ?>

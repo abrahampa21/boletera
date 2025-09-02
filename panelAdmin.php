@@ -74,6 +74,8 @@ if ($resultado && $resultado->num_rows > 0) {
         </nav>
     </header>
 
+    <main class="main-admin"></main>
+
     <a href="src/logout.php" onclick="return confirm('¿Estás seguro que quieres salir?');" class="exit" title="Salir"><i class="fa-solid fa-right-from-bracket"></i></a>
 
     <script src="assets/js/paneles.js"></script>
