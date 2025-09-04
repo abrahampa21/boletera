@@ -15,7 +15,7 @@ $nombre = "Administrador";
 
 if ($resultado && $resultado->num_rows > 0) {
     $fila = $resultado->fetch_assoc();
-    $nombre = $fila['nombreCompleto'];
+    $nombre = explode(' ', trim($fila['nombreCompleto']))[0];
 }
 ?> 
 

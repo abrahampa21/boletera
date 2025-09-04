@@ -16,7 +16,6 @@ $nombre = "Vendedor";
 if ($resultado && $resultado->num_rows > 0) {
     $fila = $resultado->fetch_assoc();
     $nombre = $fila['nombre'];
-    $apellido = $fila['apellidoP'];
 }
 
 // Obtener nombres de los artículos
@@ -49,7 +48,7 @@ $resultadoArticulos = $conexion->query($sqlArticulos);
             </div>
             <div class="user">
                 <i class="fa-solid fa-user" ></i>
-                <h4><?php echo htmlspecialchars($nombre . ' ' . $apellido); ?></h4>
+                <h4><?php echo htmlspecialchars($nombre); ?></h4>
             </div>
         </nav>
     </header>
