@@ -2,6 +2,27 @@
 session_start();
 include("src/conexion.php");
 
+function validar_contraseña($contraseña)
+{
+    // Mínimo 10 caracteres
+    if (strlen($contraseña) < 10) {
+        return false;
+    }
+
+    // Al menos una letra
+    if (!preg_match('/[A-Za-z]/', $contraseña)) {
+        return false;
+    }
+
+    // Al menos un carácter especial
+    if (!preg_match('/[!@#$%^&*()_\-=\[\]{};\'":\\|,.<>\/?]/', $contraseña)) {
+        return false;
+    }
+
+    return true;
+}
+
+
 if (isset($_POST["ingresar"])) {
     $usuario = $_POST['usuario'];
     $password = $_POST['contraseña'];
@@ -44,27 +65,31 @@ if (isset($_POST["registrar-admin"])) {
     $correo = $_POST['email'];
     $usuario = $_POST['usuario'];
     $password = $_POST['contraseña'];
-    $password_encriptada = sha1($password);
 
-    // Verificar si el usuario ya existe
-    $stmt_verificar = $conexion->prepare("SELECT usuario FROM administrador WHERE usuario = ? LIMIT 1");
-    $stmt_verificar->bind_param("s", $usuario);
-    $stmt_verificar->execute();
-    $resultado_verificar = $stmt_verificar->get_result();
-
-    if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
-        $mensajeusuarioexiste = "error";
+    if (!validar_contraseña($password)) {
+        $mensajeadmin = "contraseña-invalida";
     } else {
-        // Insertar nuevo administrador
-        $stmt_insert = $conexion->prepare("INSERT INTO administrador (usuario, nombreCompleto, password, email) VALUES (?, ?, ?, ?)");
-        $stmt_insert->bind_param("ssss", $usuario, $nombre, $password_encriptada, $correo);
-        if ($stmt_insert->execute()) {
-            $mensajeadmin = "exito";
+        $password_encriptada = sha1($password);
+
+        $stmt_verificar = $conexion->prepare("SELECT usuario FROM administrador WHERE usuario = ? LIMIT 1");
+        $stmt_verificar->bind_param("s", $usuario);
+        $stmt_verificar->execute();
+        $resultado_verificar = $stmt_verificar->get_result();
+
+        if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
+            $mensajeusuarioexiste = "error";
         } else {
-            $mensajeadmin = "error";
+            $stmt_insert = $conexion->prepare("INSERT INTO administrador (usuario, nombreCompleto, password, email) VALUES (?, ?, ?, ?)");
+            $stmt_insert->bind_param("ssss", $usuario, $nombre, $password_encriptada, $correo);
+            if ($stmt_insert->execute()) {
+                $mensajeadmin = "exito";
+            } else {
+                $mensajeadmin = "error";
+            }
         }
     }
 }
+
 
 // Registro del vendedor
 if (isset($_POST["registrar-vendedor"])) {
@@ -76,75 +101,75 @@ if (isset($_POST["registrar-vendedor"])) {
     $password = $_POST['contraseña-vendedor'];
     $numeroCel = $_POST['noCelular-vendedor'];
     $numeroRef = $_POST['noReferencia-vendedor'];
-    $password_encriptada = sha1($password);
 
-    if (isset($_FILES['ine-vendedor']) && $_FILES['ine-vendedor']['error'] === 0) {
-        $ine_tmp = $_FILES['ine-vendedor']['tmp_name'];
-        $ine = file_get_contents($ine_tmp);
+    if (!validar_contraseña($password)) {
+        $mensajevendedor = "contraseña-invalida";
     } else {
-        $mensajeine = "error-foto";
-        exit();
-    }
+        $password_encriptada = sha1($password);
 
-    // Verificar si el usuario ya existe
-    $stmt_verificar = $conexion->prepare("SELECT usuario FROM vendedor WHERE usuario = ? LIMIT 1");
-    $stmt_verificar->bind_param("s", $usuario);
-    $stmt_verificar->execute();
-    $resultado_verificar = $stmt_verificar->get_result();
-
-    if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
-        $mensajeusuario = "error";
-        exit();
-    } else {
-        // Insertar nuevo vendedor
-        $stmt_insert = $conexion->prepare("INSERT INTO vendedor (usuario, nombre, apellidoP, apellidoM, email, password, fotoINE, noCelular, noReferencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt_insert->bind_param("sssssssss", $usuario, $nombre, $apellidoP, $apellidoM, $correo, $password_encriptada, $ine, $numeroCel, $numeroRef);
-        if ($stmt_insert->execute()) {
-            $mensajevendedor = "exito";
+        if (isset($_FILES['ine-vendedor']) && $_FILES['ine-vendedor']['error'] === 0) {
+            $ine_tmp = $_FILES['ine-vendedor']['tmp_name'];
+            $ine = file_get_contents($ine_tmp);
         } else {
-            $mensajevendedor = "error";
+            $mensajeine = "error-foto";
+            exit();
+        }
+
+        $stmt_verificar = $conexion->prepare("SELECT usuario FROM vendedor WHERE usuario = ? LIMIT 1");
+        $stmt_verificar->bind_param("s", $usuario);
+        $stmt_verificar->execute();
+        $resultado_verificar = $stmt_verificar->get_result();
+
+        if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
+            $mensajeusuario = "error";
+            exit();
+        } else {
+            $stmt_insert = $conexion->prepare("INSERT INTO vendedor (usuario, nombre, apellidoP, apellidoM, email, password, fotoINE, noCelular, noReferencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt_insert->bind_param("sssssssss", $usuario, $nombre, $apellidoP, $apellidoM, $correo, $password_encriptada, $ine, $numeroCel, $numeroRef);
+            if ($stmt_insert->execute()) {
+                $mensajevendedor = "exito";
+            } else {
+                $mensajevendedor = "error";
+            }
         }
     }
 }
+
 
 // Recuperar contraseña
 if (isset($_POST["recuperar-btn"])) {
     $email = $_POST['email-recuperar'];
     $contraseñaNueva = $_POST['contraseña-recuperar'];
-    $contraseñaNuevaEncriptada = sha1($contraseñaNueva);
 
-    // Administrador
-    $stmt_admin = $conexion->prepare("SELECT * FROM administrador WHERE email = ? LIMIT 1");
-    $stmt_admin->bind_param("s", $email);
-    $stmt_admin->execute();
-    $resultadoAdmin = $stmt_admin->get_result();
-
-    // Vendedor
-    $stmt_vendedor = $conexion->prepare("SELECT * FROM vendedor WHERE email = ? LIMIT 1");
-    $stmt_vendedor->bind_param("s", $email);
-    $stmt_vendedor->execute();
-    $resultadoVendedor = $stmt_vendedor->get_result();
-
-    if ($resultadoAdmin && $resultadoAdmin->num_rows > 0) {
-        $stmt_update = $conexion->prepare("UPDATE administrador SET password = ? WHERE email = ?");
-        $stmt_update->bind_param("ss", $contraseñaNuevaEncriptada, $email);
-        if ($stmt_update->execute()) {
-            $mensajecontraseña = "exito";
-        } else {
-            $mensajecontraseña = "error";
-        }
-    } else if ($resultadoVendedor && $resultadoVendedor->num_rows > 0) {
-        $stmt_update = $conexion->prepare("UPDATE vendedor SET password = ? WHERE email = ?");
-        $stmt_update->bind_param("ss", $contraseñaNuevaEncriptada, $email);
-        if ($stmt_update->execute()) {
-            $mensajecontraseña = "exito";
-        } else {
-            $mensajecontraseña = "error";
-        }
+    if (!validar_contraseña($contraseñaNueva)) {
+        $mensajecontraseña = "contraseña-invalida";
     } else {
-        $mensajecontraseña = "error1";
+        $contraseñaNuevaEncriptada = sha1($contraseñaNueva);
+
+        $stmt_admin = $conexion->prepare("SELECT * FROM administrador WHERE email = ? LIMIT 1");
+        $stmt_admin->bind_param("s", $email);
+        $stmt_admin->execute();
+        $resultadoAdmin = $stmt_admin->get_result();
+
+        $stmt_vendedor = $conexion->prepare("SELECT * FROM vendedor WHERE email = ? LIMIT 1");
+        $stmt_vendedor->bind_param("s", $email);
+        $stmt_vendedor->execute();
+        $resultadoVendedor = $stmt_vendedor->get_result();
+
+        if ($resultadoAdmin && $resultadoAdmin->num_rows > 0) {
+            $stmt_update = $conexion->prepare("UPDATE administrador SET password = ? WHERE email = ?");
+            $stmt_update->bind_param("ss", $contraseñaNuevaEncriptada, $email);
+            $mensajecontraseña = $stmt_update->execute() ? "exito" : "error";
+        } elseif ($resultadoVendedor && $resultadoVendedor->num_rows > 0) {
+            $stmt_update = $conexion->prepare("UPDATE vendedor SET password = ? WHERE email = ?");
+            $stmt_update->bind_param("ss", $contraseñaNuevaEncriptada, $email);
+            $mensajecontraseña = $stmt_update->execute() ? "exito" : "error";
+        } else {
+            $mensajecontraseña = "error1";
+        }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -301,7 +326,7 @@ if (isset($_POST["recuperar-btn"])) {
         <?php if ($mensajeadmin === "exito"): ?>
             Swal.fire({
                 title: 'Éxito!',
-                text: 'El administrador ha sido registrado exitosamente. En unos momentos se te asignará tu código de seguridad.',
+                text: 'Has sido registrado exitosamente. En unos momentos se te asignará tu código de seguridad.',
                 icon: 'success'
             }).then(() => {
                 window.location = 'index.php';
@@ -339,7 +364,7 @@ if (isset($_POST["recuperar-btn"])) {
         <?php if ($mensajevendedor === "exito"): ?>
             Swal.fire({
                 title: 'Éxito!',
-                text: 'El vendedor ha sido registrado exitosamente. Ya puedes iniciar sesión.',
+                text: 'Has sido registrado exitosamente. Ya puedes iniciar sesión.',
                 icon: 'success'
             }).then(() => {
                 window.location = 'index.php';
@@ -382,8 +407,22 @@ if (isset($_POST["recuperar-btn"])) {
         <?php if ($mensajeresultado === "error"): ?>
             Swal.fire({
                 title: 'Error!',
-                text: 'Usuario o token incorrectos.',
+                text: 'Usuario, token o contraseña incorrectos.',
                 icon: 'error'
+            }).then(() => {
+                window.location = 'index.php';
+            });
+        <?php endif; ?>
+
+        <?php if (
+            $mensajeadmin === "contraseña-invalida" ||
+            $mensajevendedor === "contraseña-invalida" ||
+            $mensajecontraseña === "contraseña-invalida"
+        ): ?>
+            Swal.fire({
+                title: 'Contraseña inválida',
+                text: 'Debe tener al menos 10 caracteres, incluir letras y un carácter especial.',
+                icon: 'warning'
             }).then(() => {
                 window.location = 'index.php';
             });
