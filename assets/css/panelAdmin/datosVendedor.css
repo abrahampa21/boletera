@@ -1,73 +1,69 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Open+Sans&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
   font-family: "Open Sans", sans-serif;
-}
-
-body{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #3f5a47;
-}
-
-/*Card para vendedores*/
-.card-vendedores {
+  background-color: #3f5a47;
   display: flex;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 20px;
 }
-.datos-vendedores {
-  width: 50%;
-  border-collapse: collapse;
-  margin-top: 20px;
+
+.card-container {
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 2px 2px 10px 0 #000;
+}
+
+.card {
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
 
-.datos-vendedores caption {
+.card-header {
+  text-align: center;
+  padding: 10px 20px;
+  background-color: #2f4f3f;
+  color: white;
+}
+
+.card-header h2 {
   font-family: "Playfair Display", serif;
   font-size: 1.8em;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #fff;
-  text-align: center;
+  margin-top: 10px;
 }
 
-.datos-vendedores thead {
-  color: var(--blanco);
-}
-
-.datos-vendedores th,
-.datos-vendedores td {
-  padding: 15px;
-  text-align: left;
-  font-size: 1em;
-  border-bottom: 1px solid var(--acento);
-  background-color: var(--verde-claro);
-  color: var(--texto);
-}
-
-.datos-vendedores tbody tr:nth-child(even) {
-  background-color: var(--acento);
-}
-
-.datos-vendedores img {
-  width: 150px;
+.vendedor-img {
+  width: 120px;
   height: auto;
-  border-radius: 8px;
-  margin: 0 auto 20px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.card-body {
+  padding: 20px 20px 0;
+}
+
+.info-row {
+  margin-bottom: 15px;
+  font-size: 1em;
+}
+
+.info-row span {
+  font-weight: bold;
+  color: #3f5a47;
   display: block;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  margin-bottom: 3px;
 }
 
 .fa-arrow-left {
@@ -82,20 +78,21 @@ body{
   color: #fff;
 }
 
-.fa-right-from-bracket{
-    background-color: #b5251b;
-  padding: 1rem;
-  font-size: 1.5rem;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 4%;
-  right: 1.5%;
-  cursor: pointer;
-  color: #fff;
-}
 
-@media (max-width:768px){
-  .fa-arrow-left, .fa-right-from-bracket{
-    font-size: 14px;
+@media (max-width: 500px) {
+  .card-footer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card-footer a {
+    text-align: center;
+    width: 100%;
+  }
+
+  .fa-arrow-left{
+    top: 1%;
+    font-size: 1.1rem;
+    padding: 13px;
   }
 }

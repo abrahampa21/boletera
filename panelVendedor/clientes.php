@@ -19,13 +19,15 @@ $idArticuloSel = intval($_GET['idArticulo']);
 
 // Consulta: obtener clientes + boletos vendidos por ese vendedor para ese artículo
 $sqlClienteBoletos = "SELECT cliente.nombre, cliente.apellidos, 
+    cliente.noCelular, cliente.direccionFisica, cliente.entidad, cliente.comprobante,
     GROUP_CONCAT(clienteboleto.folioBoleto SEPARATOR ', ') as Boletos
 FROM clienteboleto
 INNER JOIN cliente ON clienteboleto.idCliente = cliente.idCliente
 INNER JOIN vendedorBoleto ON clienteboleto.folioBoleto = vendedorBoleto.folioBoleto
 WHERE vendedorBoleto.idArticulo = $idArticuloSel
   AND vendedorBoleto.idVendedor = $idVendedor
-GROUP BY cliente.nombre, cliente.apellidos";
+GROUP BY cliente.idCliente";
+
 
 $resClienteBoletos = $conexion->query($sqlClienteBoletos);
 
@@ -37,6 +39,7 @@ if (!$resClienteBoletos) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,6 +58,10 @@ if (!$resClienteBoletos) {
                 <tr>
                     <th>Nombre</th>
                     <th>Boletos</th>
+                    <th>Comprobante</th>
+                    <th>Número de celular</th>
+                    <th>Domicilio</th>
+                    <th>Ciudad</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,6 +70,18 @@ if (!$resClienteBoletos) {
                         <tr>
                             <td><?= htmlspecialchars($row['nombre'] . ' ' . $row["apellidos"]) ?></td>
                             <td><?= htmlspecialchars($row['Boletos']) ?></td>
+
+                            <td>
+                                <?php if (!empty($row['comprobante'])): ?>
+                                    <img src="data:image/jpeg;base64,<?= base64_encode($row['comprobante']) ?>" width="100" alt="Comprobante">
+                                <?php else: ?>
+                                    No disponible
+                                <?php endif; ?>
+                            </td>
+
+                            <td><?= htmlspecialchars($row['noCelular']) ?></td>
+                            <td><?= htmlspecialchars($row['direccionFisica']) ?></td>
+                            <td><?= htmlspecialchars($row['entidad']) ?></td>
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
@@ -78,4 +97,5 @@ if (!$resClienteBoletos) {
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="../assets/js/login.js"></script>
 </body>
+
 </html>

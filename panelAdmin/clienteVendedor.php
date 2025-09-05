@@ -9,13 +9,15 @@ $idVendedor = intval($_GET['idVendedor']);
 $idArticuloSel = intval($_GET['idArticulo']);
 
 // Consulta para obtener nombre del cliente + sus boletos en base al artículo y vendedor que se lo vendió
-$sqlClienteBoletos = "SELECT cliente.nombre, cliente.apellidos, GROUP_CONCAT(clienteboleto.folioBoleto SEPARATOR ', ') as Boletos
+$sqlClienteBoletos = "SELECT cliente.nombre, cliente.apellidos, 
+    cliente.noCelular, cliente.direccionFisica, cliente.entidad, cliente.comprobante,
+    GROUP_CONCAT(clienteboleto.folioBoleto SEPARATOR ', ') as Boletos
 FROM clienteboleto
 INNER JOIN cliente ON clienteboleto.idCliente = cliente.idCliente
 INNER JOIN vendedorBoleto ON clienteboleto.folioBoleto = vendedorBoleto.folioBoleto
 WHERE vendedorBoleto.idArticulo = $idArticuloSel
   AND vendedorBoleto.idVendedor = $idVendedor
-GROUP BY cliente.nombre, cliente.apellidos";
+GROUP BY cliente.idCliente";
 $resClienteBoletos = $conexion->query($sqlClienteBoletos);
 
 if (!$resClienteBoletos) {
@@ -44,6 +46,10 @@ if (!$resClienteBoletos) {
                 <tr>
                     <th>Nombre</th>
                     <th>Boletos</th>
+                    <th>Comprobante</th>
+                    <th>Número de celular</th>
+                    <th>Domicilio</th>
+                    <th>Ciudad</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,6 +58,18 @@ if (!$resClienteBoletos) {
                         <tr>
                             <td><?= htmlspecialchars($row['nombre'] . " " . $row['apellidos']) ?></td>
                             <td><?= htmlspecialchars($row['Boletos']) ?></td>
+
+                            <td>
+                                <?php if (!empty($row['comprobante'])): ?>
+                                    <img src="data:image/jpeg;base64,<?= base64_encode($row['comprobante']) ?>" width="100" alt="Comprobante">
+                                <?php else: ?>
+                                    No disponible
+                                <?php endif; ?>
+                            </td>
+
+                            <td><?= htmlspecialchars($row['noCelular']) ?></td>
+                            <td><?= htmlspecialchars($row['direccionFisica']) ?></td>
+                            <td><?= htmlspecialchars($row['entidad']) ?></td>
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
@@ -69,6 +87,16 @@ if (!$resClienteBoletos) {
                             echo "<div class='card'>";
                             echo "<h3>" . htmlspecialchars($fila['nombre']) . " " . ($fila['apellidos']) . "</h3>";
                             echo "<h3>" . htmlspecialchars($fila['Boletos']) . " " . "</h3>";
+
+                            // Imagen del comprobante
+                            if (!empty($fila['comprobante'])) {
+                                echo "<img src='data:image/jpeg;base64," . base64_encode($fila['comprobante']) . "' width='100' alt='Comprobante'>";
+                            } else {
+                                echo "<p>Comprobante no disponible</p>";
+                            }
+                            echo "<h3>" . htmlspecialchars($fila['noCelular']) . " " . "</h3>";
+                            echo "<h3>" . htmlspecialchars($fila['direccionFisica']) . " " . "</h3>";
+                            echo "<h3>" . htmlspecialchars($fila['entidad']) . " " . "</h3>";
                             echo "</div>";
                         }
                     } else {
