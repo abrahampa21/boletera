@@ -11,7 +11,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 100dvh;
   background-color: #3f5a47;
 }
 
@@ -128,7 +128,7 @@ body a {
 }
 
 .fa-arrow-left {
-  background-color: #c2a65a;
+  background-color: #ff0000;
   padding: 1rem;
   font-size: 1.5rem;
   border-radius: 50%;
@@ -137,4 +137,16 @@ body a {
   left: 1.5%;
   cursor: pointer;
   color: #fff;
+}
+
+@media (max-width:480px) {
+  .boletera{
+    width: 85%;
+    padding: 10px;
+  }
+
+  .fa-arrow-left{
+    padding: 11px;
+    font-size: 1.2rem;
+  }
 }

@@ -109,6 +109,12 @@ if (!$resClienteBoletos) {
     </div>
 
     <a href="boleteraVendedor.php?idVendedor=<?= $idVendedor ?>"><i class="fa-solid fa-arrow-left"></i></a>
+
+    <div id="modal-img" class="modal">
+        <span class="cerrar">&times;</span>
+        <img class="modal-contenido" id="img-ampliada">
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="../assets/js/login.js"></script>
 </body>

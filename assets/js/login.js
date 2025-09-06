@@ -128,6 +128,55 @@ if (contraseñaRecuperar) {
   });
 }
 
+//Ampliar imagen del comprobante en el panel del administrador
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById("modal-img");
+    const modalImg = document.getElementById("img-ampliada");
+    const cerrar = document.getElementsByClassName("cerrar")[0];
+
+    document.querySelectorAll("img[alt='Comprobante']").forEach(function(img) {
+        img.style.cursor = "pointer";
+        img.addEventListener("click", function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+        });
+    });
+
+    cerrar.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    modal.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+});
+
+//Ampliar imagen del comprobante en el panel del vendedor
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById("modal-img-vendedor");
+    const modalImg = document.getElementById("img-ampliada");
+    const cerrar = document.getElementsByClassName("cerrar")[0];
+
+    document.querySelectorAll("img[alt='Comprobante']").forEach(function(img) {
+        img.style.cursor = "pointer";
+        img.addEventListener("click", function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+        });
+    });
+
+    cerrar.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    modal.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+});
 
 
 AOS.init();

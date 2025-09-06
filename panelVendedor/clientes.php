@@ -89,11 +89,44 @@ if (!$resClienteBoletos) {
                         <td colspan="2">No hay clientes registrados para este vendedor y artículo.</td>
                     </tr>
                 <?php endif; ?>
+
+                <!--Para tabletas y celulares -->
+                <div class="cards-container">
+                    <?php
+                    if ($resClienteBoletos && $resClienteBoletos->num_rows > 0) {
+                        $resClienteBoletos->data_seek(0);
+                        while ($fila = $resClienteBoletos->fetch_assoc()) {
+                            echo "<div class='card'>";
+                            echo "<h3>" . htmlspecialchars($fila['nombre']) . " " . ($fila['apellidos']) . "</h3>";
+                            echo "<h3>" . htmlspecialchars($fila['Boletos']) . " " . "</h3>";
+
+                            // Imagen del comprobante
+                            if (!empty($fila['comprobante'])) {
+                                echo "<img src='data:image/jpeg;base64," . base64_encode($fila['comprobante']) . "' width='100' alt='Comprobante'>";
+                            } else {
+                                echo "<p>Comprobante no disponible</p>";
+                            }
+                            echo "<h3>" . htmlspecialchars($fila['noCelular']) . " " . "</h3>";
+                            echo "<h3>" . htmlspecialchars($fila['direccionFisica']) . " " . "</h3>";
+                            echo "<h3>" . htmlspecialchars($fila['entidad']) . " " . "</h3>";
+                            echo "</div>";
+                        }
+                    } else {
+                        echo "<p>No hay clientes registrados</p>";
+                    }
+                    ?>
+                </div>
             </tbody>
         </table>
     </div>
 
     <a href="articulosRifar.php"><i class="fa-solid fa-arrow-left"></i></a>
+
+    <div id="modal-img-vendedor" class="modal">
+        <span class="cerrar">&times;</span>
+        <img class="modal-contenido" id="img-ampliada">
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="../assets/js/login.js"></script>
 </body>
