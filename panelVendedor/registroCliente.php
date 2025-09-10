@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar-cliente']))
 
     // Registrar boletos del cliente
     foreach ($boletosSeleccionados as $folio) {
-        $stmtBoleto = $conexion->prepare("INSERT INTO clienteboleto (idCliente, folioBoleto, idVendedor) VALUES (?, ?, ?)");
+        $stmtBoleto = $conexion->prepare("INSERT INTO clienteboleto(idCliente, folioBoleto, idVendedor) VALUES (?, ?, ?)");
         $stmtBoleto->bind_param("isi", $idCliente, $folio, $_SESSION['idVendedor']);
         $stmtBoleto->execute();
     }
