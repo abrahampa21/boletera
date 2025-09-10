@@ -16,9 +16,9 @@ $sqlClienteBoletos = "SELECT cliente.nombre, cliente.apellidos,
     GROUP_CONCAT(clienteboleto.folioBoleto SEPARATOR ', ') as Boletos
 FROM clienteboleto
 INNER JOIN cliente ON clienteboleto.idCliente = cliente.idCliente
-INNER JOIN vendedorBoleto ON clienteboleto.folioBoleto = vendedorBoleto.folioBoleto
-WHERE vendedorBoleto.idArticulo = $idArticuloSel
-  AND vendedorBoleto.idVendedor = $idVendedor
+INNER JOIN vendedorboleto ON clienteboleto.folioBoleto = vendedorboleto.folioBoleto
+WHERE vendedorboleto.idArticulo = $idArticuloSel
+  AND vendedorboleto.idVendedor = $idVendedor
 GROUP BY cliente.idCliente";
 $resClienteBoletos = $conexion->query($sqlClienteBoletos);
 
