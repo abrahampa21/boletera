@@ -315,7 +315,7 @@ if (isset($_POST["recuperar-btn"])) {
                 <p>
                     Yo (Tu nombre) me comprometo a manejar responsablemente <br> los datos y confianza que Décori ha depositado en mi persona
                 </p>
-                <input type="file" name="video" id="video" required>
+                <input type="file" name="video" id="video">
             </div>
             <button type="submit" name="registrar-vendedor">Registrar</button>
         </div>
