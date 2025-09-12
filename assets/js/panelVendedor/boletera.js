@@ -5,7 +5,6 @@ const boletosCard = document.querySelectorAll(".boleto-card");
 const registrarCliente = document.getElementById("registrar-cliente");
 const imprimirBoletera = document.getElementById("imprimir-boletera");
 
-
 boletosCard.forEach((boleto) => {
   boleto.addEventListener("click", () => {
     if (
@@ -115,7 +114,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-
 imprimirBoletera.addEventListener("click", function (e) {
   e.preventDefault();
 
@@ -127,6 +125,13 @@ imprimirBoletera.addEventListener("click", function (e) {
   }
 
   const ventanaImpresion = window.open("", "_blank");
+
+  if (!ventanaImpresion) {
+    alert(
+      "No se pudo abrir la ventana de impresión. Intenta desactivar el bloqueador de ventanas emergentes o usa una computadora."
+    );
+    return;
+  }
 
   const estilos = Array.from(document.styleSheets)
     .map((sheet) => {

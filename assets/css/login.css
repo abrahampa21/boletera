@@ -266,8 +266,9 @@ body {
 }
 
 .registro-vendedor .div-ine label {
-  text-align: center;
+  text-align: left;
   font-size: 15px;
+  margin-bottom: 5px;
 }
 
 .registro-vendedor h1 {
@@ -335,6 +336,20 @@ body {
   transform: translateY(-50%);
   color: #555;
   font-size: 15px;
+}
+
+.registro-vendedor .div-video label{
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+}
+
+.registro-vendedor .div-video p{
+  margin-bottom: 5px;
+  text-align: left;
+  font-size: 13px;
+  font-style: italic;
 }
 
 .registro-vendedor p {
@@ -624,4 +639,5 @@ body {
   .registro-cliente .div-campos label {
     font-size: 14px;
   }
+
 }

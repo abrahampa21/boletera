@@ -310,6 +310,13 @@ if (isset($_POST["recuperar-btn"])) {
                 <input type="text" name="noReferencia-vendedor" class="campos-registr inputs-general" id="noReferencia-vendedor" placeholder="Número de referencia">
                 <i class="fa-solid fa-mobile"></i>
             </div>
+            <div class="div-video div-campos">
+                <label for="video">Sube un video de 30 segundos mencionando lo siguiente: </label>
+                <p>
+                    Yo (Tu nombre) me comprometo a manejar responsablemente <br> los datos y confianza que Décori ha depositado en mi persona
+                </p>
+                <input type="file" name="video" id="video" required>
+            </div>
             <button type="submit" name="registrar-vendedor">Registrar</button>
         </div>
     </form>
