@@ -111,6 +111,7 @@ if (isset($_POST["registrar-vendedor"])) {
     } else {
         $password_encriptada = sha1($password);
 
+        // Procesar INE
         if (isset($_FILES['ine-vendedor']) && $_FILES['ine-vendedor']['error'] === 0) {
             $ine_tmp = $_FILES['ine-vendedor']['tmp_name'];
             $ine = file_get_contents($ine_tmp);
@@ -119,6 +120,15 @@ if (isset($_POST["registrar-vendedor"])) {
             exit();
         }
 
+        // Procesar video
+        if (isset($_FILES['video']) && $_FILES['video']['error'] === 0) {
+            $video_tmp = $_FILES['video']['tmp_name'];
+            $video = file_get_contents($video_tmp);
+        } else {
+            $video = null; // Permite registro sin video
+        }
+
+        // Verificar usuario
         $stmt_verificar = $conexion->prepare("SELECT usuario FROM vendedor WHERE usuario = ? LIMIT 1");
         $stmt_verificar->bind_param("s", $usuario);
         $stmt_verificar->execute();
@@ -128,8 +138,9 @@ if (isset($_POST["registrar-vendedor"])) {
             $mensajeusuario = "error";
             exit();
         } else {
-            $stmt_insert = $conexion->prepare("INSERT INTO vendedor (usuario, nombre, apellidoP, apellidoM, email, password, fotoINE, noCelular, noReferencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt_insert->bind_param("sssssssss", $usuario, $nombre, $apellidoP, $apellidoM, $correo, $password_encriptada, $ine, $numeroCel, $numeroRef);
+            $stmt_insert = $conexion->prepare("INSERT INTO vendedor (usuario, nombre, apellidoP, apellidoM, email, password, fotoINE, noCelular, noReferencia, video) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt_insert->bind_param("sssssssssb", $usuario, $nombre, $apellidoP, $apellidoM, $correo, $password_encriptada, $ine, $numeroCel, $numeroRef, $video);
+            
             if ($stmt_insert->execute()) {
                 $mensajevendedor = "exito";
             } else {
@@ -138,6 +149,7 @@ if (isset($_POST["registrar-vendedor"])) {
         }
     }
 }
+
 
 
 // Recuperar contraseña
