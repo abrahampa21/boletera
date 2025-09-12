@@ -124,61 +124,41 @@ imprimirBoletera.addEventListener("click", function (e) {
     return;
   }
 
-  const ventanaImpresion = window.open("", "_blank");
+  const contenidoOriginal = document.body.innerHTML;
 
-  if (!ventanaImpresion) {
-    alert(
-      "No se pudo abrir la ventana de impresión. Intenta desactivar el bloqueador de ventanas emergentes o usa una computadora."
-    );
-    return;
-  }
-
-  const estilos = Array.from(document.styleSheets)
-    .map((sheet) => {
-      try {
-        return sheet.href ? `<link rel="stylesheet" href="${sheet.href}">` : "";
-      } catch (e) {
-        return "";
+  // Crear nuevo contenido imprimible
+  const contenidoImprimir = `
+    <style>
+      body { font-family: Arial, sans-serif; padding: 20px; }
+      .boleto-card {
+        border: 1px solid #000;
+        padding: 10px;
+        margin: 5px;
+        display: inline-block;
+        text-align: center;
+        width: 100px;
+        height: 100px;
+        vertical-align: top;
       }
-    })
-    .join("");
+      .vendido {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+      .vendido-label {
+        display: block;
+        font-size: 0.8em;
+        margin-top: 5px;
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+    ${gridContent.outerHTML}
+  `;
 
-  // Construir el HTML completo
-  ventanaImpresion.document.write(`
-      <html>
-      <head>
-        <title>Imprimir Boletera</title>
-        ${estilos}
-        <style>
-          body { font-family: Arial, sans-serif; padding: 20px; }
-          .boleto-card {
-            border: 1px solid #000;
-            padding: 10px;
-            margin: 5px;
-            display: inline-block;
-            text-align: center;
-            width: 100px;
-            height: 100px;
-            vertical-align: top;
-          }
-          .vendido {
-            background-color: #f8d7da;
-            color: #721c24;
-          }
-          .vendido-label {
-            display: block;
-            font-size: 0.8em;
-            margin-top: 5px;
-            color: red;
-            font-weight: bold;
-          }
-        </style>
-      </head>
-      <body onload="window.print(); window.close();">
-        ${gridContent.outerHTML}
-      </body>
-      </html>
-    `);
+  document.body.innerHTML = contenidoImprimir;
+  window.print();
+  document.body.innerHTML = contenidoOriginal;
 
-  ventanaImpresion.document.close(); // Finaliza escritura del documento
+  // Recargar scripts después del cambio de body
+  location.reload(); // o mejor: guarda el contenido en variables si no quieres recargar
 });
