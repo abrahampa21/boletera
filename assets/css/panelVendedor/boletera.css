@@ -150,3 +150,11 @@ body a {
     font-size: 1.2rem;
   }
 }
+
+@media print {
+  .registrar-cliente,
+  .imprimir-boletera,
+  .fa-arrow-left {
+    display: none !important;
+  }
+}
