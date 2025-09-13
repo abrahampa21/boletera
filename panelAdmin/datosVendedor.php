@@ -7,7 +7,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $id_vendedor = intval($_GET['id']);
 
-$sql = "SELECT nombre, apellidoP, apellidoM, email, noCelular, noReferencia, fotoINE FROM vendedor WHERE idVendedor = ?";
+$sql = "SELECT nombre, apellidoP, apellidoM, email, noCelular, noReferencia, fotoINE, video FROM vendedor WHERE idVendedor = ?";
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param("i", $id_vendedor);
 $stmt->execute();
@@ -47,6 +47,16 @@ $vendedor = $resultado->fetch_assoc();
         <div class="info-row"><span>Correo Electrónico:</span> <?php echo htmlspecialchars($vendedor['email']); ?></div>
         <div class="info-row"><span>Número de Celular:</span> <?php echo htmlspecialchars($vendedor['noCelular']); ?></div>
         <div class="info-row"><span>Número de Referencia:</span> <?php echo htmlspecialchars($vendedor['noReferencia']); ?></div>
+        <div class="info-row"><span>Compromiso:</span>
+          <?php if (!empty($vendedor['video'])): ?>
+            <video width="320" height="240" controls>
+              <source src="data:video/mp4;base64,<?php echo base64_encode($vendedor['video']); ?>" type="video/mp4">
+              Tu navegador no soporta la reproducción de video.
+            </video>
+          <?php else: ?>
+            <p>No se ha subido un video de compromiso.</p>
+          <?php endif; ?>
+        </div>
       </div>
 
     </div>
