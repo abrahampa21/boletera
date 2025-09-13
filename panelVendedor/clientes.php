@@ -23,9 +23,9 @@ $sqlClienteBoletos = "SELECT cliente.nombre, cliente.apellidos,
     GROUP_CONCAT(clienteboleto.folioBoleto SEPARATOR ', ') as Boletos
 FROM clienteboleto
 INNER JOIN cliente ON clienteboleto.idCliente = cliente.idCliente
-INNER JOIN vendedorBoleto ON clienteboleto.folioBoleto = vendedorBoleto.folioBoleto
-WHERE vendedorBoleto.idArticulo = $idArticuloSel
-  AND vendedorBoleto.idVendedor = $idVendedor
+INNER JOIN vendedorboleto ON clienteboleto.folioBoleto = vendedorboleto.folioBoleto
+WHERE vendedorboleto.idArticulo = $idArticuloSel
+  AND vendedorboleto.idVendedor = $idVendedor
 GROUP BY cliente.idCliente";
 
 
@@ -130,5 +130,6 @@ if (!$resClienteBoletos) {
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="../assets/js/login.js"></script>
 </body>
+
 
 </html>
