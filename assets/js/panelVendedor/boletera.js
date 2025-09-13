@@ -151,6 +151,9 @@ imprimirBoletera.addEventListener("click", function (e) {
         color: red;
         font-weight: bold;
       }
+      .registrar-cliente, .imprimir-boletera, .fa-arrow-left{
+        display: none;
+      }
     </style>
     ${gridContent.outerHTML}
   `;
@@ -160,5 +163,5 @@ imprimirBoletera.addEventListener("click", function (e) {
   document.body.innerHTML = contenidoOriginal;
 
   // Recargar scripts después del cambio de body
-  location.reload(); // o mejor: guarda el contenido en variables si no quieres recargar
+  location.reload(); 
 });
