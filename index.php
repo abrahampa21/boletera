@@ -424,7 +424,7 @@ if (isset($_POST["recuperar-btn"])) {
         ): ?>
             Swal.fire({
                 title: 'Contraseña inválida',
-                text: 'Debe tener al menos 10 caracteres, incluir letras y un carácter especial.',
+                text: 'Debe tener al menos 10 caracteres, letras y por lo menos 1 carácter especial (ej. !2%4a9328#)',
                 icon: 'warning'
             });
         <?php endif; ?>

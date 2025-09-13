@@ -92,7 +92,7 @@ if (contraseñaAdmin) {
       messageDivAdmin.style.color = "green";
     } else {
       messageDivAdmin.textContent =
-        "Debe tener al menos 10 caracteres, letras y caractéres especiales";
+       "Debe tener al menos 10 caracteres, letras y por lo menos 1 carácter especial (ej. !2%4a9328#)";
       messageDivAdmin.style.color = "red";
     }
   });
@@ -107,7 +107,7 @@ if (contraseñaVendedor) {
       messageDivVendedor.style.color = "green";
     } else {
       messageDivVendedor.textContent =
-        "Debe tener al menos 10 caracteres, letras y caractéres especiales";
+        "Debe tener al menos 10 caracteres, letras y por lo menos 1 carácter especial (ej. !2%4a9328#)";
       messageDivVendedor.style.color = "red";
     }
   });
@@ -122,7 +122,7 @@ if (contraseñaRecuperar) {
       messageDivRecuperar.style.color = "green";
     } else {
       messageDivRecuperar.textContent =
-        "Debe tener al menos 10 caracteres, letras y caractéres especiales";
+        "Debe tener al menos 10 caracteres, letras y por lo menos 1 carácter especial (ej. !2%4a9328#)";
       messageDivRecuperar.style.color = "red";
     }
   });
