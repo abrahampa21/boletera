@@ -231,4 +231,8 @@ body {
   .modal-contenido{
     margin-top: 2rem;
   }
+
+  .card .borrar-vendedor-responsive{
+    margin-top: 1.5rem;
+  }
 }
