@@ -1,8 +1,7 @@
 <?php
-error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 include("src/conexion.php");
 
@@ -26,6 +25,14 @@ function validar_contraseña($contraseña)
     return true;
 }
 
+// Inicializar variables de mensajes
+$mensajeusuarioexiste = "";
+$mensajeadmin = "";
+$mensajeine = "";
+$mensajeusuario = "";
+$mensajevendedor = "";
+$mensajecontraseña = "";
+$mensajeresultado = "";
 
 if (isset($_POST["ingresar"])) {
     $usuario = $_POST['usuario'];
@@ -34,10 +41,10 @@ if (isset($_POST["ingresar"])) {
     $password_encriptada = sha1($password);
 
     // Administrador
-    $stmt_admin = $conexion->prepare("SELECT usuario FROM administrador WHERE usuario = ? AND password = ? AND token = ? LIMIT 1"); //Prepara la conexión
-    $stmt_admin->bind_param("sss", $usuario, $password_encriptada, $token); //Enlaza variables
-    $stmt_admin->execute(); //Ejecuta
-    $resultado_admin = $stmt_admin->get_result(); //Obtiene resultados
+    $stmt_admin = $conexion->prepare("SELECT usuario FROM administrador WHERE usuario = ? AND password = ? AND token = ? LIMIT 1");
+    $stmt_admin->bind_param("sss", $usuario, $password_encriptada, $token);
+    $stmt_admin->execute();
+    $resultado_admin = $stmt_admin->get_result();
 
     if ($resultado_admin && $resultado_admin->num_rows > 0) {
         $row = $resultado_admin->fetch_assoc();
@@ -94,7 +101,6 @@ if (isset($_POST["registrar-admin"])) {
     }
 }
 
-
 // Registro del vendedor
 if (isset($_POST["registrar-vendedor"])) {
     $nombre = $_POST['nombre-vendedor'];
@@ -117,40 +123,29 @@ if (isset($_POST["registrar-vendedor"])) {
             $ine = file_get_contents($ine_tmp);
         } else {
             $mensajeine = "error-foto";
-            exit();
         }
 
-        // Procesar video
-        if (isset($_FILES['video']) && $_FILES['video']['error'] === 0) {
-            $video_tmp = $_FILES['video']['tmp_name'];
-            $video = file_get_contents($video_tmp);
-        } else {
-            $video = null; // Permite registro sin video
-        }
+        if ($mensajeine !== "error-foto") {
+            // Verificar usuario
+            $stmt_verificar = $conexion->prepare("SELECT usuario FROM vendedor WHERE usuario = ? LIMIT 1");
+            $stmt_verificar->bind_param("s", $usuario);
+            $stmt_verificar->execute();
+            $resultado_verificar = $stmt_verificar->get_result();
 
-        // Verificar usuario
-        $stmt_verificar = $conexion->prepare("SELECT usuario FROM vendedor WHERE usuario = ? LIMIT 1");
-        $stmt_verificar->bind_param("s", $usuario);
-        $stmt_verificar->execute();
-        $resultado_verificar = $stmt_verificar->get_result();
-
-        if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
-            $mensajeusuario = "error";
-            exit();
-        } else {
-            $stmt_insert = $conexion->prepare("INSERT INTO vendedor (usuario, nombre, apellidoP, apellidoM, email, password, fotoINE, noCelular, noReferencia, video) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt_insert->bind_param("sssssssssb", $usuario, $nombre, $apellidoP, $apellidoM, $correo, $password_encriptada, $ine, $numeroCel, $numeroRef, $video);
-            
-            if ($stmt_insert->execute()) {
-                $mensajevendedor = "exito";
+            if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
+                $mensajeusuario = "error";
             } else {
-                $mensajevendedor = "error";
+                $stmt_insert = $conexion->prepare("INSERT INTO vendedor(usuario, nombre, apellidoP, apellidoM, email, password, fotoINE, noCelular, noReferencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt_insert->bind_param("sssssssss", $usuario, $nombre, $apellidoP, $apellidoM, $correo, $password_encriptada, $ine, $numeroCel, $numeroRef);
+                if ($stmt_insert->execute()) {
+                    $mensajevendedor = "exito";
+                } else {
+                    $mensajevendedor = "error";
+                }
             }
         }
     }
 }
-
-
 
 // Recuperar contraseña
 if (isset($_POST["recuperar-btn"])) {
@@ -185,7 +180,6 @@ if (isset($_POST["recuperar-btn"])) {
         }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -335,14 +329,13 @@ if (isset($_POST["recuperar-btn"])) {
     <!--Librerías JavaScript-->
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script src="assets/js/login.js"></script>
+
     <script>
         <?php if ($mensajeusuarioexiste === "error"): ?>
             Swal.fire({
                 title: 'Error!',
                 text: 'El usuario ya existe. Intenta con otro.',
                 icon: 'error'
-            }).then(() => {
-                exit();
             });
         <?php endif; ?>
 
@@ -359,8 +352,6 @@ if (isset($_POST["recuperar-btn"])) {
                 title: 'Error!',
                 text: 'Error al registrar el administrador. El usuario ya existe.',
                 icon: 'error'
-            }).then(() => {
-                window.location = 'index.php';
             });
         <?php endif; ?>
 
@@ -369,8 +360,6 @@ if (isset($_POST["recuperar-btn"])) {
                 title: 'Error!',
                 text: 'Error al subir el INE.',
                 icon: 'error'
-            }).then(() => {
-                window.location = 'index.php';
             });
         <?php endif; ?>
 
@@ -379,8 +368,6 @@ if (isset($_POST["recuperar-btn"])) {
                 title: 'Error!',
                 text: 'El usuario ya existe. Intenta con otro.',
                 icon: 'error'
-            }).then(() => {
-                window.location = 'index.php';
             });
         <?php endif; ?>
 
@@ -397,8 +384,6 @@ if (isset($_POST["recuperar-btn"])) {
                 title: 'Error!',
                 text: 'Error al registrar el vendedor. El usuario ya existe.',
                 icon: 'error'
-            }).then(() => {
-                window.location = 'index.php';
             });
         <?php endif; ?>
 
@@ -415,25 +400,20 @@ if (isset($_POST["recuperar-btn"])) {
                 title: 'Error!',
                 text: 'Error al actualizar la contraseña.',
                 icon: 'error'
-            }).then(() => {
-                window.location = 'index.php';
             });
         <?php elseif ($mensajecontraseña === "error1"): ?>
             Swal.fire({
                 title: 'Error!',
                 text: 'El correo no está registrado.',
                 icon: 'error'
-            }).then(() => {
-                window.location = 'index.php';
             });
         <?php endif; ?>
+
         <?php if ($mensajeresultado === "error"): ?>
             Swal.fire({
                 title: 'Error!',
                 text: 'Usuario, token o contraseña incorrectos.',
                 icon: 'error'
-            }).then(() => {
-                window.location = 'index.php';
             });
         <?php endif; ?>
 
@@ -446,8 +426,6 @@ if (isset($_POST["recuperar-btn"])) {
                 title: 'Contraseña inválida',
                 text: 'Debe tener al menos 10 caracteres, incluir letras y un carácter especial.',
                 icon: 'warning'
-            }).then(() => {
-                window.location = 'index.php';
             });
         <?php endif; ?>
     </script>
