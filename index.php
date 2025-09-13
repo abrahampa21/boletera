@@ -103,6 +103,7 @@ if (isset($_POST["registrar-admin"])) {
 
 // Registro del vendedor
 if (isset($_POST["registrar-vendedor"])) {
+    // Recoge datos del formulario...
     $nombre = $_POST['nombre-vendedor'];
     $apellidoP = $_POST['apellidoP-vendedor'];
     $apellidoM = $_POST['apellidoM-vendedor'];
@@ -117,16 +118,36 @@ if (isset($_POST["registrar-vendedor"])) {
     } else {
         $password_encriptada = sha1($password);
 
-        // Procesar INE
+        // Procesar INE (igual que antes)
         if (isset($_FILES['ine-vendedor']) && $_FILES['ine-vendedor']['error'] === 0) {
-            $ine_tmp = $_FILES['ine-vendedor']['tmp_name'];
-            $ine = file_get_contents($ine_tmp);
+            $ine = file_get_contents($_FILES['ine-vendedor']['tmp_name']);
         } else {
             $mensajeine = "error-foto";
         }
 
-        if ($mensajeine !== "error-foto") {
-            // Verificar usuario
+        // Procesar video para moverlo a la carpeta uploads/videos/
+        $video_ruta = null;
+        if (isset($_FILES['video']) && $_FILES['video']['error'] === 0) {
+            $nombreArchivo = basename($_FILES['video']['name']);
+            $extension = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+
+            // Validar extensión si quieres (mp4, avi, etc)
+            $ext_permitidas = ['mp4', 'avi', 'mov', 'wmv', 'mkv'];
+            if (in_array(strtolower($extension), $ext_permitidas)) {
+                $nuevoNombre = uniqid('video_') . '.' . $extension;
+                $rutaDestino = __DIR__ . '/uploads/videos/' . $nuevoNombre;
+
+                if (move_uploaded_file($_FILES['video']['tmp_name'], $rutaDestino)) {
+                    $video_ruta = 'uploads/videos/' . $nuevoNombre; // Ruta relativa para guardar en DB
+                } else {
+                    $mensajevideo = "error-subida-video";
+                }
+            } else {
+                $mensajevideo = "extension-no-permitida";
+            }
+        }
+
+        if ($mensajeine !== "error-foto" && !isset($mensajevideo)) {
             $stmt_verificar = $conexion->prepare("SELECT usuario FROM vendedor WHERE usuario = ? LIMIT 1");
             $stmt_verificar->bind_param("s", $usuario);
             $stmt_verificar->execute();
@@ -135,8 +156,11 @@ if (isset($_POST["registrar-vendedor"])) {
             if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
                 $mensajeusuario = "error";
             } else {
-                $stmt_insert = $conexion->prepare("INSERT INTO vendedor(usuario, nombre, apellidoP, apellidoM, email, password, fotoINE, noCelular, noReferencia) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt_insert->bind_param("sssssssss", $usuario, $nombre, $apellidoP, $apellidoM, $correo, $password_encriptada, $ine, $numeroCel, $numeroRef);
+                // Insertar datos con ruta de video
+                $stmt_insert = $conexion->prepare("INSERT INTO vendedor(usuario, nombre, apellidoP, apellidoM, email, password, fotoINE, noCelular, noReferencia, video) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+                $stmt_insert->bind_param("ssssssssss", $usuario, $nombre, $apellidoP, $apellidoM, $correo, $password_encriptada, $ine, $numeroCel, $numeroRef, $video_ruta);
+
                 if ($stmt_insert->execute()) {
                     $mensajevendedor = "exito";
                 } else {
@@ -146,6 +170,7 @@ if (isset($_POST["registrar-vendedor"])) {
         }
     }
 }
+
 
 // Recuperar contraseña
 if (isset($_POST["recuperar-btn"])) {

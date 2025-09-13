@@ -78,6 +78,10 @@ body {
   color: #fff;
 }
 
+video{
+  margin-top: -1rem;
+}
+
 
 @media (max-width: 500px) {
   .card-footer {

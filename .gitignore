@@ -3,3 +3,4 @@ boletera.sql
 composer.json
 composer.lock
 vendor/
+uploads/

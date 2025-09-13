@@ -48,9 +48,9 @@ $vendedor = $resultado->fetch_assoc();
         <div class="info-row"><span>Número de Celular:</span> <?php echo htmlspecialchars($vendedor['noCelular']); ?></div>
         <div class="info-row"><span>Número de Referencia:</span> <?php echo htmlspecialchars($vendedor['noReferencia']); ?></div>
         <div class="info-row"><span>Compromiso:</span>
-          <?php if (!empty($vendedor['video'])): ?>
+          <?php if (!empty($vendedor['video']) && file_exists(__DIR__ . '/../' . $vendedor['video'])): ?>
             <video width="320" height="240" controls>
-              <source src="data:video/mp4;base64,<?php echo base64_encode($vendedor['video']); ?>" type="video/mp4">
+              <source src="../<?php echo htmlspecialchars($vendedor['video']); ?>" type="video/mp4">
               Tu navegador no soporta la reproducción de video.
             </video>
           <?php else: ?>
