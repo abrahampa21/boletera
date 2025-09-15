@@ -237,7 +237,7 @@ if (isset($_POST["recuperar-btn"])) {
                 <i class="fa-regular fa-eye-slash" onclick="revealPassword(this)"></i>
             </div>
             <div class="codigo-seguridad div-login">
-                <label>Para el administrador:</label>
+                <label>Para el administrador (NO vendedores) :</label>
                 <div class="div-codigo-seguridad">
                     <input type="password" name="token" id="token" class="inputs-login inputs-general" placeholder="Código de seguridad">
                     <i class="fa-regular fa-eye-slash" onclick="revealPassword(this)"></i>
@@ -246,7 +246,7 @@ if (isset($_POST["recuperar-btn"])) {
             <span class="forgot-pass" onclick="revealRecoverPass()">Olvidé mi contraseña</span>
             <button type="submit" name="ingresar" class="ingresar-btn">Ingresar</button>
             <div class="crear-cuenta">
-                <p class="crear">¿Todavía no tienes una cuenta? Regístrate como <span onclick="revealVendedorRegister()">Vendedor</span> o <span onclick="revealAdminRegister()">Administrador</span></p>
+                <p class="crear">¿Quieres formar parte de Décori? <span onclick="revealVendedorRegister()">Regístrate como VENDEDOR</span></p>
             </div>
         </div>
     </form>
