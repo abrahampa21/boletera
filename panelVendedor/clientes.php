@@ -86,7 +86,7 @@ if (!$resClienteBoletos) {
                     <?php endwhile; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="2">No hay clientes registrados para este vendedor y artículo.</td>
+                        <td colspan="6">No hay clientes registrados para este artículo.</td>
                     </tr>
                 <?php endif; ?>
 
@@ -112,7 +112,7 @@ if (!$resClienteBoletos) {
                             echo "</div>";
                         }
                     } else {
-                        echo "<p>No hay clientes registrados</p>";
+                        echo "td<p>No hay clientes registrados</p>";
                     }
                     ?>
                 </div>

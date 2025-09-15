@@ -13,7 +13,7 @@ $idArticuloSel = $_SESSION['idArticuloSel'] ?? 0;
 
 use Dompdf\Dompdf;
 
-require_once '../vendor/autoload.php'; 
+require_once '../vendor/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar-cliente'])) {
     $nombre = $_POST['name'];
@@ -77,25 +77,114 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar-cliente']))
     $boletosSeleccionados = $_SESSION['boletosSeleccionados'] ?? [];
     $boletosTexto = !empty($boletosSeleccionados) ? implode(', ', $boletosSeleccionados) : 'No se seleccionaron boletos.';
 
+    //Rutas
+    $participandoRuta = '../src/img/participando.jpg';
+    $participando = base64_encode(file_get_contents($participandoRuta));
+
+    $logoRuta = '../src/img/logo.png';
+    $logo = base64_encode(file_get_contents($logoRuta));
+
+
+    if (!file_exists($logoRuta)) {
+        die('Logo no encontrado en: ' . $logoRuta);
+    }
+
+    if (!file_exists($participandoRuta)) {
+        die('Logo no encontrado en: ' . $logoRuta);
+    }
+
     // Generar HTML del PDF
     $html = '
-    <h1>Registro de Cliente</h1>
-    <p><strong>Nombre del Cliente:</strong> ' . $nombre . ' ' . $apellidos . '</p>
-    <p><strong>Ciudad:</strong> ' . $entidad . '</p>
-    <p><strong>Domicilio:</strong> ' . $direccionFisica . '</p>
-    <p><strong>Teléfono:</strong> ' . $noCelular . '</p>
-    <p><strong>Nombre del Vendedor:</strong> ' . $vendedor['nombre'] . ' ' . $vendedor['apellidoP'] . '</p>
-    <p><strong>Artículo:</strong> ' . $articulo['nombreArticulo'] . '</p>
-    <p><strong>Método de Pago:</strong> ' . $metodoPago . '</p>
-    <p><strong>Folio(s) de boletos:</strong><br>' . $boletosTexto . '</p>
-    <h3>Gracias, ya estás participando</h3>';
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .logo {
+            width: 20%;
+            margin-left: auto;
+        }
+
+        .logo img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 50%;
+        }
+
+        .ticket {
+            width: 55%;
+            padding: 20px;
+            box-sizing: border-box;
+            border: 2px dashed black;
+            border-radius: 15px;
+        }
+
+        .ticket h1 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .ticket p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .ticket h3 {
+            margin-top: 15px;
+            color: #333;
+        }
+
+        .ticket i{
+            font-weight: bold;
+        }
+
+        .flyer {
+            margin-top: 20px;
+        }
+
+        .flyer img {
+            width: 65%;
+            height: auto;
+        }
+    </style>
+
+    <div class="header">
+        <div class="logo">
+            <img src="data:image/png;base64,' . $logo . '" />
+        </div>
+
+        <div class="ticket">
+            <h1>Registro de Cliente</h1>
+            <p><strong>Nombre del Cliente:</strong> ' . $nombre . ' ' . $apellidos . '</p>
+            <p><strong>Ciudad:</strong> ' . $entidad . '</p>
+            <p><strong>Domicilio:</strong> ' . $direccionFisica . '</p>
+            <p><strong>Teléfono:</strong> ' . $noCelular . '</p>
+            <p><strong>Nombre del Vendedor:</strong> ' . $vendedor['nombre'] . ' ' . $vendedor['apellidoP'] . '</p>
+            <p><strong>Artículo:</strong> ' . $articulo['nombreArticulo'] . '</p>
+            <p><strong>Método de Pago:</strong> ' . $metodoPago . '</p>
+            <p><strong>Folio(s) de boletos:</strong><br>' . $boletosTexto . '</p>
+        </div>
+
+        <div class="flyer">
+            <img src="data:image/jpeg;base64,' . $participando . '" />
+        </div>
+    </div>
+
+';
 
     // Renderizar PDF con DomPDF
     $dompdf = new Dompdf();
     $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->setPaper([0,0,570,400], 'Landscape');
     $dompdf->render();
-    $dompdf->stream("registro_cliente.pdf", ["Attachment" => false]);
+    $dompdf->stream("cliente.pdf", ["Attachment" => false]);
     exit;
 }
 ?>
