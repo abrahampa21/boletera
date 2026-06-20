@@ -1,4 +1,4 @@
-# Boletera — University Event Ticketing System
+# Boletera — Ticketing System
 
 <h1 align="center">
   <br>
@@ -24,7 +24,7 @@
 
 ## Project Overview
 
-Boletera is an institutional event management and digital ticketing solution engineered to automate the logistics of venue planning, capacity monitoring, and user reservation workflows. The platform addresses the critical constraints of event administration by providing real-time data sync for seat selection, ticket issuance, and transactional record keeping within a secure and intuitive web interface.
+Boletera is a management and digital ticketing solution engineered to automate the logistics of venue planning, capacity monitoring, and user reservation workflows. The platform addresses the critical constraints of event administration by providing real-time data sync for seat selection, ticket issuance, and transactional record keeping within a secure and intuitive web interface.
 
 ## Key Subsystems & Features
 
