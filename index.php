@@ -38,11 +38,11 @@ if (isset($_POST["ingresar"])) {
     $usuario = $_POST['usuario'];
     $password = $_POST['contraseña'];
     $token    = $_POST['token'];
-    $password_encriptada = sha1($password);
+    $password_encriptada_vendedor = sha1($password);
 
     // Administrador
     $stmt_admin = $conexion->prepare("SELECT usuario FROM administrador WHERE usuario = ? AND password = ? AND token = ? LIMIT 1");
-    $stmt_admin->bind_param("sss", $usuario, $password_encriptada, $token);
+    $stmt_admin->bind_param("sss", $usuario, $password, $token);
     $stmt_admin->execute();
     $resultado_admin = $stmt_admin->get_result();
 
@@ -55,7 +55,7 @@ if (isset($_POST["ingresar"])) {
 
     // Vendedor
     $stmt_vendedor = $conexion->prepare("SELECT idVendedor, usuario FROM vendedor WHERE usuario = ? AND password = ? LIMIT 1");
-    $stmt_vendedor->bind_param("ss", $usuario, $password_encriptada);
+    $stmt_vendedor->bind_param("ss", $usuario, $password_encriptada_vendedor);
     $stmt_vendedor->execute();
     $resultado_vendedor = $stmt_vendedor->get_result();
 
@@ -70,36 +70,6 @@ if (isset($_POST["ingresar"])) {
     }
 }
 
-// Registro para administrador
-if (isset($_POST["registrar-admin"])) {
-    $nombre = $_POST['nombre'];
-    $correo = $_POST['email'];
-    $usuario = $_POST['usuario'];
-    $password = $_POST['contraseña'];
-
-    if (!validar_contraseña($password)) {
-        $mensajeadmin = "contraseña-invalida";
-    } else {
-        $password_encriptada = sha1($password);
-
-        $stmt_verificar = $conexion->prepare("SELECT usuario FROM administrador WHERE usuario = ? LIMIT 1");
-        $stmt_verificar->bind_param("s", $usuario);
-        $stmt_verificar->execute();
-        $resultado_verificar = $stmt_verificar->get_result();
-
-        if ($resultado_verificar && $resultado_verificar->num_rows > 0) {
-            $mensajeusuarioexiste = "error";
-        } else {
-            $stmt_insert = $conexion->prepare("INSERT INTO administrador (usuario, nombreCompleto, password, email) VALUES (?, ?, ?, ?)");
-            $stmt_insert->bind_param("ssss", $usuario, $nombre, $password_encriptada, $correo);
-            if ($stmt_insert->execute()) {
-                $mensajeadmin = "exito";
-            } else {
-                $mensajeadmin = "error";
-            }
-        }
-    }
-}
 
 // Registro del vendedor
 if (isset($_POST["registrar-vendedor"])) {
